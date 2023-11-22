@@ -76,7 +76,7 @@ Step 3 - Start SLAM
 This once again is trivial.  By simply adding an additional launch file action to our launch file, SLAM toolbox can be running to provide Simultaneous Localisation and Mapping (SLAM).
 Our launch file should look something like the one below.
 
-.. literalinclude:: ../../ros_ws/src/map_maker_pkg/launch/step1.launch.py
+.. literalinclude:: ../../ros_ws/src/map_maker_pkg/launch/step2.launch.py
    :language: python
    :linenos:
    :emphasize-lines: 18-22,28
@@ -85,7 +85,7 @@ Our launch file should look something like the one below.
 As always, 
 
 You probably want to see the map in RVIZ right?
-``````````````````````````````````````````
+````````````````````````````````````````````````
 
 Include the map via :menuselection: `Add > By topic > /map`.  You then need to adjust the Quality of Service (QoS) settings to match that of the ``/map`` topic.  The easiest way is to open a new terminal and run
 .. code-block:: console
