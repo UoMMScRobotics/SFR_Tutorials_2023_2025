@@ -10,6 +10,7 @@ Welcome to SFR_Tutorials's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   Week09_CA
 
 
 Indices and tables
