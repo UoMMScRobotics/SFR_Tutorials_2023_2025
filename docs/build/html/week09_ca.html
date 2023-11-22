@@ -30,7 +30,7 @@
 
           
           
-          <a href="index.html" class="icon icon-home">
+          <a href="contents.html" class="icon icon-home">
             SFR_Tutorials
           </a>
 <div role="search">
@@ -41,7 +41,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Welcome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Welcome to SFR_Tutorials’s documentation!</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Week 09 Continuous Assessment Walkthrough</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#step-1-make-a-package">Step 1 - Make a Package</a></li>
@@ -59,17 +63,17 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">SFR_Tutorials</a>
+          <a href="contents.html">SFR_Tutorials</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Week 09 Continuous Assessment Walkthrough</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/Week09_CA.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/week09_ca.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -147,7 +151,8 @@ This means that laser scan messages and transformations in time can be performed
 <section id="step-2-start-a-simulation">
 <h2>Step 2 - Start a Simulation<a class="headerlink" href="#step-2-start-a-simulation" title="Link to this heading"></a></h2>
 <p>A simulation environment has been provided for you as part of the synchronous tutorial material, namely gz_example_robot_description,
-which includes a launch file sim_robot.launch.py.  We do also need to include some sort of teleoperation node to help us drive the robot around, thankfully, there are existing packages for that.</p>
+which includes a launch file sim_robot.launch.py.</p>
+<p>If we wanted to use a joystick/gamepad for teleoperation, then here would be a good place to put a additional node to run.  As we will use the teleop_twist_keyboard package, its easier to have this in a separate terminal.</p>
 <p>A simple launch file should look something like the file below.</p>
 </section>
 <section id="step-3-start-slam">
@@ -157,7 +162,8 @@ Our launch file should look something like the one below.</p>
 </section>
 <section id="step-4-drive-the-robot-around">
 <h2>Step 4 - Drive the Robot Around<a class="headerlink" href="#step-4-drive-the-robot-around" title="Link to this heading"></a></h2>
-<p>By manually driving the robot around, we can fill in the map of the environment.  Remember, that slam toolbox utilises pose graph optimisation, therefore, it likes to see loops in the data to perform closure (and provide a better estimate).</p>
+<p>If you haven’t already inclued a joystick teleop node, then use the keyboard teleop node in a separate terminal.
+By manually driving the robot around, we can fill in the map of the environment.  Remember, that slam toolbox utilises pose graph optimisation, therefore, it likes to see loops in the data to perform closure (and provide a better estimate).</p>
 </section>
 <section id="step-5-saving-the-map">
 <h2>Step 5 - Saving the Map<a class="headerlink" href="#step-5-saving-the-map" title="Link to this heading"></a></h2>

@@ -6,11 +6,6 @@
 Welcome to SFR_Tutorials's documentation!
 =========================================
 
-.. toctree::
-   :maxdepth: 2
-
-   week09_ca
-
 
 .. Indices and tables
 .. ==================

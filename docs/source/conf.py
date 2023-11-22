@@ -6,6 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+# Try to have the index landing page clean.
+master_doc = "contents"
+
 project = 'SFR_Tutorials'
 copyright = '2023, Andy West'
 author = 'Andy West'
