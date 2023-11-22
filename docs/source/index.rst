@@ -8,14 +8,13 @@ Welcome to SFR_Tutorials's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
-   Week09_CA
+   week09_ca
 
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`

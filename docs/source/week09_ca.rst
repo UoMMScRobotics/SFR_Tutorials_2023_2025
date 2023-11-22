@@ -52,7 +52,9 @@ Step 2 - Start a Simulation
 -----------------------------------------
 
 A simulation environment has been provided for you as part of the synchronous tutorial material, namely gz_example_robot_description, 
-which includes a launch file sim_robot.launch.py.  We do also need to include some sort of teleoperation node to help us drive the robot around, thankfully, there are existing packages for that.
+which includes a launch file sim_robot.launch.py.
+
+If we wanted to use a joystick/gamepad for teleoperation, then here would be a good place to put a additional node to run.  As we will use the teleop_twist_keyboard package, its easier to have this in a separate terminal.
 
 A simple launch file should look something like the file below.
 
@@ -71,6 +73,7 @@ Our launch file should look something like the one below.
 Step 4 - Drive the Robot Around
 ------------------------------------------
 
+If you haven't already inclued a joystick teleop node, then use the keyboard teleop node in a separate terminal.
 By manually driving the robot around, we can fill in the map of the environment.  Remember, that slam toolbox utilises pose graph optimisation, therefore, it likes to see loops in the data to perform closure (and provide a better estimate).
 
 
