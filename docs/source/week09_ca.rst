@@ -10,7 +10,10 @@ There are a few steps we must complete in order to get there.
 4. Drive the robot around
 5. Use the map server to save an image and corresponding yaml file
 
-In this guide we will use ``map_maker_pkg`` as the package name, but this should be substituted with your ROS package name.
+In this guide we will use ``map_maker_pkg`` as the package name, but this should be substituted with your ROS package name.  We will being making use of the ``gz_example_description_package``, you can download a copy here: |gz_example_robot_description.zip|
+
+.. |gz_example_robot_description.zip| replace::
+   :download:`gz_example_robot_description.zip <../../ros_ws/src/gz_example_robot_description.zip>`
 
 
 Step 1 - Make a Package

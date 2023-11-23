@@ -95,7 +95,7 @@ There are a few steps we must complete in order to get there.</p>
 <li><p>Drive the robot around</p></li>
 <li><p>Use the map server to save an image and corresponding yaml file</p></li>
 </ol>
-<p>In this guide we will use :samp: <cite>{map_maker_pkg}</cite> as the package name, but this should be substituted with your ROS package name.</p>
+<p>In this guide we will use <code class="docutils literal notranslate"><span class="pre">map_maker_pkg</span></code> as the package name, but this should be substituted with your ROS package name.  We will being making use of the <code class="docutils literal notranslate"><span class="pre">gz_example_description_package</span></code>, you can download a copy here: <a class="reference download internal" download="" href="_downloads/5fdaa59b1b9e0910cff4162b06828fb2/gz_example_robot_description.zip"><code class="xref download docutils literal notranslate"><span class="pre">gz_example_robot_description.zip</span></code></a></p>
 <section id="step-1-make-a-package">
 <h2>Step 1 - Make a Package<a class="headerlink" href="#step-1-make-a-package" title="Link to this heading"></a></h2>
 <p>This package can be used both for the submission (which requires a ROS package), but also to hold a luanch file which will make running all this easier.</p>
@@ -224,14 +224,13 @@ Our launch file should look something like the one below.</p>
 <span class="linenos">30</span>    <span class="k">return</span> <span class="n">ld</span>
 </pre></div>
 </div>
-<p>As always,</p>
+<p>As always, <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code>, <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">install/setup.bash</span></code> and check the launch file works correctly.</p>
 <section id="you-probably-want-to-see-the-map-in-rviz-right">
 <h3>You probably want to see the map in RVIZ right?<a class="headerlink" href="#you-probably-want-to-see-the-map-in-rviz-right" title="Link to this heading"></a></h3>
-<p>Include the map via :menuselection: <cite>Add &gt; By topic &gt; /map</cite>.  You then need to adjust the Quality of Service (QoS) settings to match that of the <code class="docutils literal notranslate"><span class="pre">/map</span></code> topic.  The easiest way is to open a new terminal and run
-.. code-block:: console</p>
-<blockquote>
-<div><p>ros2 topic info –verbose /map</p>
-</div></blockquote>
+<p>Include the map via :menuselection: <cite>Add &gt; By topic &gt; /map</cite>.  You then need to adjust the Quality of Service (QoS) settings to match that of the <code class="docutils literal notranslate"><span class="pre">/map</span></code> topic.  The easiest way is to open a new terminal and run</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 topic info --verbose /map</span>
+</pre></div>
+</div>
 <p>where the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> option will list the expected QoS settings.  It is recommended to include things like the laser scan and the robot model to the RVIZ visualisation to get a better sense of what is going on.</p>
 </section>
 </section>
@@ -246,7 +245,7 @@ By manually driving the robot around, we can fill in the map of the environment.
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 launch nav2_map_server map_saver_server.launch.py</span>
 </pre></div>
 </div>
-<p>This will have spawned new ROS services we can call to save our map, namely <code class="docutils literal notranslate"><span class="pre">/map_saver/save_map</span></code>, of the type <code class="docutils literal notranslate"><span class="pre">nav2_msgs/srv/SaveMap</span></code>.  There are a few options we need to set during the service call (listed in detail <cite>here &lt;https://index.ros.org/p/nav2_map_server/&gt;`_</cite>):</p>
+<p>This will have spawned new ROS services we can call to save our map, namely <code class="docutils literal notranslate"><span class="pre">/map_saver/save_map</span></code>, of the type <code class="docutils literal notranslate"><span class="pre">nav2_msgs/srv/SaveMap</span></code>.  There are a few options we need to set during the service call (listed in detail <a class="reference external" href="https://index.ros.org/p/nav2_map_server/">here</a>):</p>
 <table class="docutils align-default" id="id1">
 <caption><span class="caption-text">map server saver options</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <colgroup>
@@ -298,10 +297,10 @@ By manually driving the robot around, we can fill in the map of the environment.
 </div>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
-<p>You can start with <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> and use tab-completion to fill in the rest of the message with default values, then simply change the values to desired.</p>
+<p>Instead of manually typing out the entire message, you can start with <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> and use tab-completion to fill in the rest of the message with default values, then simply change the values to desired.</p>
 </div>
 <p>Tada!  If the service request was successful, you should have a map called <code class="docutils literal notranslate"><span class="pre">map_name.pgm</span></code> with an associated metadata file <code class="docutils literal notranslate"><span class="pre">map_name.yaml</span></code>.  Ensure these are held in your package <code class="docutils literal notranslate"><span class="pre">maps</span></code> directory for submission.</p>
-<a class="reference internal image-reference" href="_images/map_name.pgm"><img alt="Generated ROS Map" src="_images/map_name.pgm" style="width: 400px;" /></a>
+<a class="reference internal image-reference" href="_images/map_name.pgm.png"><img alt="Generated ROS Map" src="_images/map_name.pgm.png" style="width: 400px;" /></a>
 </section>
 </section>
 
