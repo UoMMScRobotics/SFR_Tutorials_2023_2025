@@ -54,10 +54,10 @@ Your setup.py file should have some extra lines added to include the launch and 
 Step 2 - Start a Simulation
 -----------------------------------------
 
-A simulation environment has been provided for you as part of the synchronous tutorial material, namely gz_example_robot_description, 
-which includes a launch file sim_robot.launch.py.
+A simulation environment has been provided for you as part of the synchronous tutorial material, namely ``gz_example_robot_description``, 
+which includes a launch file ``sim_robot.launch.py``.
 
-If we wanted to use a joystick/gamepad for teleoperation, then here would be a good place to put a additional node to run.  As we will use the teleop_twist_keyboard package, its easier to have this in a separate terminal.
+If we wanted to use a joystick/gamepad for teleoperation, then here would be a good place to put a additional node to run.  If you are using the ``teleop_twist_keyboard`` package this should not be included in the launch file, as you will need to read keystrokes this does not behave as well with a launch file.   Its easier to have this in a separate terminal.
 
 A simple launch file called ``map_maker.launch.py`` should look something like the file below.
 
@@ -65,7 +65,9 @@ A simple launch file called ``map_maker.launch.py`` should look something like t
    :language: python
    :linenos:
 
-As a sanity check, ``colon build``, followed by ``source install/setup.bash`` and check the launch file runs correctly using
+All it does is call the launch file ``sim_robot.launch.py`` from the package ``gz_example_robot_description``, we will add another launch file to it next.
+
+As a sanity check, ``colcon build``, followed by ``source install/setup.bash`` and check the launch file runs correctly using 
 
 .. code-block:: console
 
@@ -96,14 +98,22 @@ Include the map via :menuselection: `Add > By topic > /map`.  You then need to a
 
     ros2 topic info --verbose /map
 
-where the ``--verbose`` option will list the expected QoS settings.  It is recommended to include things like the laser scan and the robot model to the RVIZ visualisation to get a better sense of what is going on.
+where the ``--verbose`` option will list the expected QoS settings.  Be careful - look for the output which has ``endpoint type: PUBLISHER``.
+
+.. note::
+  If you want to know more about Quality of Service in ROS2, check out some documentation `here <https://docs.ros.org/en/humble/Concepts/Intermediate/About-Quality-of-Service-Settings.html>`_ , and a video from the 2019 `ROSCon <https://vimeopro.com/osrfoundation/roscon-2019/video/379127762>`_ .
+
+
+It is recommended to include things like the laser scan and the robot model to the RVIZ visualisation to get a better sense of what is going on.
 
 
 Step 4 - Drive the Robot Around
 ------------------------------------------
 
 If you haven't already inclued a joystick teleop node, then use the keyboard teleop node in a separate terminal using ``ros2 run teleop_twist_keyboard teleop_twist_keyboard``.
-By manually driving the robot around, we can fill in the map of the environment.  Remember, that slam toolbox utilises pose graph optimisation, therefore, it likes to see loops in the data to perform closure (and provide a better estimate).
+By manually driving the robot around, we can fill in the map of the environment.
+
+.. Remember, that slam toolbox utilises pose graph optimisation, therefore, it likes to see loops in the data to perform closure (and provide a better estimate).
 
 
 Step 5 - Saving the Map

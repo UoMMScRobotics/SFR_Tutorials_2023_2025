@@ -153,9 +153,9 @@ This means that laser scan messages and transformations in time can be performed
 </section>
 <section id="step-2-start-a-simulation">
 <h2>Step 2 - Start a Simulation<a class="headerlink" href="#step-2-start-a-simulation" title="Link to this heading"></a></h2>
-<p>A simulation environment has been provided for you as part of the synchronous tutorial material, namely gz_example_robot_description,
-which includes a launch file sim_robot.launch.py.</p>
-<p>If we wanted to use a joystick/gamepad for teleoperation, then here would be a good place to put a additional node to run.  As we will use the teleop_twist_keyboard package, its easier to have this in a separate terminal.</p>
+<p>A simulation environment has been provided for you as part of the synchronous tutorial material, namely <code class="docutils literal notranslate"><span class="pre">gz_example_robot_description</span></code>,
+which includes a launch file <code class="docutils literal notranslate"><span class="pre">sim_robot.launch.py</span></code>.</p>
+<p>If we wanted to use a joystick/gamepad for teleoperation, then here would be a good place to put a additional node to run.  If you are using the <code class="docutils literal notranslate"><span class="pre">teleop_twist_keyboard</span></code> package this should not be included in the launch file, as you will need to read keystrokes this does not behave as well with a launch file.   Its easier to have this in a separate terminal.</p>
 <p>A simple launch file called <code class="docutils literal notranslate"><span class="pre">map_maker.launch.py</span></code> should look something like the file below.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_directory</span>
 <span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
@@ -182,7 +182,8 @@ which includes a launch file sim_robot.launch.py.</p>
 <span class="linenos">23</span>    <span class="k">return</span> <span class="n">ld</span>
 </pre></div>
 </div>
-<p>As a sanity check, <code class="docutils literal notranslate"><span class="pre">colon</span> <span class="pre">build</span></code>, followed by <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">install/setup.bash</span></code> and check the launch file runs correctly using</p>
+<p>All it does is call the launch file <code class="docutils literal notranslate"><span class="pre">sim_robot.launch.py</span></code> from the package <code class="docutils literal notranslate"><span class="pre">gz_example_robot_description</span></code>, we will add another launch file to it next.</p>
+<p>As a sanity check, <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code>, followed by <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">install/setup.bash</span></code> and check the launch file runs correctly using</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 launch map_maker_pkg map_maker.launch.py</span>
 </pre></div>
 </div>
@@ -231,13 +232,18 @@ Our launch file should look something like the one below.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 topic info --verbose /map</span>
 </pre></div>
 </div>
-<p>where the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> option will list the expected QoS settings.  It is recommended to include things like the laser scan and the robot model to the RVIZ visualisation to get a better sense of what is going on.</p>
+<p>where the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> option will list the expected QoS settings.  Be careful - look for the output which has <code class="docutils literal notranslate"><span class="pre">endpoint</span> <span class="pre">type:</span> <span class="pre">PUBLISHER</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to know more about Quality of Service in ROS2, check out some documentation <a class="reference external" href="https://docs.ros.org/en/humble/Concepts/Intermediate/About-Quality-of-Service-Settings.html">here</a> , and a video from the 2019 <a class="reference external" href="https://vimeopro.com/osrfoundation/roscon-2019/video/379127762">ROSCon</a> .</p>
+</div>
+<p>It is recommended to include things like the laser scan and the robot model to the RVIZ visualisation to get a better sense of what is going on.</p>
 </section>
 </section>
 <section id="step-4-drive-the-robot-around">
 <h2>Step 4 - Drive the Robot Around<a class="headerlink" href="#step-4-drive-the-robot-around" title="Link to this heading"></a></h2>
 <p>If you haven’t already inclued a joystick teleop node, then use the keyboard teleop node in a separate terminal using <code class="docutils literal notranslate"><span class="pre">ros2</span> <span class="pre">run</span> <span class="pre">teleop_twist_keyboard</span> <span class="pre">teleop_twist_keyboard</span></code>.
-By manually driving the robot around, we can fill in the map of the environment.  Remember, that slam toolbox utilises pose graph optimisation, therefore, it likes to see loops in the data to perform closure (and provide a better estimate).</p>
+By manually driving the robot around, we can fill in the map of the environment.</p>
 </section>
 <section id="step-5-saving-the-map">
 <h2>Step 5 - Saving the Map<a class="headerlink" href="#step-5-saving-the-map" title="Link to this heading"></a></h2>

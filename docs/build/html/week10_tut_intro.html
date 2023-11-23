@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 10 - Navigation Introduction &mdash; SFR_Tutorials  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="contents.html" class="icon icon-home">
+            SFR_Tutorials
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Welcome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Software for Robotics Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week09_ca.html">Week 09</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="contents.html">SFR_Tutorials</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Week 10 - Navigation Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/week10_tut_intro.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="week-10-navigation-introduction">
+<h1>Week 10 - Navigation Introduction<a class="headerlink" href="#week-10-navigation-introduction" title="Link to this heading"></a></h1>
+<p>In previous weeks we have gradually built up a simulation of a robot which can generate a map (or use an existing map) and localise itself in an environment.  These were key stepping stones to autonomous navigation.</p>
+<p>For autonomous navigation we need the following capabilities of a mobile robot:</p>
+<ul class="simple">
+<li><p>Locomotion given an input velocity (Kinematics, Actuation, and Control)</p></li>
+<li><p>Sensing to avoid obstacles and produce a map (e.g. lidar)</p></li>
+<li><p>Where is the robot (Localisation/SLAM)</p></li>
+<li><p>Start and Goal positions (in the same global frame)</p></li>
+<li><p>Draw a path from the start to the goal (Path Planning)</p></li>
+<li><p>Drive the robot whilst attempting to Keep the robot on that path (Control and Navigation)</p></li>
+</ul>
+<p>We can sense obstacles (with a simulated lidar), generate a map of the environment to provide a global frame and a reference of obstacles, move based on a desired command velocity, know where the robot is in the global frame.  All that is left is Path Planning and Navigation.</p>
+<p>Everything a mobile robot will need is covered by the existing ROS <a class="reference external" href="https://navigation.ros.org/">Nav2 Navigation Stack</a>.</p>
+<p>Before we get into path planning and navigation, we need a primer on how to represent obstacles and other threats so a path planner and navigator can avoid them.  This will be our first topic.</p>
+<section id="build-a-package-for-this-tutorial">
+<h2>Build a Package for This Tutorial<a class="headerlink" href="#build-a-package-for-this-tutorial" title="Link to this heading"></a></h2>
+<p>We will utilise a new ROS2 package called <code class="docutils literal notranslate"><span class="pre">navigation_demos</span></code> for these activities, which will contain two additional directories <code class="docutils literal notranslate"><span class="pre">launch</span></code> and <code class="docutils literal notranslate"><span class="pre">config</span></code>.</p>
+<p>Make a package the usual way:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/MY_ROS_WS/src/</span>
+<span class="go">ros2 pkg create navigation_demos --build-type ament_python</span>
+<span class="go">cd navigation_demos</span>
+<span class="go">mkdir launch</span>
+<span class="go">mkdir config</span>
+</pre></div>
+</div>
+<p>Your setup.py file should have some extra lines added to include the <code class="docutils literal notranslate"><span class="pre">launch</span></code> and <code class="docutils literal notranslate"><span class="pre">config</span></code> directories:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span><span class="p">,</span> <span class="n">setup</span>
+<span class="hll"><span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">os</span>
+</span><span class="hll"><span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+</span><span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">package_name</span> <span class="o">=</span> <span class="s1">&#39;navigation_demos&#39;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="n">setup</span><span class="p">(</span>
+<span class="linenos"> 8</span>    <span class="n">name</span><span class="o">=</span><span class="n">package_name</span><span class="p">,</span>
+<span class="linenos"> 9</span>    <span class="n">version</span><span class="o">=</span><span class="s1">&#39;0.0.0&#39;</span><span class="p">,</span>
+<span class="linenos">10</span>    <span class="n">packages</span><span class="o">=</span><span class="n">find_packages</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]),</span>
+<span class="linenos">11</span>    <span class="n">data_files</span><span class="o">=</span><span class="p">[</span>
+<span class="linenos">12</span>        <span class="p">(</span><span class="s1">&#39;share/ament_index/resource_index/packages&#39;</span><span class="p">,</span>
+<span class="linenos">13</span>            <span class="p">[</span><span class="s1">&#39;resource/&#39;</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">]),</span>
+<span class="linenos">14</span>        <span class="p">(</span><span class="s1">&#39;share/&#39;</span> <span class="o">+</span> <span class="n">package_name</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;package.xml&#39;</span><span class="p">]),</span>
+<span class="hll"><span class="linenos">15</span>        <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;share&#39;</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="s1">&#39;launch&#39;</span><span class="p">),</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;launch&#39;</span><span class="p">,</span> <span class="s1">&#39;*launch.[pxy][yma]*&#39;</span><span class="p">))),</span>
+</span><span class="hll"><span class="linenos">16</span>        <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;share&#39;</span><span class="p">,</span> <span class="n">package_name</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">),</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;*.yaml&#39;</span><span class="p">))),</span>
+</span><span class="linenos">17</span>    <span class="p">],</span>
+<span class="linenos">18</span>    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;setuptools&#39;</span><span class="p">],</span>
+<span class="linenos">19</span>    <span class="n">zip_safe</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">20</span>    <span class="n">maintainer</span><span class="o">=</span><span class="s1">&#39;Andy West&#39;</span><span class="p">,</span>
+<span class="linenos">21</span>    <span class="n">maintainer_email</span><span class="o">=</span><span class="s1">&#39;andrew.west@manchester.ac.uk&#39;</span><span class="p">,</span>
+<span class="linenos">22</span>    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;TODO: Package description&#39;</span><span class="p">,</span>
+<span class="linenos">23</span>    <span class="n">license</span><span class="o">=</span><span class="s1">&#39;MIT&#39;</span><span class="p">,</span>
+<span class="linenos">24</span>    <span class="n">tests_require</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;pytest&#39;</span><span class="p">],</span>
+<span class="linenos">25</span>    <span class="n">entry_points</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos">26</span>        <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
+<span class="linenos">27</span>        <span class="p">],</span>
+<span class="linenos">28</span>    <span class="p">},</span>
+<span class="linenos">29</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A launch file will be built up gradually, whilst we add more config files to our navigation system.  In the <code class="docutils literal notranslate"><span class="pre">launch</span></code> directory of the package, create a launch file called <code class="docutils literal notranslate"><span class="pre">nav_demo.launch.py</span></code>.  You can copy the code below to get you started.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_directory</span>
+<span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">launch.actions</span> <span class="kn">import</span> <span class="n">IncludeLaunchDescription</span>
+<span class="linenos"> 4</span><span class="kn">from</span> <span class="nn">launch_ros.actions</span> <span class="kn">import</span> <span class="n">SetParameter</span>
+<span class="linenos"> 5</span><span class="kn">from</span> <span class="nn">launch.launch_description_sources</span> <span class="kn">import</span> <span class="n">PythonLaunchDescriptionSource</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="k">def</span> <span class="nf">generate_launch_description</span><span class="p">():</span>
+<span class="linenos"> 9</span>    <span class="n">ld</span> <span class="o">=</span> <span class="n">LaunchDescription</span><span class="p">()</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span>    <span class="c1"># Parameters, Nodes and Launch files go here</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>    <span class="c1"># Add actions to LaunchDescription</span>
+<span class="linenos">16</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span>    <span class="k">return</span> <span class="n">ld</span>
+</pre></div>
+</div>
+<p>Then check everything builds as per usual.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/MY_ROS_WS/</span>
+<span class="go">colcon build</span>
+<span class="go">source install/setup.bash</span>
+</pre></div>
+</div>
+<p>Now we can start the tutorial.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Andy West.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
