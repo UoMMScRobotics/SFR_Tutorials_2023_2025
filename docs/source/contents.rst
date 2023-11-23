@@ -1,3 +1,6 @@
+Contents
+==========
+
 .. toctree::
     :maxdepth: 1
     :caption: Welcome
@@ -8,9 +11,9 @@
     :maxdepth: 1
     :caption: Week 10 Synchronous Tutorial
 
-    week10_tut_intro.rst
-    week10_tut_costmap.rst
-    week10_tut_pathplan.rst
+    week10_tut_intro
+    week10_tut_costmap
+    week10_tut_pathplan
 
 
 .. toctree::
