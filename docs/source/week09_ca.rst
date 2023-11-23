@@ -82,12 +82,13 @@ Our launch file should look something like the one below.
    :emphasize-lines: 18-22,28
 
 
-As always, 
+As always, ``colcon build``, ``source install/setup.bash`` and check the launch file works correctly.
 
 You probably want to see the map in RVIZ right?
 ````````````````````````````````````````````````
 
 Include the map via :menuselection: `Add > By topic > /map`.  You then need to adjust the Quality of Service (QoS) settings to match that of the ``/map`` topic.  The easiest way is to open a new terminal and run
+
 .. code-block:: console
 
     ros2 topic info --verbose /map
@@ -111,7 +112,9 @@ We could add this portion to our launch file, but at this stage it would be unne
 
     ros2 launch nav2_map_server map_saver_server.launch.py
 
-This will have spawned new ROS services we can call to save our map, namely ``/map_saver/save_map``, of the type ``nav2_msgs/srv/SaveMap``.  There are a few options we need to set during the service call (listed in detail `here <https://index.ros.org/p/nav2_map_server/>`_`):
+This will have spawned new ROS services we can call to save our map, namely ``/map_saver/save_map``, of the type ``nav2_msgs/srv/SaveMap``.  There are a few options we need to set during the service call (listed in detail `here <map_server_docs_>`_):
+
+.. _map_server_docs: https://index.ros.org/p/nav2_map_server/
 
 .. list-table:: map server saver options
    :widths: 20 20 56
@@ -152,10 +155,10 @@ In yet another new terminal, either use rqt (selecting the service caller plugin
     occupied_thresh: 0.65" 
 
 .. hint::
-    You can start with ``"`` and use tab-completion to fill in the rest of the message with default values, then simply change the values to desired.
+    Instead of manually typing out the entire message, you can start with ``"`` and use tab-completion to fill in the rest of the message with default values, then simply change the values to desired.
 
 Tada!  If the service request was successful, you should have a map called ``map_name.pgm`` with an associated metadata file ``map_name.yaml``.  Ensure these are held in your package ``maps`` directory for submission.
 
-.. image:: ../../ros_ws/src/map_maker_pkg/maps/map_name.pgm
+.. image:: ../../ros_ws/src/map_maker_pkg/maps/map_name.pgm.png
   :width: 400
   :alt: Generated ROS Map
