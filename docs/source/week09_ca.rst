@@ -10,7 +10,7 @@ There are a few steps we must complete in order to get there.
 4. Drive the robot around
 5. Use the map server to save an image and corresponding yaml file
 
-In this guide we will use :samp: `{map_maker_pkg}` as the package name, but this should be substituted with your ROS package name.
+In this guide we will use ``map_maker_pkg`` as the package name, but this should be substituted with your ROS package name.
 
 
 Step 1 - Make a Package
