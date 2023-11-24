@@ -1,43 +1,80 @@
-Adding Path Planning & Navigation from Nav2
+Adding Path Planning from Nav2
 ================================================
 
-In the Nav2 Navigation Stack, the so-called ``Planner`` portion provides the general route from the start to the goal, whilst avoiding any known obstacles based on a map (path planning).  The ``Controller`` is an algorithm to generate velocity commands to move the robot, as well as ensure it tries to follow the path and avoid obstacles.  The ``Controller`` is therefore the most clever and most critical part of the navigation stack.
+In the Nav2 Navigation Stack, the so-called ``Planner`` portion provides the general route from the start to the goal, whilst avoiding any known obstacles based on a map (path planning).  The ``Controller`` is an algorithm to generate velocity commands to move the robot, as well as ensure it tries to follow the path and avoid obstacles.  The ``Controller`` is therefore the most clever and most critical part of the navigation stack, we will cover that later.
 
 For both the ``Planner`` and the ``Controller``, each algorithm is suited to a particular design of robot, and may not support your configuration.  For example, not all Planners and Controllers support Ackermann steering (like a car).  You can check the full list of supported `Planners <https://navigation.ros.org/plugins/index.html#planners>`_ and `Controllers <https://navigation.ros.org/plugins/index.html#controllers>`_ in the main documentation.
 
 The Planner
 -------------
 
-The default planner in ROS is ``NavFn``.  It contains simple path planning algorithms, either Dijkstra or A* (typically A* is preferred).  It is supplied with a start and end goal, and it computes a valid path between the two.  How this path is calculated will not be covered here, but in the context of costmaps, it attempts to minimise the total cost of a path given the cost going through each cell.
+The ``Planner`` server consists of a ROS Node, which is supplied with a start and end goal, and it computes a valid path between the two.  A planner "plugin" is then chosen to actually compute the path, which gives us flexibility over which algorithm to use.
+
+The default planner plugin in ROS is ``NavFn``.  It contains simple path planning algorithms, either Dijkstra or A* (typically A* is preferred).  It is suitable for differential drive robots, therefore, suitable for our simulation.
 
 .. note::
     The NavFn (Navigation Function) package is based on the paper:
-    `Brock, O. and Oussama K. (1999). High-Speed Navigation Using the Global Dynamic Window Approach. IEEE. <https://cs.stanford.edu/group/manips/publications/pdfs/Brock_1999_ICRA.pdf>`_
+    `Brock, O. and Oussama K. (1999). High-Speed Navigation Using the Global Dynamic Window Approach <https://cs.stanford.edu/group/manips/publications/pdfs/Brock_1999_ICRA.pdf>`_.
+    
     Practically every ROS package can trace its heritage back to academic papers.
 
 
-To operate correctly it requires a "Global" Costmap (i.e. it covers the entire area you would wish to navigate in), as well as robot pose information.  This data of course all come via ROS topics.
+Along side robot pose estimates, to operate correctly the ``Planner`` requires a "Global" Costmap (i.e. it covers the entire global area you would wish to navigate in), this is handled by the planner server as well.  The data to make the costmap and provide the start and end poses are of course all communicated via various ROS topics.
 
 Writing the Planner Config File
 `````````````````````````````````
 
-An example config file for the NavFN package would look like the file below:
+The format of the configuration is taken from the `planner documentation <https://navigation.ros.org/configuration/packages/configuring-planner-server.html>`_.  An example config file for the NavFn package would look like the file below.  Copy this example into a file called ``planner.yaml`` in the ``config`` directory.
+
+.. literalinclude:: ../../ros_ws/src/navigation_demos/config/planner_only.yaml
+   :language: xml
+   :linenos:
+
+If you look under ``plugin: "nav2_navfn_planner/NavfnPlanner"``, notice there are additional parameters (*tolerance*, *use_astar*, *allow_unknown*).  These parameters are specific to ``NavFn`` as per its `documentation <https://navigation.ros.org/configuration/packages/configuring-navfn.html>`_.  These options are explained in the table below.
+
+.. list-table:: NavFn Plugin Options (no-exhaustive)
+   :widths: 20 20 56
+   :header-rows: 1
+
+   * - Option
+     - Default Value
+     - Notes
+   * - tolerance
+     - 0.5
+     - Tolerance in meters between requested goal pose and end of path.
+   * - use_astar
+     - False
+     - Whether to use A*. If false, uses Dijkstra’s expansion.
+   * - allow_unknown
+     - True
+     - Whether to allow planning in unknown space.
+
 
 
 Writing the Global Costmap Config File
 ```````````````````````````````````````
+For the Global Costmap, we can simply use our SLAM Map (as a static layer), and include an inflation layer based on the robot size.  Edit the ``planner.yaml`` file where the ``NavFn`` parameters were added earlier to match the example below.
+
+.. literalinclude:: ../../ros_ws/src/navigation_demos/config/planner.yaml
+   :language: xml
+   :emphasize-lines: 12-48
+   :linenos:
 
 
-The Controller
-----------------
+Adding a Planner to a Launch File
+----------------------------------
+
+.. literalinclude:: ../../ros_ws/src/navigation_demos/launch/planner_only.launch.py
+   :language: python
+   :emphasize-lines: 14-24, 38-55, 62-63
+   :linenos:
 
 
+Perform the usual ``colcon build``, ``source install/setup.bash`` and check the launch file runs.
 
+If everything is running correctly, in rviz it should be possible to add the global costmap topic and view the costmap similar to the image below (note that the specific colour palette comes from selecting "costmap" as the "Color Scheme").
 
-
-
-
-
-Adding A Planner and Controller to A Launch File
--------------------------------------------------
+.. image:: ../../figures/rviz_planner_globalcostmap.png
+  :width: 400
+  :alt: Global Costmap generated by the Planner.
 

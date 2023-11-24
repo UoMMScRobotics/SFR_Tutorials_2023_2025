@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Week 10 - Navigation Introduction &mdash; SFR_Tutorials  documentation</title>
+  <title>Autonomous Navigation Introduction &mdash; SFR_Tutorials  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -48,16 +48,16 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Week 10 - Navigation Introduction</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Autonomous Navigation Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#build-a-package-for-this-tutorial">Build a Package for This Tutorial</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="week10_tut_costmap.html">How to Represent the World for Path Planning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="week10_tut_pathplan.html">Adding Path Planning &amp; Navigation from Nav2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_pathplan.html">Adding Path Planning from Nav2</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="week09_ca.html">Week 09</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week09_ca.html">Week 09 - Saving a Map</a></li>
 </ul>
 
         </div>
@@ -74,7 +74,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Week 10 - Navigation Introduction</li>
+      <li class="breadcrumb-item active">Autonomous Navigation Introduction</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/week10_tut_intro.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -84,21 +84,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="week-10-navigation-introduction">
-<h1>Week 10 - Navigation Introduction<a class="headerlink" href="#week-10-navigation-introduction" title="Link to this heading"></a></h1>
+  <section id="autonomous-navigation-introduction">
+<h1>Autonomous Navigation Introduction<a class="headerlink" href="#autonomous-navigation-introduction" title="Link to this heading"></a></h1>
 <p>In previous weeks we have gradually built up a simulation of a robot which can generate a map (or use an existing map) and localise itself in an environment.  These were key stepping stones to autonomous navigation.</p>
 <p>For autonomous navigation we need the following capabilities of a mobile robot:</p>
 <ul class="simple">
 <li><p>Locomotion given an input velocity (Kinematics, Actuation, and Control)</p></li>
 <li><p>Sensing to avoid obstacles and produce a map (e.g. lidar)</p></li>
-<li><p>Where is the robot (Localisation/SLAM)</p></li>
+<li><p>Where is the robot (Localisation/SLAM and Transformations)</p></li>
 <li><p>Start and Goal positions (in the same global frame)</p></li>
 <li><p>Draw a path from the start to the goal (Path Planning)</p></li>
 <li><p>Drive the robot whilst attempting to Keep the robot on that path (Control and Navigation)</p></li>
 </ul>
-<p>We can sense obstacles (with a simulated lidar), generate a map of the environment to provide a global frame and a reference of obstacles, move based on a desired command velocity, know where the robot is in the global frame.  All that is left is Path Planning and Navigation.</p>
+<p>We can sense obstacles (with a simulated lidar), generate a map of the environment to provide a global frame and a reference of obstacles, move a robot based on a desired command velocity, know where the robot is in the global frame.  All that is left is Path Planning and Navigation.</p>
 <p>Everything a mobile robot will need is covered by the existing ROS <a class="reference external" href="https://navigation.ros.org/">Nav2 Navigation Stack</a>.</p>
-<p>Before we get into path planning and navigation, we need a primer on how to represent obstacles and other threats so a path planner and navigator can avoid them.  This will be our first topic.</p>
+<p>Before we get into path planning and navigation, we need a primer on how to represent obstacles and other threats so a path planner and navigator can avoid them.  This will be our first topic: <strong>Costmaps</strong>.</p>
 <section id="build-a-package-for-this-tutorial">
 <h2>Build a Package for This Tutorial<a class="headerlink" href="#build-a-package-for-this-tutorial" title="Link to this heading"></a></h2>
 <p>We will utilise a new ROS2 package called <code class="docutils literal notranslate"><span class="pre">navigation_demos</span></code> for these activities, which will contain two additional directories <code class="docutils literal notranslate"><span class="pre">launch</span></code> and <code class="docutils literal notranslate"><span class="pre">config</span></code>.</p>
@@ -146,21 +146,36 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_directory</span>
 <span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
 <span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">launch.actions</span> <span class="kn">import</span> <span class="n">IncludeLaunchDescription</span>
-<span class="linenos"> 4</span><span class="kn">from</span> <span class="nn">launch_ros.actions</span> <span class="kn">import</span> <span class="n">SetParameter</span>
+<span class="linenos"> 4</span><span class="kn">from</span> <span class="nn">launch_ros.actions</span> <span class="kn">import</span> <span class="n">SetParameter</span><span class="p">,</span> <span class="n">Node</span>
 <span class="linenos"> 5</span><span class="kn">from</span> <span class="nn">launch.launch_description_sources</span> <span class="kn">import</span> <span class="n">PythonLaunchDescriptionSource</span>
-<span class="linenos"> 6</span>
+<span class="linenos"> 6</span><span class="kn">from</span> <span class="nn">launch.substitutions</span> <span class="kn">import</span> <span class="n">PathJoinSubstitution</span>
 <span class="linenos"> 7</span>
-<span class="linenos"> 8</span><span class="k">def</span> <span class="nf">generate_launch_description</span><span class="p">():</span>
-<span class="linenos"> 9</span>    <span class="n">ld</span> <span class="o">=</span> <span class="n">LaunchDescription</span><span class="p">()</span>
-<span class="linenos">10</span>
-<span class="linenos">11</span>    <span class="c1"># Parameters, Nodes and Launch files go here</span>
-<span class="linenos">12</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="k">def</span> <span class="nf">generate_launch_description</span><span class="p">():</span>
+<span class="linenos">10</span>    <span class="n">ld</span> <span class="o">=</span> <span class="n">LaunchDescription</span><span class="p">()</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>    <span class="c1"># Parameters, Nodes and Launch files go here</span>
 <span class="linenos">13</span>
 <span class="linenos">14</span>
-<span class="linenos">15</span>    <span class="c1"># Add actions to LaunchDescription</span>
-<span class="linenos">16</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="linenos">17</span>
-<span class="linenos">18</span>    <span class="k">return</span> <span class="n">ld</span>
+<span class="linenos">15</span>    <span class="c1"># Include the Gazebo launch file</span>
+<span class="linenos">16</span>    <span class="n">launch_gazebo</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+<span class="linenos">17</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;gz_example_robot_description&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/sim_robot.launch.py&#39;</span><span class="p">]),</span>
+<span class="linenos">18</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+<span class="linenos">19</span>    <span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span>    <span class="c1"># Include SLAM Toolbox standard launch file</span>
+<span class="linenos">22</span>    <span class="n">launch_slamtoolbox</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+<span class="linenos">23</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/online_async_launch.py&#39;</span><span class="p">]),</span>
+<span class="linenos">24</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+<span class="linenos">25</span>    <span class="p">)</span>
+<span class="linenos">26</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span>    <span class="c1"># Add actions to LaunchDescription</span>
+<span class="linenos">29</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="linenos">30</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_gazebo</span><span class="p">)</span>
+<span class="linenos">31</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_slamtoolbox</span><span class="p">)</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span>    <span class="k">return</span> <span class="n">ld</span>
 </pre></div>
 </div>
 <p>Then check everything builds as per usual.</p>

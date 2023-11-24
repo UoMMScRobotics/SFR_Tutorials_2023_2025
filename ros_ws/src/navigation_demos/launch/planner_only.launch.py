@@ -11,8 +11,19 @@ def generate_launch_description():
 
     # Parameters, Nodes and Launch files go here
 
+    # Declare package directory
+    pkg_nav_demos = get_package_share_directory('navigation_demos')
+    # Necessary fixes
+    remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
 
-    # Include the Gazebo launch file
+    lifecycle_nodes = [
+        'planner_server',
+    ]
+
+    # LOAD PARAMETERS FROM YAML FILES
+    config_planner=PathJoinSubstitution([pkg_nav_demos, 'config', 'planner.yaml'])
+
+    # Include Gazebo Simulation
     launch_gazebo = IncludeLaunchDescription(
     PythonLaunchDescriptionSource([get_package_share_directory('gz_example_robot_description'), '/launch', '/sim_robot.launch.py']),
     launch_arguments={}.items(),
@@ -24,10 +35,32 @@ def generate_launch_description():
     launch_arguments={}.items(),
     )
 
+    # Planner Server Node
+    node_planner = Node(
+        package='nav2_planner',
+        executable='planner_server',
+        name='planner_server',
+        output='screen',
+        parameters=[config_planner],
+        remappings=remappings,
+    )
+
+    # Lifecycle Node Manager to automatically start lifecycles nodes (from list)
+    node_lifecycle_manager = Node(
+        package='nav2_lifecycle_manager',
+        executable='lifecycle_manager',
+        name='lifecycle_manager_navigation',
+        output='screen',
+        parameters=[{'autostart': True}, {'node_names': lifecycle_nodes}],
+    )
+
 
     # Add actions to LaunchDescription
     ld.add_action(SetParameter(name='use_sim_time', value=True))
     ld.add_action(launch_gazebo)
     ld.add_action(launch_slamtoolbox)
+    ld.add_action(node_planner)
+    ld.add_action(node_lifecycle_manager)
+
 
     return ld

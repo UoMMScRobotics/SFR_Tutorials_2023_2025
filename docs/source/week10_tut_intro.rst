@@ -1,4 +1,4 @@
-Week 10 - Navigation Introduction
+Autonomous Navigation Introduction
 ================================================
 
 In previous weeks we have gradually built up a simulation of a robot which can generate a map (or use an existing map) and localise itself in an environment.  These were key stepping stones to autonomous navigation.
@@ -7,16 +7,16 @@ For autonomous navigation we need the following capabilities of a mobile robot:
 
 - Locomotion given an input velocity (Kinematics, Actuation, and Control)
 - Sensing to avoid obstacles and produce a map (e.g. lidar)
-- Where is the robot (Localisation/SLAM)
+- Where is the robot (Localisation/SLAM and Transformations)
 - Start and Goal positions (in the same global frame)
 - Draw a path from the start to the goal (Path Planning)
 - Drive the robot whilst attempting to Keep the robot on that path (Control and Navigation)
 
-We can sense obstacles (with a simulated lidar), generate a map of the environment to provide a global frame and a reference of obstacles, move based on a desired command velocity, know where the robot is in the global frame.  All that is left is Path Planning and Navigation.
+We can sense obstacles (with a simulated lidar), generate a map of the environment to provide a global frame and a reference of obstacles, move a robot based on a desired command velocity, know where the robot is in the global frame.  All that is left is Path Planning and Navigation.
 
 Everything a mobile robot will need is covered by the existing ROS `Nav2 Navigation Stack <https://navigation.ros.org/>`_.
 
-Before we get into path planning and navigation, we need a primer on how to represent obstacles and other threats so a path planner and navigator can avoid them.  This will be our first topic.
+Before we get into path planning and navigation, we need a primer on how to represent obstacles and other threats so a path planner and navigator can avoid them.  This will be our first topic: **Costmaps**.
 
 
 Build a Package for This Tutorial
