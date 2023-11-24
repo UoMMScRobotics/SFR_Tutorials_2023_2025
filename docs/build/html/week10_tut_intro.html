@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="How to Represent the World for Path Planning" href="week10_tut_costmap.html" />
+    <link rel="next" title="Adding Path Planning from Nav2" href="week10_tut_pathplan.html" />
     <link rel="prev" title="Software for Robotics Tutorials" href="index.html" /> 
 </head>
 
@@ -49,11 +49,12 @@
 <p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Autonomous Navigation Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#behaviour-trees-and-the-navigation-stack">Behaviour Trees and the Navigation Stack</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#build-a-package-for-this-tutorial">Build a Package for This Tutorial</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="week10_tut_costmap.html">How to Represent the World for Path Planning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="week10_tut_pathplan.html">Adding Path Planning from Nav2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_controller.html">Adding a Controller from Nav2</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -86,6 +87,7 @@
              
   <section id="autonomous-navigation-introduction">
 <h1>Autonomous Navigation Introduction<a class="headerlink" href="#autonomous-navigation-introduction" title="Link to this heading"></a></h1>
+<p>Driving a robot around is fun to begin with, but if you had to drive your robot vacuum cleaner around then the novelty would quickly would wear off.  Autonomous navigation is the answer.  An agent (a human or an algorithm) supplies a goal position, and we expect the robot to do the rest.  When a human supplies goal positions (and makes the decision where these are) this is normally called semi-autonomous navigation.</p>
 <p>In previous weeks we have gradually built up a simulation of a robot which can generate a map (or use an existing map) and localise itself in an environment.  These were key stepping stones to autonomous navigation.</p>
 <p>For autonomous navigation we need the following capabilities of a mobile robot:</p>
 <ul class="simple">
@@ -98,7 +100,11 @@
 </ul>
 <p>We can sense obstacles (with a simulated lidar), generate a map of the environment to provide a global frame and a reference of obstacles, move a robot based on a desired command velocity, know where the robot is in the global frame.  All that is left is Path Planning and Navigation.</p>
 <p>Everything a mobile robot will need is covered by the existing ROS <a class="reference external" href="https://navigation.ros.org/">Nav2 Navigation Stack</a>.</p>
-<p>Before we get into path planning and navigation, we need a primer on how to represent obstacles and other threats so a path planner and navigator can avoid them.  This will be our first topic: <strong>Costmaps</strong>.</p>
+<section id="behaviour-trees-and-the-navigation-stack">
+<h2>Behaviour Trees and the Navigation Stack<a class="headerlink" href="#behaviour-trees-and-the-navigation-stack" title="Link to this heading"></a></h2>
+<p>The Nav2 Navigation stack relies on behaviour trees.  If you are familiar with state machines, behaviour trees are a somewhat similar concept.  These will be covered in more detail in Week 11, so these week you can treat it like a black box.</p>
+<p>As a very high-level overview, you can consider the behaviour tree as a solution to handling the transitions between different “modes” in navigation.  For example, these modes may include what happens if the robot gets stuck (recovery behaviours).</p>
+</section>
 <section id="build-a-package-for-this-tutorial">
 <h2>Build a Package for This Tutorial<a class="headerlink" href="#build-a-package-for-this-tutorial" title="Link to this heading"></a></h2>
 <p>We will utilise a new ROS2 package called <code class="docutils literal notranslate"><span class="pre">navigation_demos</span></code> for these activities, which will contain two additional directories <code class="docutils literal notranslate"><span class="pre">launch</span></code> and <code class="docutils literal notranslate"><span class="pre">config</span></code>.</p>
@@ -156,28 +162,59 @@
 <span class="linenos">11</span>
 <span class="linenos">12</span>    <span class="c1"># Parameters, Nodes and Launch files go here</span>
 <span class="linenos">13</span>
-<span class="linenos">14</span>
-<span class="linenos">15</span>    <span class="c1"># Include the Gazebo launch file</span>
-<span class="linenos">16</span>    <span class="n">launch_gazebo</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
-<span class="linenos">17</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;gz_example_robot_description&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/sim_robot.launch.py&#39;</span><span class="p">]),</span>
-<span class="linenos">18</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-<span class="linenos">19</span>    <span class="p">)</span>
-<span class="linenos">20</span>
-<span class="linenos">21</span>    <span class="c1"># Include SLAM Toolbox standard launch file</span>
-<span class="linenos">22</span>    <span class="n">launch_slamtoolbox</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
-<span class="linenos">23</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/online_async_launch.py&#39;</span><span class="p">]),</span>
-<span class="linenos">24</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-<span class="linenos">25</span>    <span class="p">)</span>
-<span class="linenos">26</span>
-<span class="linenos">27</span>
-<span class="linenos">28</span>    <span class="c1"># Add actions to LaunchDescription</span>
-<span class="linenos">29</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="linenos">30</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_gazebo</span><span class="p">)</span>
-<span class="linenos">31</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_slamtoolbox</span><span class="p">)</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span>    <span class="k">return</span> <span class="n">ld</span>
+<span class="linenos">14</span>    <span class="c1"># Declare package directory</span>
+<span class="linenos">15</span>    <span class="n">pkg_nav_demos</span> <span class="o">=</span> <span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;navigation_demos&#39;</span><span class="p">)</span>
+<span class="linenos">16</span>    <span class="c1"># Necessary fixes</span>
+<span class="linenos">17</span>    <span class="n">remappings</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;/tf&#39;</span><span class="p">,</span> <span class="s1">&#39;tf&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;/tf_static&#39;</span><span class="p">,</span> <span class="s1">&#39;tf_static&#39;</span><span class="p">)]</span>
+<span class="linenos">18</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span>    <span class="c1"># LOAD PARAMETERS FROM YAML FILES</span>
+<span class="linenos">21</span>    <span class="n">config_bt_nav</span>     <span class="o">=</span> <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">pkg_nav_demos</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;bt_nav.yaml&#39;</span><span class="p">])</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span>    <span class="c1"># Include Gazebo Simulation</span>
+<span class="linenos">24</span>    <span class="n">launch_gazebo</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+<span class="linenos">25</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;gz_example_robot_description&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/sim_robot.launch.py&#39;</span><span class="p">]),</span>
+<span class="linenos">26</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+<span class="linenos">27</span>    <span class="p">)</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span>    <span class="c1"># Include SLAM Toolbox standard launch file</span>
+<span class="linenos">30</span>    <span class="n">launch_slamtoolbox</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+<span class="linenos">31</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/online_async_launch.py&#39;</span><span class="p">]),</span>
+<span class="linenos">32</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+<span class="linenos">33</span>    <span class="p">)</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span>    <span class="c1"># Behaviour Tree Navigator</span>
+<span class="linenos">36</span>    <span class="n">node_bt_nav</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos">37</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos">38</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos">39</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos">40</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos">41</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_bt_nav</span><span class="p">],</span>
+<span class="linenos">42</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+<span class="linenos">43</span>    <span class="p">)</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span>    <span class="c1"># Behaviour Tree Server</span>
+<span class="linenos">46</span>    <span class="n">node_behaviour</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos">47</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_behaviors&#39;</span><span class="p">,</span>
+<span class="linenos">48</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;behavior_server&#39;</span><span class="p">,</span>
+<span class="linenos">49</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;behaviour_server&#39;</span><span class="p">,</span>
+<span class="linenos">50</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos">51</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_bt_nav</span><span class="p">],</span>
+<span class="linenos">52</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+<span class="linenos">53</span>    <span class="p">)</span>
+<span class="linenos">54</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span>    <span class="c1"># Add actions to LaunchDescription</span>
+<span class="linenos">57</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="linenos">58</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_gazebo</span><span class="p">)</span>
+<span class="linenos">59</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_slamtoolbox</span><span class="p">)</span>
+<span class="linenos">60</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_bt_nav</span><span class="p">)</span>
+<span class="linenos">61</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_behaviour</span><span class="p">)</span>
+<span class="linenos">62</span>
+<span class="linenos">63</span>    <span class="k">return</span> <span class="n">ld</span>
 </pre></div>
 </div>
+<p>Also add the <code class="docutils literal notranslate"><span class="pre">bt_nav.yaml</span></code> to the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory.  Download the file <a class="reference download internal" download="" href="_downloads/1cc7c4ba1a1fa1f863bd5f6882819a24/bt_nav.yaml"><code class="xref download docutils literal notranslate"><span class="pre">bt_nav.yaml</span></code></a>.</p>
 <p>Then check everything builds as per usual.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/MY_ROS_WS/</span>
 <span class="go">colcon build</span>
@@ -193,7 +230,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Software for Robotics Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="week10_tut_costmap.html" class="btn btn-neutral float-right" title="How to Represent the World for Path Planning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="week10_tut_pathplan.html" class="btn btn-neutral float-right" title="Adding Path Planning from Nav2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

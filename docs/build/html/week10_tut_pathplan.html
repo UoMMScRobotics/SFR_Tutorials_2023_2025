@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Week 09 - Saving a Map" href="week09_ca.html" />
-    <link rel="prev" title="How to Represent the World for Path Planning" href="week10_tut_costmap.html" /> 
+    <link rel="next" title="Adding a Controller from Nav2" href="week10_tut_controller.html" />
+    <link rel="prev" title="Autonomous Navigation Introduction" href="week10_tut_intro.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,7 +49,6 @@
 <p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="week10_tut_intro.html">Autonomous Navigation Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="week10_tut_costmap.html">How to Represent the World for Path Planning</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Adding Path Planning from Nav2</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-planner">The Planner</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#writing-the-planner-config-file">Writing the Planner Config File</a></li>
@@ -59,6 +58,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-planner-to-a-launch-file">Adding a Planner to a Launch File</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_controller.html">Adding a Controller from Nav2</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -95,7 +95,7 @@
 <p>For both the <code class="docutils literal notranslate"><span class="pre">Planner</span></code> and the <code class="docutils literal notranslate"><span class="pre">Controller</span></code>, each algorithm is suited to a particular design of robot, and may not support your configuration.  For example, not all Planners and Controllers support Ackermann steering (like a car).  You can check the full list of supported <a class="reference external" href="https://navigation.ros.org/plugins/index.html#planners">Planners</a> and <a class="reference external" href="https://navigation.ros.org/plugins/index.html#controllers">Controllers</a> in the main documentation.</p>
 <section id="the-planner">
 <h2>The Planner<a class="headerlink" href="#the-planner" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Planner</span></code> server consists of a ROS Node, which is supplied with a start and end goal, and it computes a valid path between the two.  A planner “plugin” is then chosen to actually compute the path, which gives us flexibility over which algorithm to use.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Planner</span></code> server consists of a ROS Node, which is supplied with a start and end goal, and it computes a valid path between the two.  A planner “plugin” actually computes the path, we have freedom on what plugin to choose, giving us flexibility over which algorithm(s) to use.</p>
 <p>The default planner plugin in ROS is <code class="docutils literal notranslate"><span class="pre">NavFn</span></code>.  It contains simple path planning algorithms, either Dijkstra or A* (typically A* is preferred).  It is suitable for differential drive robots, therefore, suitable for our simulation.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -121,7 +121,7 @@
 </div>
 <p>If you look under <code class="docutils literal notranslate"><span class="pre">plugin:</span> <span class="pre">&quot;nav2_navfn_planner/NavfnPlanner&quot;</span></code>, notice there are additional parameters (<em>tolerance</em>, <em>use_astar</em>, <em>allow_unknown</em>).  These parameters are specific to <code class="docutils literal notranslate"><span class="pre">NavFn</span></code> as per its <a class="reference external" href="https://navigation.ros.org/configuration/packages/configuring-navfn.html">documentation</a>.  These options are explained in the table below.</p>
 <table class="docutils align-default" id="id1">
-<caption><span class="caption-text">NavFn Plugin Options (no-exhaustive)</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<caption><span class="caption-text">NavFn Plugin Options (non-exhaustive)</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <colgroup>
 <col style="width: 21%" />
 <col style="width: 21%" />
@@ -151,7 +151,7 @@
 </section>
 <section id="writing-the-global-costmap-config-file">
 <h3>Writing the Global Costmap Config File<a class="headerlink" href="#writing-the-global-costmap-config-file" title="Link to this heading"></a></h3>
-<p>For the Global Costmap, we can simply use our SLAM Map (as a static layer), and include an inflation layer based on the robot size.  Edit the <code class="docutils literal notranslate"><span class="pre">planner.yaml</span></code> file where the <code class="docutils literal notranslate"><span class="pre">NavFn</span></code> parameters were added earlier to match the example below.</p>
+<p>For the Global Costmap, we can simply use our SLAM Map (as a static layer), an obstacle layer using the lidar to catch objects before the static map updates, and include an inflation layer based on the robot size.  Edit the <code class="docutils literal notranslate"><span class="pre">planner.yaml</span></code> file where the <code class="docutils literal notranslate"><span class="pre">NavFn</span></code> parameters were added earlier to match the example below.</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>planner_server:
 <span class="linenos"> 2</span><span class="w">  </span>ros__parameters:
 <span class="linenos"> 3</span><span class="w">    </span>expected_planner_frequency:<span class="w"> </span>20.0
@@ -202,6 +202,9 @@
 </span><span class="hll"><span class="linenos">48</span><span class="w">        </span>inflation_radius:<span class="w"> </span>0.45
 </span></pre></div>
 </div>
+<p>The use of the obstacle layer is somewhat overkill, as will be shown in the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> part, we can include unknown obstacles there instead.</p>
+<p>There are various parameters associated with the costmap (e.g. <em>global_frame</em>, <em>use_sim_time</em>, <em>resolution</em>) but also for each layer there are additional parameters.  It is clearly visible which parameters below to which seciton by the indentation scheme that these xml format files use.  For a full list of costmap parameters check out the <a class="reference external" href="https://github.com/ros-planning/navigation2/blob/3ed4c2dfa1ef9b31e117ccb5c35486b599e6b97e/nav2_costmap_2d/src/costmap_2d_ros.cpp#L90-L116">costmap_2d github</a>.</p>
+<p>The footprint of the robot is used to calculate if a robot can fit through gaps, and as part of the inflation of the costmap based on physical size of the robot.  It is possible to declare a specific polygon for the footprint of the robot (e.g. four points could define a rectangular chassis), however, to keep things conceptually simpler we will only deal with a radius.</p>
 </section>
 </section>
 <section id="adding-a-planner-to-a-launch-file">
@@ -219,60 +222,88 @@
 <span class="linenos">11</span>
 <span class="linenos">12</span>    <span class="c1"># Parameters, Nodes and Launch files go here</span>
 <span class="linenos">13</span>
-<span class="hll"><span class="linenos">14</span>    <span class="c1"># Declare package directory</span>
-</span><span class="hll"><span class="linenos">15</span>    <span class="n">pkg_nav_demos</span> <span class="o">=</span> <span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;navigation_demos&#39;</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">16</span>    <span class="c1"># Necessary fixes</span>
-</span><span class="hll"><span class="linenos">17</span>    <span class="n">remappings</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;/tf&#39;</span><span class="p">,</span> <span class="s1">&#39;tf&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;/tf_static&#39;</span><span class="p">,</span> <span class="s1">&#39;tf_static&#39;</span><span class="p">)]</span>
-</span><span class="hll"><span class="linenos">18</span>
-</span><span class="hll"><span class="linenos">19</span>    <span class="n">lifecycle_nodes</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">14</span>    <span class="c1"># Declare package directory</span>
+<span class="linenos">15</span>    <span class="n">pkg_nav_demos</span> <span class="o">=</span> <span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;navigation_demos&#39;</span><span class="p">)</span>
+<span class="linenos">16</span>    <span class="c1"># Necessary fixes</span>
+<span class="linenos">17</span>    <span class="n">remappings</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;/tf&#39;</span><span class="p">,</span> <span class="s1">&#39;tf&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;/tf_static&#39;</span><span class="p">,</span> <span class="s1">&#39;tf_static&#39;</span><span class="p">)]</span>
+<span class="linenos">18</span>
+<span class="hll"><span class="linenos">19</span>    <span class="n">lifecycle_nodes</span> <span class="o">=</span> <span class="p">[</span>
 </span><span class="hll"><span class="linenos">20</span>        <span class="s1">&#39;planner_server&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">21</span>    <span class="p">]</span>
-</span><span class="hll"><span class="linenos">22</span>
-</span><span class="hll"><span class="linenos">23</span>    <span class="c1"># LOAD PARAMETERS FROM YAML FILES</span>
-</span><span class="hll"><span class="linenos">24</span>    <span class="n">config_planner</span><span class="o">=</span><span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">pkg_nav_demos</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;planner.yaml&#39;</span><span class="p">])</span>
-</span><span class="linenos">25</span>
-<span class="linenos">26</span>    <span class="c1"># Include Gazebo Simulation</span>
-<span class="linenos">27</span>    <span class="n">launch_gazebo</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
-<span class="linenos">28</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;gz_example_robot_description&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/sim_robot.launch.py&#39;</span><span class="p">]),</span>
-<span class="linenos">29</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-<span class="linenos">30</span>    <span class="p">)</span>
-<span class="linenos">31</span>
-<span class="linenos">32</span>    <span class="c1"># Include SLAM Toolbox standard launch file</span>
-<span class="linenos">33</span>    <span class="n">launch_slamtoolbox</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
-<span class="linenos">34</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/online_async_launch.py&#39;</span><span class="p">]),</span>
-<span class="linenos">35</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-<span class="linenos">36</span>    <span class="p">)</span>
-<span class="linenos">37</span>
-<span class="hll"><span class="linenos">38</span>    <span class="c1"># Planner Server Node</span>
-</span><span class="hll"><span class="linenos">39</span>    <span class="n">node_planner</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
-</span><span class="hll"><span class="linenos">40</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_planner&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">41</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;planner_server&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">42</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;planner_server&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">43</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">44</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_planner</span><span class="p">],</span>
-</span><span class="hll"><span class="linenos">45</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">46</span>    <span class="p">)</span>
-</span><span class="hll"><span class="linenos">47</span>
-</span><span class="hll"><span class="linenos">48</span>    <span class="c1"># Lifecycle Node Manager to automatically start lifecycles nodes (from list)</span>
-</span><span class="hll"><span class="linenos">49</span>    <span class="n">node_lifecycle_manager</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
-</span><span class="hll"><span class="linenos">50</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_lifecycle_manager&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">51</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">52</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager_navigation&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">53</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
-</span><span class="hll"><span class="linenos">54</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;autostart&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;node_names&#39;</span><span class="p">:</span> <span class="n">lifecycle_nodes</span><span class="p">}],</span>
-</span><span class="hll"><span class="linenos">55</span>    <span class="p">)</span>
-</span><span class="linenos">56</span>
-<span class="linenos">57</span>
-<span class="linenos">58</span>    <span class="c1"># Add actions to LaunchDescription</span>
-<span class="linenos">59</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="linenos">60</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_gazebo</span><span class="p">)</span>
-<span class="linenos">61</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_slamtoolbox</span><span class="p">)</span>
-<span class="hll"><span class="linenos">62</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_planner</span><span class="p">)</span>
-</span><span class="hll"><span class="linenos">63</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_lifecycle_manager</span><span class="p">)</span>
-</span><span class="linenos">64</span>
-<span class="linenos">65</span>
-<span class="linenos">66</span>    <span class="k">return</span> <span class="n">ld</span>
+</span><span class="hll"><span class="linenos">21</span>        <span class="s1">&#39;behaviour_server&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">22</span>        <span class="s1">&#39;bt_navigator&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">23</span>    <span class="p">]</span>
+</span><span class="linenos">24</span>
+<span class="linenos">25</span>    <span class="c1"># LOAD PARAMETERS FROM YAML FILES</span>
+<span class="linenos">26</span>    <span class="n">config_bt_nav</span>     <span class="o">=</span> <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">pkg_nav_demos</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;bt_nav.yaml&#39;</span><span class="p">])</span>
+<span class="hll"><span class="linenos">27</span>    <span class="n">config_planner</span>    <span class="o">=</span> <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">pkg_nav_demos</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;planner.yaml&#39;</span><span class="p">])</span>
+</span><span class="linenos">28</span>
+<span class="linenos">29</span>    <span class="c1"># Include Gazebo Simulation</span>
+<span class="linenos">30</span>    <span class="n">launch_gazebo</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+<span class="linenos">31</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;gz_example_robot_description&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/sim_robot.launch.py&#39;</span><span class="p">]),</span>
+<span class="linenos">32</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+<span class="linenos">33</span>    <span class="p">)</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span>    <span class="c1"># Include SLAM Toolbox standard launch file</span>
+<span class="linenos">36</span>    <span class="n">launch_slamtoolbox</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+<span class="linenos">37</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/online_async_launch.py&#39;</span><span class="p">]),</span>
+<span class="linenos">38</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+<span class="linenos">39</span>    <span class="p">)</span>
+<span class="linenos">40</span>
+<span class="linenos">41</span>    <span class="c1"># Behaviour Tree Navigator</span>
+<span class="linenos">42</span>    <span class="n">node_bt_nav</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos">43</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos">44</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos">45</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos">46</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos">47</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_bt_nav</span><span class="p">],</span>
+<span class="linenos">48</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+<span class="linenos">49</span>    <span class="p">)</span>
+<span class="linenos">50</span>
+<span class="linenos">51</span>    <span class="c1"># Behaviour Tree Server</span>
+<span class="linenos">52</span>    <span class="n">node_behaviour</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos">53</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_behaviors&#39;</span><span class="p">,</span>
+<span class="linenos">54</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;behavior_server&#39;</span><span class="p">,</span>
+<span class="linenos">55</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;behaviour_server&#39;</span><span class="p">,</span>
+<span class="linenos">56</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos">57</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_bt_nav</span><span class="p">],</span>
+<span class="linenos">58</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+<span class="linenos">59</span>    <span class="p">)</span>
+<span class="linenos">60</span>
+<span class="hll"><span class="linenos">61</span>    <span class="c1"># Planner Server Node</span>
+</span><span class="hll"><span class="linenos">62</span>    <span class="n">node_planner</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos">63</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_planner&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">64</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;planner_server&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">65</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;planner_server&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">66</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">67</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_planner</span><span class="p">],</span>
+</span><span class="hll"><span class="linenos">68</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">69</span>    <span class="p">)</span>
+</span><span class="linenos">70</span>
+<span class="linenos">71</span>    <span class="c1"># Lifecycle Node Manager to automatically start lifecycles nodes (from list)</span>
+<span class="linenos">72</span>    <span class="n">node_lifecycle_manager</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos">73</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_lifecycle_manager&#39;</span><span class="p">,</span>
+<span class="linenos">74</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager&#39;</span><span class="p">,</span>
+<span class="linenos">75</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager_navigation&#39;</span><span class="p">,</span>
+<span class="linenos">76</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos">77</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;autostart&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;node_names&#39;</span><span class="p">:</span> <span class="n">lifecycle_nodes</span><span class="p">}],</span>
+<span class="linenos">78</span>    <span class="p">)</span>
+<span class="linenos">79</span>
+<span class="linenos">80</span>
+<span class="linenos">81</span>    <span class="c1"># Add actions to LaunchDescription</span>
+<span class="linenos">82</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="linenos">83</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_gazebo</span><span class="p">)</span>
+<span class="linenos">84</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_slamtoolbox</span><span class="p">)</span>
+<span class="linenos">85</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_bt_nav</span><span class="p">)</span>
+<span class="linenos">86</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_behaviour</span><span class="p">)</span>
+<span class="hll"><span class="linenos">87</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_planner</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">88</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_lifecycle_manager</span><span class="p">)</span>
+</span><span class="linenos">89</span>
+<span class="linenos">90</span>    <span class="k">return</span> <span class="n">ld</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>What is this lifecycle manager thing?</strong>  It allows for the nodes in the navigation stack to start in a set pattern.  In ROS 1 in particular, nodes may have started in any old order, this could really cause problems.  The lifecycle node system is a method to circumvent this annoying problem.  You can find more technical details in the <a class="reference external" href="https://navigation.ros.org/configuration/packages/configuring-lifecycle.html">online docs</a>.</p>
 </div>
 <p>Perform the usual <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code>, <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">install/setup.bash</span></code> and check the launch file runs.</p>
 <p>If everything is running correctly, in rviz it should be possible to add the global costmap topic and view the costmap similar to the image below (note that the specific colour palette comes from selecting “costmap” as the “Color Scheme”).</p>
@@ -284,8 +315,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="week10_tut_costmap.html" class="btn btn-neutral float-left" title="How to Represent the World for Path Planning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="week09_ca.html" class="btn btn-neutral float-right" title="Week 09 - Saving a Map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="week10_tut_intro.html" class="btn btn-neutral float-left" title="Autonomous Navigation Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="week10_tut_controller.html" class="btn btn-neutral float-right" title="Adding a Controller from Nav2" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

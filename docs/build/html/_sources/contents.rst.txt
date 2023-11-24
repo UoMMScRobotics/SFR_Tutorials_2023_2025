@@ -12,9 +12,8 @@ Contents
     :caption: Week 10 Synchronous Tutorial
 
     week10_tut_intro
-    week10_tut_costmap
     week10_tut_pathplan
-
+    week10_tut_controller
 
 .. toctree::
    :maxdepth: 2

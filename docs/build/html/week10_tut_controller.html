@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adding a Controller from Nav2 &mdash; SFR_Tutorials  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Week 09 - Saving a Map" href="week09_ca.html" />
+    <link rel="prev" title="Adding Path Planning from Nav2" href="week10_tut_pathplan.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="contents.html" class="icon icon-home">
+            SFR_Tutorials
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Welcome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Software for Robotics Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_intro.html">Autonomous Navigation Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_pathplan.html">Adding Path Planning from Nav2</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Adding a Controller from Nav2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-controller">The Controller</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#writing-the-controller-config-file">Writing the Controller Config File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-the-local-costmap-config-file">Writing the Local Costmap Config File</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-controller-to-a-launch-file">Adding a Controller to a Launch File</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week09_ca.html">Week 09 - Saving a Map</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="contents.html">SFR_Tutorials</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Adding a Controller from Nav2</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/week10_tut_controller.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="adding-a-controller-from-nav2">
+<h1>Adding a Controller from Nav2<a class="headerlink" href="#adding-a-controller-from-nav2" title="Link to this heading"></a></h1>
+<p>As stated previously, the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> is the magic that gets a robot to move, and governs a lot of the behaviour of how it navigates.  It is also the most fiddly thing that will require tuning on a real robot to work reliably.</p>
+<p>For a full list of <code class="docutils literal notranslate"><span class="pre">Controllers</span></code> available, visit the Nav 2 Controller <a class="reference external" href="https://navigation.ros.org/plugins/index.html#controllers">Documentation</a>.</p>
+<section id="the-controller">
+<h2>The Controller<a class="headerlink" href="#the-controller" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Controller</span></code> monitors the robot’s state (velocity, pose), the given path, and sensor measurements to compute velocity commands that lead to progress along the path.</p>
+<p>Once again we have list of “plugins” to choose from, allowing us flexibility over what controller architecture to use.  In fact, you can write your <a class="reference external" href="https://navigation.ros.org/plugin_tutorials/index.html">own controller</a> (and planner)!</p>
+<p>For this task we will stick with <code class="docutils literal notranslate"><span class="pre">DWB</span></code> planner, which is the general default choice.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The name <code class="docutils literal notranslate"><span class="pre">DWB</span></code> is a inside joke made by David Lu.  The algorithm used is called “Dynamic Window Approach” (DWA), however, as it was rewritten from ROS 1 to ROS 2, the author thought themselves hilarious to call it <code class="docutils literal notranslate"><span class="pre">DWB</span></code> (as in, what comes after “A”).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The original DWA approach is based on the paper:
+<a class="reference external" href="https://www.ri.cmu.edu/pub_files/pub1/fox_dieter_1997_1/fox_dieter_1997_1.pdf">Fox, D., Burgard, W. and Thrun, S. (1997). The Dynamic Window Approach to Collision Avoidance</a>.</p>
+<p>I told you that all these packages are based on research papers.</p>
+</div>
+<p>As mentioned, these <code class="docutils literal notranslate"><span class="pre">Controllers</span></code> can be tuned or altered to provide the behaviour you desire (e.g. how faithfully should it stick to the global path).</p>
+<section id="writing-the-controller-config-file">
+<h3>Writing the Controller Config File<a class="headerlink" href="#writing-the-controller-config-file" title="Link to this heading"></a></h3>
+<p>The format of the configuration is taken from the <a class="reference external" href="https://navigation.ros.org/configuration/packages/configuring-controller-server.html#configuring-controller-server">controller documentation</a>.  It consists of general controller parameters, but controller plugin specific parameters can also be passed.  For DWB some of these parameters can be <a class="reference external" href="https://navigation.ros.org/configuration/packages/dwb-params/controller.html">found here</a>.  An example config file for the <code class="docutils literal notranslate"><span class="pre">DWB</span></code> controller would look like the file below.  Copy this example into a file called <code class="docutils literal notranslate"><span class="pre">controller.yaml</span></code> in the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>controller_server:
+<span class="linenos"> 2</span><span class="w">  </span>ros__parameters:
+<span class="linenos"> 3</span><span class="w">    </span>use_sim_time:<span class="w"> </span>True
+<span class="linenos"> 4</span><span class="w">    </span>controller_frequency:<span class="w"> </span>20.0
+<span class="linenos"> 5</span><span class="w">    </span>min_x_velocity_threshold:<span class="w"> </span>0.001
+<span class="linenos"> 6</span><span class="w">    </span>min_y_velocity_threshold:<span class="w"> </span>0.5
+<span class="linenos"> 7</span><span class="w">    </span>min_theta_velocity_threshold:<span class="w"> </span>0.001
+<span class="linenos"> 8</span><span class="w">    </span>failure_tolerance:<span class="w"> </span>0.3
+<span class="linenos"> 9</span><span class="w">    </span>odom_topic:<span class="w"> </span>&quot;odom&quot;
+<span class="linenos">10</span><span class="w">    </span>progress_checker_plugins:<span class="w"> </span>[&quot;progress_checker&quot;]<span class="w"> </span>#<span class="w"> </span>progress_checker_plugin:<span class="w"> </span>&quot;progress_checker&quot;<span class="w"> </span>For<span class="w"> </span>Humble<span class="w"> </span>and<span class="w"> </span>older
+<span class="linenos">11</span><span class="w">    </span>goal_checker_plugin:<span class="w"> </span>&quot;goal_checker&quot;
+<span class="linenos">12</span><span class="w">    </span>controller_plugins:<span class="w"> </span>[&quot;FollowPath&quot;]<span class="w"> </span>#<span class="w"> </span>This<span class="w"> </span>is<span class="w"> </span>where<span class="w"> </span>we<span class="w"> </span>define<span class="w"> </span>the<span class="w"> </span>DWB<span class="w"> </span>controller<span class="w"> </span>plugin
+<span class="linenos">13</span><span class="w">    </span>progress_checker:
+<span class="linenos">14</span><span class="w">      </span>plugin:<span class="w"> </span>&quot;nav2_controller::SimpleProgressChecker&quot;
+<span class="linenos">15</span><span class="w">      </span>required_movement_radius:<span class="w"> </span>0.5
+<span class="linenos">16</span><span class="w">      </span>movement_time_allowance:<span class="w"> </span>10.0
+<span class="linenos">17</span><span class="w">    </span>goal_checker:
+<span class="linenos">18</span><span class="w">      </span>plugin:<span class="w"> </span>&quot;nav2_controller::SimpleGoalChecker&quot;
+<span class="linenos">19</span><span class="w">      </span>xy_goal_tolerance:<span class="w"> </span>0.25
+<span class="linenos">20</span><span class="w">      </span>yaw_goal_tolerance:<span class="w"> </span>0.25
+<span class="linenos">21</span><span class="w">      </span>stateful:<span class="w"> </span>True
+<span class="linenos">22</span><span class="w">    </span>FollowPath:
+<span class="linenos">23</span><span class="w">      </span>plugin:<span class="w"> </span>&quot;dwb_core::DWBLocalPlanner&quot;
+<span class="linenos">24</span><span class="w">      </span>debug_trajectory_details:<span class="w"> </span>True
+<span class="linenos">25</span><span class="w">      </span>min_vel_x:<span class="w"> </span>0.0
+<span class="linenos">26</span><span class="w">      </span>min_vel_y:<span class="w"> </span>0.0
+<span class="linenos">27</span><span class="w">      </span>max_vel_x:<span class="w"> </span>0.26
+<span class="linenos">28</span><span class="w">      </span>max_vel_y:<span class="w"> </span>0.0
+<span class="linenos">29</span><span class="w">      </span>max_vel_theta:<span class="w"> </span>1.0
+<span class="linenos">30</span><span class="w">      </span>min_speed_xy:<span class="w"> </span>0.0
+<span class="linenos">31</span><span class="w">      </span>max_speed_xy:<span class="w"> </span>0.26
+<span class="linenos">32</span><span class="w">      </span>min_speed_theta:<span class="w"> </span>0.0
+<span class="linenos">33</span><span class="w">      </span>acc_lim_x:<span class="w"> </span>2.5
+<span class="linenos">34</span><span class="w">      </span>acc_lim_y:<span class="w"> </span>0.0
+<span class="linenos">35</span><span class="w">      </span>acc_lim_theta:<span class="w"> </span>3.2
+<span class="linenos">36</span><span class="w">      </span>decel_lim_x:<span class="w"> </span>-2.5
+<span class="linenos">37</span><span class="w">      </span>decel_lim_y:<span class="w"> </span>0.0
+<span class="linenos">38</span><span class="w">      </span>decel_lim_theta:<span class="w"> </span>-3.2
+<span class="linenos">39</span><span class="w">      </span>vx_samples:<span class="w"> </span>20
+<span class="linenos">40</span><span class="w">      </span>vy_samples:<span class="w"> </span>5
+<span class="linenos">41</span><span class="w">      </span>vtheta_samples:<span class="w"> </span>20
+<span class="linenos">42</span><span class="w">      </span>sim_time:<span class="w"> </span>1.7
+<span class="linenos">43</span><span class="w">      </span>linear_granularity:<span class="w"> </span>0.05
+<span class="linenos">44</span><span class="w">      </span>angular_granularity:<span class="w"> </span>0.025
+<span class="linenos">45</span><span class="w">      </span>transform_tolerance:<span class="w"> </span>0.2
+<span class="linenos">46</span><span class="w">      </span>xy_goal_tolerance:<span class="w"> </span>0.25
+<span class="linenos">47</span><span class="w">      </span>trans_stopped_velocity:<span class="w"> </span>0.25
+<span class="linenos">48</span><span class="w">      </span>short_circuit_trajectory_evaluation:<span class="w"> </span>True
+<span class="linenos">49</span><span class="w">      </span>stateful:<span class="w"> </span>True
+<span class="linenos">50</span><span class="w">      </span>critics:<span class="w"> </span>[&quot;RotateToGoal&quot;,<span class="w"> </span>&quot;Oscillation&quot;,<span class="w"> </span>&quot;BaseObstacle&quot;,<span class="w"> </span>&quot;GoalAlign&quot;,<span class="w"> </span>&quot;PathAlign&quot;,<span class="w"> </span>&quot;PathDist&quot;,<span class="w"> </span>&quot;GoalDist&quot;]
+<span class="linenos">51</span><span class="w">      </span>BaseObstacle.scale:<span class="w"> </span>0.02
+<span class="linenos">52</span><span class="w">      </span>PathAlign.scale:<span class="w"> </span>32.0
+<span class="linenos">53</span><span class="w">      </span>PathAlign.forward_point_distance:<span class="w"> </span>0.1
+<span class="linenos">54</span><span class="w">      </span>GoalAlign.scale:<span class="w"> </span>24.0
+<span class="linenos">55</span><span class="w">      </span>GoalAlign.forward_point_distance:<span class="w"> </span>0.1
+<span class="linenos">56</span><span class="w">      </span>PathDist.scale:<span class="w"> </span>32.0
+<span class="linenos">57</span><span class="w">      </span>GoalDist.scale:<span class="w"> </span>24.0
+<span class="linenos">58</span><span class="w">      </span>RotateToGoal.scale:<span class="w"> </span>32.0
+<span class="linenos">59</span><span class="w">      </span>RotateToGoal.slowing_factor:<span class="w"> </span>5.0
+<span class="linenos">60</span><span class="w">      </span>RotateToGoal.lookahead_time:<span class="w"> </span>-1.0
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">DWB</span></code> planner has many options to tune the system.  It is recommended that for your own robot, you would carefully read about all the different options and see which need to be altered.</p>
+<p>Notice as well we needed to include a <code class="docutils literal notranslate"><span class="pre">Goal</span> <span class="pre">Checker</span></code> and a <code class="docutils literal notranslate"><span class="pre">Progress</span> <span class="pre">Checker</span></code>, these do pretty much what you would expect.  By having these separate (rather than having them included in the velocity controller), it again allows for modularity.  These can be tuned as well, for example, in the goal checker we set the tolerance of how close the robot must be to the goal (as it is nearly impossible for a robot to drive exactly to the point asked of it).</p>
+</section>
+<section id="writing-the-local-costmap-config-file">
+<h3>Writing the Local Costmap Config File<a class="headerlink" href="#writing-the-local-costmap-config-file" title="Link to this heading"></a></h3>
+<p>The Local costmap in comparison to the global costmap, only covers a small portion around the robot (which is quicker to compute), and is updated more regularly.  In this case, we do not necessarily need the static map, just obstacles and other threats we wish to track.  Because we are using <em>layered</em> costmaps, it is possible to add obstacle (or other types) of layers representing different sensors.  We’ll just add the lidar for obstacles this time.</p>
+<p>Again we include the inflation layer to convert obstacles into the configuration space of the robot.  Edit the <code class="docutils literal notranslate"><span class="pre">controller.yaml</span></code> file where the <code class="docutils literal notranslate"><span class="pre">DWB</span></code> parameters were added earlier to match the example below.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>controller_server:
+<span class="linenos"> 2</span><span class="w">  </span>ros__parameters:
+<span class="linenos"> 3</span><span class="w">    </span>use_sim_time:<span class="w"> </span>True
+<span class="linenos"> 4</span><span class="w">    </span>controller_frequency:<span class="w"> </span>20.0
+<span class="linenos"> 5</span><span class="w">    </span>min_x_velocity_threshold:<span class="w"> </span>0.001
+<span class="linenos"> 6</span><span class="w">    </span>min_y_velocity_threshold:<span class="w"> </span>0.5
+<span class="linenos"> 7</span><span class="w">    </span>min_theta_velocity_threshold:<span class="w"> </span>0.001
+<span class="linenos"> 8</span><span class="w">    </span>failure_tolerance:<span class="w"> </span>0.3
+<span class="linenos"> 9</span><span class="w">    </span>odom_topic:<span class="w"> </span>&quot;odom&quot;
+<span class="linenos">10</span><span class="w">    </span>progress_checker_plugins:<span class="w"> </span>[&quot;progress_checker&quot;]<span class="w"> </span>#<span class="w"> </span>progress_checker_plugin:<span class="w"> </span>&quot;progress_checker&quot;<span class="w"> </span>For<span class="w"> </span>Humble<span class="w"> </span>and<span class="w"> </span>older
+<span class="linenos">11</span><span class="w">    </span>goal_checker_plugin:<span class="w"> </span>&quot;goal_checker&quot;
+<span class="linenos">12</span><span class="w">    </span>controller_plugins:<span class="w"> </span>[&quot;FollowPath&quot;]<span class="w"> </span>#<span class="w"> </span>This<span class="w"> </span>is<span class="w"> </span>where<span class="w"> </span>we<span class="w"> </span>define<span class="w"> </span>the<span class="w"> </span>DWB<span class="w"> </span>controller<span class="w"> </span>plugin
+<span class="linenos">13</span><span class="w">    </span>progress_checker:
+<span class="linenos">14</span><span class="w">      </span>plugin:<span class="w"> </span>&quot;nav2_controller::SimpleProgressChecker&quot;
+<span class="linenos">15</span><span class="w">      </span>required_movement_radius:<span class="w"> </span>0.5
+<span class="linenos">16</span><span class="w">      </span>movement_time_allowance:<span class="w"> </span>10.0
+<span class="linenos">17</span><span class="w">    </span>goal_checker:
+<span class="linenos">18</span><span class="w">      </span>plugin:<span class="w"> </span>&quot;nav2_controller::SimpleGoalChecker&quot;
+<span class="linenos">19</span><span class="w">      </span>xy_goal_tolerance:<span class="w"> </span>0.25
+<span class="linenos">20</span><span class="w">      </span>yaw_goal_tolerance:<span class="w"> </span>0.25
+<span class="linenos">21</span><span class="w">      </span>stateful:<span class="w"> </span>True
+<span class="linenos">22</span><span class="w">    </span>FollowPath:
+<span class="linenos">23</span><span class="w">      </span>plugin:<span class="w"> </span>&quot;dwb_core::DWBLocalPlanner&quot;
+<span class="linenos">24</span><span class="w">      </span>debug_trajectory_details:<span class="w"> </span>True
+<span class="linenos">25</span><span class="w">      </span>min_vel_x:<span class="w"> </span>0.0
+<span class="linenos">26</span><span class="w">      </span>min_vel_y:<span class="w"> </span>0.0
+<span class="linenos">27</span><span class="w">      </span>max_vel_x:<span class="w"> </span>0.26
+<span class="linenos">28</span><span class="w">      </span>max_vel_y:<span class="w"> </span>0.0
+<span class="linenos">29</span><span class="w">      </span>max_vel_theta:<span class="w"> </span>1.0
+<span class="linenos">30</span><span class="w">      </span>min_speed_xy:<span class="w"> </span>0.0
+<span class="linenos">31</span><span class="w">      </span>max_speed_xy:<span class="w"> </span>0.26
+<span class="linenos">32</span><span class="w">      </span>min_speed_theta:<span class="w"> </span>0.0
+<span class="linenos">33</span><span class="w">      </span>acc_lim_x:<span class="w"> </span>2.5
+<span class="linenos">34</span><span class="w">      </span>acc_lim_y:<span class="w"> </span>0.0
+<span class="linenos">35</span><span class="w">      </span>acc_lim_theta:<span class="w"> </span>3.2
+<span class="linenos">36</span><span class="w">      </span>decel_lim_x:<span class="w"> </span>-2.5
+<span class="linenos">37</span><span class="w">      </span>decel_lim_y:<span class="w"> </span>0.0
+<span class="linenos">38</span><span class="w">      </span>decel_lim_theta:<span class="w"> </span>-3.2
+<span class="linenos">39</span><span class="w">      </span>vx_samples:<span class="w"> </span>20
+<span class="linenos">40</span><span class="w">      </span>vy_samples:<span class="w"> </span>5
+<span class="linenos">41</span><span class="w">      </span>vtheta_samples:<span class="w"> </span>20
+<span class="linenos">42</span><span class="w">      </span>sim_time:<span class="w"> </span>1.7
+<span class="linenos">43</span><span class="w">      </span>linear_granularity:<span class="w"> </span>0.05
+<span class="linenos">44</span><span class="w">      </span>angular_granularity:<span class="w"> </span>0.025
+<span class="linenos">45</span><span class="w">      </span>transform_tolerance:<span class="w"> </span>0.2
+<span class="linenos">46</span><span class="w">      </span>xy_goal_tolerance:<span class="w"> </span>0.25
+<span class="linenos">47</span><span class="w">      </span>trans_stopped_velocity:<span class="w"> </span>0.25
+<span class="linenos">48</span><span class="w">      </span>short_circuit_trajectory_evaluation:<span class="w"> </span>True
+<span class="linenos">49</span><span class="w">      </span>stateful:<span class="w"> </span>True
+<span class="linenos">50</span><span class="w">      </span>critics:<span class="w"> </span>[&quot;RotateToGoal&quot;,<span class="w"> </span>&quot;Oscillation&quot;,<span class="w"> </span>&quot;BaseObstacle&quot;,<span class="w"> </span>&quot;GoalAlign&quot;,<span class="w"> </span>&quot;PathAlign&quot;,<span class="w"> </span>&quot;PathDist&quot;,<span class="w"> </span>&quot;GoalDist&quot;]
+<span class="linenos">51</span><span class="w">      </span>BaseObstacle.scale:<span class="w"> </span>0.02
+<span class="linenos">52</span><span class="w">      </span>PathAlign.scale:<span class="w"> </span>32.0
+<span class="linenos">53</span><span class="w">      </span>PathAlign.forward_point_distance:<span class="w"> </span>0.1
+<span class="linenos">54</span><span class="w">      </span>GoalAlign.scale:<span class="w"> </span>24.0
+<span class="linenos">55</span><span class="w">      </span>GoalAlign.forward_point_distance:<span class="w"> </span>0.1
+<span class="linenos">56</span><span class="w">      </span>PathDist.scale:<span class="w"> </span>32.0
+<span class="linenos">57</span><span class="w">      </span>GoalDist.scale:<span class="w"> </span>24.0
+<span class="linenos">58</span><span class="w">      </span>RotateToGoal.scale:<span class="w"> </span>32.0
+<span class="linenos">59</span><span class="w">      </span>RotateToGoal.slowing_factor:<span class="w"> </span>5.0
+<span class="linenos">60</span><span class="w">      </span>RotateToGoal.lookahead_time:<span class="w"> </span>-1.0
+<span class="linenos">61</span>
+<span class="linenos">62</span>
+<span class="hll"><span class="linenos">63</span>local_costmap:
+</span><span class="hll"><span class="linenos">64</span><span class="w">  </span>local_costmap:
+</span><span class="hll"><span class="linenos">65</span><span class="w">    </span>ros__parameters:
+</span><span class="hll"><span class="linenos">66</span><span class="w">      </span>update_frequency:<span class="w"> </span>5.0
+</span><span class="hll"><span class="linenos">67</span><span class="w">      </span>publish_frequency:<span class="w"> </span>2.0
+</span><span class="hll"><span class="linenos">68</span><span class="w">      </span>global_frame:<span class="w"> </span>odom
+</span><span class="hll"><span class="linenos">69</span><span class="w">      </span>robot_base_frame:<span class="w"> </span>base_link
+</span><span class="hll"><span class="linenos">70</span><span class="w">      </span>use_sim_time:<span class="w"> </span>True
+</span><span class="hll"><span class="linenos">71</span><span class="w">      </span>rolling_window:<span class="w"> </span>True
+</span><span class="hll"><span class="linenos">72</span><span class="w">      </span>width:<span class="w"> </span>3
+</span><span class="hll"><span class="linenos">73</span><span class="w">      </span>height:<span class="w"> </span>3
+</span><span class="hll"><span class="linenos">74</span><span class="w">      </span>resolution:<span class="w"> </span>0.06
+</span><span class="hll"><span class="linenos">75</span><span class="w">      </span>robot_radius:<span class="w"> </span>0.175
+</span><span class="hll"><span class="linenos">76</span><span class="w">      </span>plugins:<span class="w"> </span>[&quot;obstacle_layer&quot;,<span class="w"> </span>&quot;inflation_layer&quot;]
+</span><span class="hll"><span class="linenos">77</span><span class="w">      </span>always_send_full_costmap:<span class="w"> </span>True
+</span><span class="hll"><span class="linenos">78</span><span class="w">      </span>inflation_layer:
+</span><span class="hll"><span class="linenos">79</span><span class="w">        </span>plugin:<span class="w"> </span>&quot;nav2_costmap_2d::InflationLayer&quot;
+</span><span class="hll"><span class="linenos">80</span><span class="w">        </span>cost_scaling_factor:<span class="w"> </span>4.0
+</span><span class="hll"><span class="linenos">81</span><span class="w">        </span>inflation_radius:<span class="w"> </span>0.45
+</span><span class="hll"><span class="linenos">82</span><span class="w">      </span>obstacle_layer:
+</span><span class="hll"><span class="linenos">83</span><span class="w">        </span>plugin:<span class="w"> </span>&quot;nav2_costmap_2d::ObstacleLayer&quot;
+</span><span class="hll"><span class="linenos">84</span><span class="w">        </span>enabled:<span class="w"> </span>True
+</span><span class="hll"><span class="linenos">85</span><span class="w">        </span>observation_sources:<span class="w"> </span>scan_source
+</span><span class="hll"><span class="linenos">86</span><span class="w">        </span>scan_source:
+</span><span class="hll"><span class="linenos">87</span><span class="w">          </span>topic:<span class="w"> </span>/scan
+</span><span class="hll"><span class="linenos">88</span><span class="w">          </span>max_obstacle_height:<span class="w"> </span>2.0
+</span><span class="hll"><span class="linenos">89</span><span class="w">          </span>clearing:<span class="w"> </span>True
+</span><span class="hll"><span class="linenos">90</span><span class="w">          </span>marking:<span class="w"> </span>True
+</span><span class="hll"><span class="linenos">91</span><span class="w">          </span>data_type:<span class="w"> </span>&quot;LaserScan&quot;
+</span><span class="hll"><span class="linenos">92</span><span class="w">          </span>raytrace_max_range:<span class="w"> </span>3.0
+</span><span class="hll"><span class="linenos">93</span><span class="w">          </span>raytrace_min_range:<span class="w"> </span>0.0
+</span><span class="hll"><span class="linenos">94</span><span class="w">          </span>obstacle_max_range:<span class="w"> </span>2.5
+</span><span class="hll"><span class="linenos">95</span><span class="w">          </span>obstacle_min_range:<span class="w"> </span>0.0
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="adding-a-controller-to-a-launch-file">
+<h2>Adding a Controller to a Launch File<a class="headerlink" href="#adding-a-controller-to-a-launch-file" title="Link to this heading"></a></h2>
+<p>Finally, we need to add the node to the launch file, along with including the config file and ensuring the lifecycle manager knows to handle it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_directory</span>
+<span class="linenos">  2</span><span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
+<span class="linenos">  3</span><span class="kn">from</span> <span class="nn">launch.actions</span> <span class="kn">import</span> <span class="n">IncludeLaunchDescription</span>
+<span class="linenos">  4</span><span class="kn">from</span> <span class="nn">launch_ros.actions</span> <span class="kn">import</span> <span class="n">SetParameter</span><span class="p">,</span> <span class="n">Node</span>
+<span class="linenos">  5</span><span class="kn">from</span> <span class="nn">launch.launch_description_sources</span> <span class="kn">import</span> <span class="n">PythonLaunchDescriptionSource</span>
+<span class="linenos">  6</span><span class="kn">from</span> <span class="nn">launch.substitutions</span> <span class="kn">import</span> <span class="n">PathJoinSubstitution</span>
+<span class="linenos">  7</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="k">def</span> <span class="nf">generate_launch_description</span><span class="p">():</span>
+<span class="linenos"> 10</span>    <span class="n">ld</span> <span class="o">=</span> <span class="n">LaunchDescription</span><span class="p">()</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span>    <span class="c1"># Parameters, Nodes and Launch files go here</span>
+<span class="linenos"> 13</span>
+<span class="linenos"> 14</span>    <span class="c1"># Declare package directory</span>
+<span class="linenos"> 15</span>    <span class="n">pkg_nav_demos</span> <span class="o">=</span> <span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;navigation_demos&#39;</span><span class="p">)</span>
+<span class="linenos"> 16</span>    <span class="c1"># Necessary fixes</span>
+<span class="linenos"> 17</span>    <span class="n">remappings</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;/tf&#39;</span><span class="p">,</span> <span class="s1">&#39;tf&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;/tf_static&#39;</span><span class="p">,</span> <span class="s1">&#39;tf_static&#39;</span><span class="p">)]</span>
+<span class="linenos"> 18</span>
+<span class="linenos"> 19</span>    <span class="n">lifecycle_nodes</span> <span class="o">=</span> <span class="p">[</span>
+<span class="hll"><span class="linenos"> 20</span>        <span class="s1">&#39;controller_server&#39;</span><span class="p">,</span>
+</span><span class="linenos"> 21</span>        <span class="s1">&#39;planner_server&#39;</span><span class="p">,</span>
+<span class="linenos"> 22</span>        <span class="s1">&#39;behaviour_server&#39;</span><span class="p">,</span>
+<span class="linenos"> 23</span>        <span class="s1">&#39;bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos"> 24</span>    <span class="p">]</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span>    <span class="c1"># LOAD PARAMETERS FROM YAML FILES</span>
+<span class="linenos"> 27</span>    <span class="n">config_bt_nav</span>     <span class="o">=</span> <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">pkg_nav_demos</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;bt_nav.yaml&#39;</span><span class="p">])</span>
+<span class="linenos"> 28</span>    <span class="n">config_planner</span>    <span class="o">=</span> <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">pkg_nav_demos</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;planner.yaml&#39;</span><span class="p">])</span>
+<span class="hll"><span class="linenos"> 29</span>    <span class="n">config_controller</span> <span class="o">=</span> <span class="n">PathJoinSubstitution</span><span class="p">([</span><span class="n">pkg_nav_demos</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;controller.yaml&#39;</span><span class="p">])</span>
+</span><span class="linenos"> 30</span>
+<span class="linenos"> 31</span>    <span class="c1"># Include Gazebo Simulation</span>
+<span class="linenos"> 32</span>    <span class="n">launch_gazebo</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+<span class="linenos"> 33</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;gz_example_robot_description&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/sim_robot.launch.py&#39;</span><span class="p">]),</span>
+<span class="linenos"> 34</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+<span class="linenos"> 35</span>    <span class="p">)</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span>    <span class="c1"># Include SLAM Toolbox standard launch file</span>
+<span class="linenos"> 38</span>    <span class="n">launch_slamtoolbox</span> <span class="o">=</span> <span class="n">IncludeLaunchDescription</span><span class="p">(</span>
+<span class="linenos"> 39</span>    <span class="n">PythonLaunchDescriptionSource</span><span class="p">([</span><span class="n">get_package_share_directory</span><span class="p">(</span><span class="s1">&#39;slam_toolbox&#39;</span><span class="p">),</span> <span class="s1">&#39;/launch&#39;</span><span class="p">,</span> <span class="s1">&#39;/online_async_launch.py&#39;</span><span class="p">]),</span>
+<span class="linenos"> 40</span>    <span class="n">launch_arguments</span><span class="o">=</span><span class="p">{}</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+<span class="linenos"> 41</span>    <span class="p">)</span>
+<span class="linenos"> 42</span>
+<span class="linenos"> 43</span>    <span class="c1"># Behaviour Tree Navigator</span>
+<span class="linenos"> 44</span>    <span class="n">node_bt_nav</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos"> 45</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos"> 46</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos"> 47</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bt_navigator&#39;</span><span class="p">,</span>
+<span class="linenos"> 48</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos"> 49</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_bt_nav</span><span class="p">],</span>
+<span class="linenos"> 50</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+<span class="linenos"> 51</span>    <span class="p">)</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span>    <span class="c1"># Behaviour Tree Server</span>
+<span class="linenos"> 54</span>    <span class="n">node_behaviour</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos"> 55</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_behaviors&#39;</span><span class="p">,</span>
+<span class="linenos"> 56</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;behavior_server&#39;</span><span class="p">,</span>
+<span class="linenos"> 57</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;behaviour_server&#39;</span><span class="p">,</span>
+<span class="linenos"> 58</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos"> 59</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_bt_nav</span><span class="p">],</span>
+<span class="linenos"> 60</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+<span class="linenos"> 61</span>    <span class="p">)</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span>    <span class="c1"># Planner Server Node</span>
+<span class="linenos"> 64</span>    <span class="n">node_planner</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos"> 65</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_planner&#39;</span><span class="p">,</span>
+<span class="linenos"> 66</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;planner_server&#39;</span><span class="p">,</span>
+<span class="linenos"> 67</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;planner_server&#39;</span><span class="p">,</span>
+<span class="linenos"> 68</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos"> 69</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_planner</span><span class="p">],</span>
+<span class="linenos"> 70</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+<span class="linenos"> 71</span>    <span class="p">)</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span>    <span class="c1"># Controller Server Node</span>
+<span class="linenos"> 74</span>    <span class="n">node_controller</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos"> 75</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_controller&#39;</span><span class="p">,</span>
+<span class="linenos"> 76</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;controller_server&#39;</span><span class="p">,</span>
+<span class="linenos"> 77</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;controller_server&#39;</span><span class="p">,</span>
+<span class="linenos"> 78</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos"> 79</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_controller</span><span class="p">],</span>
+<span class="linenos"> 80</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+<span class="linenos"> 81</span>    <span class="p">)</span>
+<span class="linenos"> 82</span>
+<span class="linenos"> 83</span>    <span class="c1"># Lifecycle Node Manager to automatically start lifecycles nodes (from list)</span>
+<span class="linenos"> 84</span>    <span class="n">node_lifecycle_manager</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+<span class="linenos"> 85</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_lifecycle_manager&#39;</span><span class="p">,</span>
+<span class="linenos"> 86</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager&#39;</span><span class="p">,</span>
+<span class="linenos"> 87</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager_navigation&#39;</span><span class="p">,</span>
+<span class="linenos"> 88</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+<span class="linenos"> 89</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;autostart&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;node_names&#39;</span><span class="p">:</span> <span class="n">lifecycle_nodes</span><span class="p">}],</span>
+<span class="linenos"> 90</span>    <span class="p">)</span>
+<span class="linenos"> 91</span>
+<span class="linenos"> 92</span>
+<span class="linenos"> 93</span>    <span class="c1"># Add actions to LaunchDescription</span>
+<span class="linenos"> 94</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="linenos"> 95</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_gazebo</span><span class="p">)</span>
+<span class="linenos"> 96</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">launch_slamtoolbox</span><span class="p">)</span>
+<span class="linenos"> 97</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_bt_nav</span><span class="p">)</span>
+<span class="linenos"> 98</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_behaviour</span><span class="p">)</span>
+<span class="linenos"> 99</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_planner</span><span class="p">)</span>
+<span class="hll"><span class="linenos">100</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_controller</span><span class="p">)</span>
+</span><span class="linenos">101</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">node_lifecycle_manager</span><span class="p">)</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span>    <span class="k">return</span> <span class="n">ld</span>
+</pre></div>
+</div>
+<p>Perform the usual <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code>, <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">install/setup.bash</span></code> and check the launch file runs.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="week10_tut_pathplan.html" class="btn btn-neutral float-left" title="Adding Path Planning from Nav2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="week09_ca.html" class="btn btn-neutral float-right" title="Week 09 - Saving a Map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Andy West.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
