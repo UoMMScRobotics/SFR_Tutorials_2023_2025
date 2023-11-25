@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Week 09 - Saving a Map" href="week09_ca.html" />
+    <link rel="next" title="Sending Goals to the Robot Navigation Stack" href="week10_tut_commands.html" />
     <link rel="prev" title="Adding Path Planning from Nav2" href="week10_tut_pathplan.html" /> 
 </head>
 
@@ -59,6 +59,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-controller-to-a-launch-file">Adding a Controller to a Launch File</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_commands.html">Sending Goals to the Robot Navigation Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_conclusion.html">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -100,7 +102,7 @@
 <p>For this task we will stick with <code class="docutils literal notranslate"><span class="pre">DWB</span></code> planner, which is the general default choice.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The name <code class="docutils literal notranslate"><span class="pre">DWB</span></code> is a inside joke made by David Lu.  The algorithm used is called “Dynamic Window Approach” (DWA), however, as it was rewritten from ROS 1 to ROS 2, the author thought themselves hilarious to call it <code class="docutils literal notranslate"><span class="pre">DWB</span></code> (as in, what comes after “A”).</p>
+<p>The name <code class="docutils literal notranslate"><span class="pre">DWB</span></code> is a inside joke made by David Lu.  The algorithm used is called “Dynamic Window Approach” (DWA), however, as it was rewritten from ROS 1 to ROS 2, the author thought themselves hilarious to call it <code class="docutils literal notranslate"><span class="pre">DWB</span></code> (as in, “B” comes after “A”).</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -108,7 +110,12 @@
 <a class="reference external" href="https://www.ri.cmu.edu/pub_files/pub1/fox_dieter_1997_1/fox_dieter_1997_1.pdf">Fox, D., Burgard, W. and Thrun, S. (1997). The Dynamic Window Approach to Collision Avoidance</a>.</p>
 <p>I told you that all these packages are based on research papers.</p>
 </div>
-<p>As mentioned, these <code class="docutils literal notranslate"><span class="pre">Controllers</span></code> can be tuned or altered to provide the behaviour you desire (e.g. how faithfully should it stick to the global path).</p>
+<p>As mentioned, these <code class="docutils literal notranslate"><span class="pre">Controllers</span></code> can be tuned or altered to provide the behaviour you desire (e.g. how faithfully should it stick to the global path).  It is not possible to exhaustively cover this tuning for every controller here, but most provide a tuning guide of sorts.  For generic advice, please take a look at</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://navigation.ros.org/tuning/index.html">Nav 2 Tuning Guide</a></p></li>
+<li><p><a class="reference external" href="http://wiki.ros.org/navigation/Tutorials/Navigation%20Tuning%20Guide">ROS 1 Basic Tuning Guide</a></p></li>
+<li><p><a class="reference external" href="https://kaiyuzheng.me/documents/navguide.pdf">Academic Paper on Tuning in ROS 1</a></p></li>
+</ul>
 <section id="writing-the-controller-config-file">
 <h3>Writing the Controller Config File<a class="headerlink" href="#writing-the-controller-config-file" title="Link to this heading"></a></h3>
 <p>The format of the configuration is taken from the <a class="reference external" href="https://navigation.ros.org/configuration/packages/configuring-controller-server.html#configuring-controller-server">controller documentation</a>.  It consists of general controller parameters, but controller plugin specific parameters can also be passed.  For DWB some of these parameters can be <a class="reference external" href="https://navigation.ros.org/configuration/packages/dwb-params/controller.html">found here</a>.  An example config file for the <code class="docutils literal notranslate"><span class="pre">DWB</span></code> controller would look like the file below.  Copy this example into a file called <code class="docutils literal notranslate"><span class="pre">controller.yaml</span></code> in the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory.</p>
@@ -175,7 +182,7 @@
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">DWB</span></code> planner has many options to tune the system.  It is recommended that for your own robot, you would carefully read about all the different options and see which need to be altered.</p>
-<p>Notice as well we needed to include a <code class="docutils literal notranslate"><span class="pre">Goal</span> <span class="pre">Checker</span></code> and a <code class="docutils literal notranslate"><span class="pre">Progress</span> <span class="pre">Checker</span></code>, these do pretty much what you would expect.  By having these separate (rather than having them included in the velocity controller), it again allows for modularity.  These can be tuned as well, for example, in the goal checker we set the tolerance of how close the robot must be to the goal (as it is nearly impossible for a robot to drive exactly to the point asked of it).</p>
+<p>Notice as well we needed to include a <code class="docutils literal notranslate"><span class="pre">goal_checker</span></code> and a <code class="docutils literal notranslate"><span class="pre">progress_checker</span></code>, these do pretty much what you would expect.  By having these separate (rather than having them included in the <code class="docutils literal notranslate"><span class="pre">controller</span></code> plugin), it again allows for modularity.  These can be tuned as well, for example, in the goal checker we set the tolerance of how close the robot must be to the goal (as it is nearly impossible for a robot to drive exactly to the point asked of it).</p>
 </section>
 <section id="writing-the-local-costmap-config-file">
 <h3>Writing the Local Costmap Config File<a class="headerlink" href="#writing-the-local-costmap-config-file" title="Link to this heading"></a></h3>
@@ -282,7 +289,7 @@
 </section>
 <section id="adding-a-controller-to-a-launch-file">
 <h2>Adding a Controller to a Launch File<a class="headerlink" href="#adding-a-controller-to-a-launch-file" title="Link to this heading"></a></h2>
-<p>Finally, we need to add the node to the launch file, along with including the config file and ensuring the lifecycle manager knows to handle it.</p>
+<p>Finally, we need to add the node to the launch file, along with including the config file and ensuring the lifecycle manager knows to handle it.  Open the <code class="docutils literal notranslate"><span class="pre">nav_demo.launch.py</span></code> file and add the following lines.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_directory</span>
 <span class="linenos">  2</span><span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
 <span class="linenos">  3</span><span class="kn">from</span> <span class="nn">launch.actions</span> <span class="kn">import</span> <span class="n">IncludeLaunchDescription</span>
@@ -355,16 +362,16 @@
 <span class="linenos"> 70</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
 <span class="linenos"> 71</span>    <span class="p">)</span>
 <span class="linenos"> 72</span>
-<span class="linenos"> 73</span>    <span class="c1"># Controller Server Node</span>
-<span class="linenos"> 74</span>    <span class="n">node_controller</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
-<span class="linenos"> 75</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_controller&#39;</span><span class="p">,</span>
-<span class="linenos"> 76</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;controller_server&#39;</span><span class="p">,</span>
-<span class="linenos"> 77</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;controller_server&#39;</span><span class="p">,</span>
-<span class="linenos"> 78</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
-<span class="linenos"> 79</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_controller</span><span class="p">],</span>
-<span class="linenos"> 80</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
-<span class="linenos"> 81</span>    <span class="p">)</span>
-<span class="linenos"> 82</span>
+<span class="hll"><span class="linenos"> 73</span>    <span class="c1"># Controller Server Node</span>
+</span><span class="hll"><span class="linenos"> 74</span>    <span class="n">node_controller</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos"> 75</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_controller&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos"> 76</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;controller_server&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos"> 77</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;controller_server&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos"> 78</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos"> 79</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span><span class="n">config_controller</span><span class="p">],</span>
+</span><span class="hll"><span class="linenos"> 80</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos"> 81</span>    <span class="p">)</span>
+</span><span class="linenos"> 82</span>
 <span class="linenos"> 83</span>    <span class="c1"># Lifecycle Node Manager to automatically start lifecycles nodes (from list)</span>
 <span class="linenos"> 84</span>    <span class="n">node_lifecycle_manager</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
 <span class="linenos"> 85</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_lifecycle_manager&#39;</span><span class="p">,</span>
@@ -397,7 +404,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="week10_tut_pathplan.html" class="btn btn-neutral float-left" title="Adding Path Planning from Nav2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="week09_ca.html" class="btn btn-neutral float-right" title="Week 09 - Saving a Map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="week10_tut_commands.html" class="btn btn-neutral float-right" title="Sending Goals to the Robot Navigation Stack" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

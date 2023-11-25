@@ -19,12 +19,13 @@ The default planner plugin in ROS is ``NavFn``.  It contains simple path plannin
     Practically every ROS package can trace its heritage back to academic papers.
 
 
-Along side robot pose estimates, to operate correctly the ``Planner`` requires a "Global" Costmap (i.e. it covers the entire global area you would wish to navigate in), this is handled by the planner server as well.  The data to make the costmap and provide the start and end poses are of course all communicated via various ROS topics.
+Along side robot pose estimates, the Planner requires a "Global" Costmap (i.e. it covers the entire global area you would wish to navigate in), this is handled by the planner server as well.  The data to make the costmap and provide the start and end poses are of course all communicated via various ROS topics.
 
 Writing the Planner Config File
 `````````````````````````````````
 
 The format of the configuration is taken from the `planner documentation <https://navigation.ros.org/configuration/packages/configuring-planner-server.html>`_.  An example config file for the NavFn package would look like the file below.  Copy this example into a file called ``planner.yaml`` in the ``config`` directory.
+
 
 .. literalinclude:: ../../ros_ws/src/navigation_demos/config/planner_only.yaml
    :language: xml
@@ -60,7 +61,7 @@ For the Global Costmap, we can simply use our SLAM Map (as a static layer), an o
    :emphasize-lines: 12-48
    :linenos:
 
-The use of the obstacle layer is somewhat overkill, as will be shown in the ``Controller`` part, we can include unknown obstacles there instead.
+.. The use of the obstacle layer is somewhat overkill, as will be shown in the ``Controller`` part, we can include unknown obstacles there instead.
 
 There are various parameters associated with the costmap (e.g. *global_frame*, *use_sim_time*, *resolution*) but also for each layer there are additional parameters.  It is clearly visible which parameters below to which seciton by the indentation scheme that these xml format files use.  For a full list of costmap parameters check out the `costmap_2d github <https://github.com/ros-planning/navigation2/blob/3ed4c2dfa1ef9b31e117ccb5c35486b599e6b97e/nav2_costmap_2d/src/costmap_2d_ros.cpp#L90-L116>`_.
 
@@ -69,9 +70,11 @@ The footprint of the robot is used to calculate if a robot can fit through gaps,
 Adding a Planner to a Launch File
 ----------------------------------
 
+Open the ``nav_demo.launch.py`` file and add the following lines.
+
 .. literalinclude:: ../../ros_ws/src/navigation_demos/launch/planner_only.launch.py
    :language: python
-   :emphasize-lines: 19-23, 27, 61-69, 87-88
+   :emphasize-lines: 19-23, 27, 61-69, 71-78, 87-88
    :linenos:
 
 
@@ -80,7 +83,7 @@ Adding a Planner to a Launch File
 
 Perform the usual ``colcon build``, ``source install/setup.bash`` and check the launch file runs.
 
-If everything is running correctly, in rviz it should be possible to add the global costmap topic and view the costmap similar to the image below (note that the specific colour palette comes from selecting "costmap" as the "Color Scheme").
+If everything is running correctly, in rviz it should be possible to view the global costmap topic similar to the image below (note that the specific colour palette comes from selecting "costmap" as the "Color Scheme").
 
 .. image:: ../../figures/rviz_planner_globalcostmap.png
   :width: 400

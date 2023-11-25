@@ -59,6 +59,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="week10_tut_controller.html">Adding a Controller from Nav2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_commands.html">Sending Goals to the Robot Navigation Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_conclusion.html">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -103,7 +105,7 @@
 <a class="reference external" href="https://cs.stanford.edu/group/manips/publications/pdfs/Brock_1999_ICRA.pdf">Brock, O. and Oussama K. (1999). High-Speed Navigation Using the Global Dynamic Window Approach</a>.</p>
 <p>Practically every ROS package can trace its heritage back to academic papers.</p>
 </div>
-<p>Along side robot pose estimates, to operate correctly the <code class="docutils literal notranslate"><span class="pre">Planner</span></code> requires a “Global” Costmap (i.e. it covers the entire global area you would wish to navigate in), this is handled by the planner server as well.  The data to make the costmap and provide the start and end poses are of course all communicated via various ROS topics.</p>
+<p>Along side robot pose estimates, the Planner requires a “Global” Costmap (i.e. it covers the entire global area you would wish to navigate in), this is handled by the planner server as well.  The data to make the costmap and provide the start and end poses are of course all communicated via various ROS topics.</p>
 <section id="writing-the-planner-config-file">
 <h3>Writing the Planner Config File<a class="headerlink" href="#writing-the-planner-config-file" title="Link to this heading"></a></h3>
 <p>The format of the configuration is taken from the <a class="reference external" href="https://navigation.ros.org/configuration/packages/configuring-planner-server.html">planner documentation</a>.  An example config file for the NavFn package would look like the file below.  Copy this example into a file called <code class="docutils literal notranslate"><span class="pre">planner.yaml</span></code> in the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory.</p>
@@ -202,13 +204,13 @@
 </span><span class="hll"><span class="linenos">48</span><span class="w">        </span>inflation_radius:<span class="w"> </span>0.45
 </span></pre></div>
 </div>
-<p>The use of the obstacle layer is somewhat overkill, as will be shown in the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> part, we can include unknown obstacles there instead.</p>
 <p>There are various parameters associated with the costmap (e.g. <em>global_frame</em>, <em>use_sim_time</em>, <em>resolution</em>) but also for each layer there are additional parameters.  It is clearly visible which parameters below to which seciton by the indentation scheme that these xml format files use.  For a full list of costmap parameters check out the <a class="reference external" href="https://github.com/ros-planning/navigation2/blob/3ed4c2dfa1ef9b31e117ccb5c35486b599e6b97e/nav2_costmap_2d/src/costmap_2d_ros.cpp#L90-L116">costmap_2d github</a>.</p>
 <p>The footprint of the robot is used to calculate if a robot can fit through gaps, and as part of the inflation of the costmap based on physical size of the robot.  It is possible to declare a specific polygon for the footprint of the robot (e.g. four points could define a rectangular chassis), however, to keep things conceptually simpler we will only deal with a radius.</p>
 </section>
 </section>
 <section id="adding-a-planner-to-a-launch-file">
 <h2>Adding a Planner to a Launch File<a class="headerlink" href="#adding-a-planner-to-a-launch-file" title="Link to this heading"></a></h2>
+<p>Open the <code class="docutils literal notranslate"><span class="pre">nav_demo.launch.py</span></code> file and add the following lines.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_directory</span>
 <span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
 <span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">launch.actions</span> <span class="kn">import</span> <span class="n">IncludeLaunchDescription</span>
@@ -279,15 +281,15 @@
 </span><span class="hll"><span class="linenos">68</span>        <span class="n">remappings</span><span class="o">=</span><span class="n">remappings</span><span class="p">,</span>
 </span><span class="hll"><span class="linenos">69</span>    <span class="p">)</span>
 </span><span class="linenos">70</span>
-<span class="linenos">71</span>    <span class="c1"># Lifecycle Node Manager to automatically start lifecycles nodes (from list)</span>
-<span class="linenos">72</span>    <span class="n">node_lifecycle_manager</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
-<span class="linenos">73</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_lifecycle_manager&#39;</span><span class="p">,</span>
-<span class="linenos">74</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager&#39;</span><span class="p">,</span>
-<span class="linenos">75</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager_navigation&#39;</span><span class="p">,</span>
-<span class="linenos">76</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
-<span class="linenos">77</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;autostart&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;node_names&#39;</span><span class="p">:</span> <span class="n">lifecycle_nodes</span><span class="p">}],</span>
-<span class="linenos">78</span>    <span class="p">)</span>
-<span class="linenos">79</span>
+<span class="hll"><span class="linenos">71</span>    <span class="c1"># Lifecycle Node Manager to automatically start lifecycles nodes (from list)</span>
+</span><span class="hll"><span class="linenos">72</span>    <span class="n">node_lifecycle_manager</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos">73</span>        <span class="n">package</span><span class="o">=</span><span class="s1">&#39;nav2_lifecycle_manager&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">74</span>        <span class="n">executable</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">75</span>        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lifecycle_manager_navigation&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">76</span>        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;screen&#39;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">77</span>        <span class="n">parameters</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;autostart&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;node_names&#39;</span><span class="p">:</span> <span class="n">lifecycle_nodes</span><span class="p">}],</span>
+</span><span class="hll"><span class="linenos">78</span>    <span class="p">)</span>
+</span><span class="linenos">79</span>
 <span class="linenos">80</span>
 <span class="linenos">81</span>    <span class="c1"># Add actions to LaunchDescription</span>
 <span class="linenos">82</span>    <span class="n">ld</span><span class="o">.</span><span class="n">add_action</span><span class="p">(</span><span class="n">SetParameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;use_sim_time&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
@@ -306,7 +308,7 @@
 <p><strong>What is this lifecycle manager thing?</strong>  It allows for the nodes in the navigation stack to start in a set pattern.  In ROS 1 in particular, nodes may have started in any old order, this could really cause problems.  The lifecycle node system is a method to circumvent this annoying problem.  You can find more technical details in the <a class="reference external" href="https://navigation.ros.org/configuration/packages/configuring-lifecycle.html">online docs</a>.</p>
 </div>
 <p>Perform the usual <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code>, <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">install/setup.bash</span></code> and check the launch file runs.</p>
-<p>If everything is running correctly, in rviz it should be possible to add the global costmap topic and view the costmap similar to the image below (note that the specific colour palette comes from selecting “costmap” as the “Color Scheme”).</p>
+<p>If everything is running correctly, in rviz it should be possible to view the global costmap topic similar to the image below (note that the specific colour palette comes from selecting “costmap” as the “Color Scheme”).</p>
 <a class="reference internal image-reference" href="_images/rviz_planner_globalcostmap.png"><img alt="Global Costmap generated by the Planner." src="_images/rviz_planner_globalcostmap.png" style="width: 400px;" /></a>
 </section>
 </section>

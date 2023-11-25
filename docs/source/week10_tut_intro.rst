@@ -25,10 +25,15 @@ Behaviour Trees and the Navigation Stack
 
 The Nav2 Navigation stack relies on behaviour trees.  If you are familiar with state machines, behaviour trees are a somewhat similar concept.  These will be covered in more detail in Week 11, so these week you can treat it like a black box.
 
-As a very high-level overview, you can consider the behaviour tree as a solution to handling the transitions between different "modes" in navigation.  For example, these modes may include what happens if the robot gets stuck (recovery behaviours).
+As a very high-level overview, you can consider the behaviour tree as a solution for handling the transitions between different "modes" in navigation.  For example, these modes may include what happens if the robot gets stuck (recovery behaviours).
 
 Build a Package for This Tutorial
 ----------------------------------
+
+We will being making use of an UPDATED VERSION of the ``gz_example_description_package``.  Please replace any existing versions you have of this package.  You can download a copy here: |gz_example_robot_description.zip|
+
+.. |gz_example_robot_description.zip| replace::
+   :download:`gz_example_robot_description.zip <../../ros_ws/src/gz_example_robot_description.zip>`
 
 We will utilise a new ROS2 package called ``navigation_demos`` for these activities, which will contain two additional directories ``launch`` and ``config``.
 

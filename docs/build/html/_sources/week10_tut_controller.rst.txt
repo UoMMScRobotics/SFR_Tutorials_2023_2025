@@ -15,7 +15,7 @@ Once again we have list of "plugins" to choose from, allowing us flexibility ove
 For this task we will stick with ``DWB`` planner, which is the general default choice.
 
 .. note::
-  The name ``DWB`` is a inside joke made by David Lu.  The algorithm used is called "Dynamic Window Approach" (DWA), however, as it was rewritten from ROS 1 to ROS 2, the author thought themselves hilarious to call it ``DWB`` (as in, what comes after "A").
+  The name ``DWB`` is a inside joke made by David Lu.  The algorithm used is called "Dynamic Window Approach" (DWA), however, as it was rewritten from ROS 1 to ROS 2, the author thought themselves hilarious to call it ``DWB`` (as in, "B" comes after "A").
 
 .. note::
     The original DWA approach is based on the paper:
@@ -24,7 +24,11 @@ For this task we will stick with ``DWB`` planner, which is the general default c
     I told you that all these packages are based on research papers.
 
 
-As mentioned, these ``Controllers`` can be tuned or altered to provide the behaviour you desire (e.g. how faithfully should it stick to the global path).
+As mentioned, these ``Controllers`` can be tuned or altered to provide the behaviour you desire (e.g. how faithfully should it stick to the global path).  It is not possible to exhaustively cover this tuning for every controller here, but most provide a tuning guide of sorts.  For generic advice, please take a look at
+
+- `Nav 2 Tuning Guide <https://navigation.ros.org/tuning/index.html>`_
+- `ROS 1 Basic Tuning Guide <http://wiki.ros.org/navigation/Tutorials/Navigation%20Tuning%20Guide>`_
+- `Academic Paper on Tuning in ROS 1 <https://kaiyuzheng.me/documents/navguide.pdf>`_
 
 Writing the Controller Config File
 ```````````````````````````````````
@@ -37,7 +41,7 @@ The format of the configuration is taken from the `controller documentation <htt
 
 The ``DWB`` planner has many options to tune the system.  It is recommended that for your own robot, you would carefully read about all the different options and see which need to be altered.
 
-Notice as well we needed to include a ``Goal Checker`` and a ``Progress Checker``, these do pretty much what you would expect.  By having these separate (rather than having them included in the velocity controller), it again allows for modularity.  These can be tuned as well, for example, in the goal checker we set the tolerance of how close the robot must be to the goal (as it is nearly impossible for a robot to drive exactly to the point asked of it).
+Notice as well we needed to include a ``goal_checker`` and a ``progress_checker``, these do pretty much what you would expect.  By having these separate (rather than having them included in the ``controller`` plugin), it again allows for modularity.  These can be tuned as well, for example, in the goal checker we set the tolerance of how close the robot must be to the goal (as it is nearly impossible for a robot to drive exactly to the point asked of it).
 
 
 Writing the Local Costmap Config File
@@ -55,12 +59,12 @@ Again we include the inflation layer to convert obstacles into the configuration
 Adding a Controller to a Launch File
 --------------------------------------
 
-Finally, we need to add the node to the launch file, along with including the config file and ensuring the lifecycle manager knows to handle it.
+Finally, we need to add the node to the launch file, along with including the config file and ensuring the lifecycle manager knows to handle it.  Open the ``nav_demo.launch.py`` file and add the following lines.
 
 
 .. literalinclude:: ../../ros_ws/src/navigation_demos/launch/nav_demo.launch.py
    :language: python
-   :emphasize-lines: 20, 29, 100
+   :emphasize-lines: 20, 29, 73-81, 100
    :linenos:
 
 

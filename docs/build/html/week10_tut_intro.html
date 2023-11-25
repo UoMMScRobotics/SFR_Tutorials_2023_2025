@@ -55,6 +55,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="week10_tut_pathplan.html">Adding Path Planning from Nav2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="week10_tut_controller.html">Adding a Controller from Nav2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_commands.html">Sending Goals to the Robot Navigation Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_conclusion.html">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -103,10 +105,11 @@
 <section id="behaviour-trees-and-the-navigation-stack">
 <h2>Behaviour Trees and the Navigation Stack<a class="headerlink" href="#behaviour-trees-and-the-navigation-stack" title="Link to this heading"></a></h2>
 <p>The Nav2 Navigation stack relies on behaviour trees.  If you are familiar with state machines, behaviour trees are a somewhat similar concept.  These will be covered in more detail in Week 11, so these week you can treat it like a black box.</p>
-<p>As a very high-level overview, you can consider the behaviour tree as a solution to handling the transitions between different “modes” in navigation.  For example, these modes may include what happens if the robot gets stuck (recovery behaviours).</p>
+<p>As a very high-level overview, you can consider the behaviour tree as a solution for handling the transitions between different “modes” in navigation.  For example, these modes may include what happens if the robot gets stuck (recovery behaviours).</p>
 </section>
 <section id="build-a-package-for-this-tutorial">
 <h2>Build a Package for This Tutorial<a class="headerlink" href="#build-a-package-for-this-tutorial" title="Link to this heading"></a></h2>
+<p>We will being making use of an UPDATED VERSION of the <code class="docutils literal notranslate"><span class="pre">gz_example_description_package</span></code>.  Please replace any existing versions you have of this package.  You can download a copy here: <a class="reference download internal" download="" href="_downloads/5fdaa59b1b9e0910cff4162b06828fb2/gz_example_robot_description.zip"><code class="xref download docutils literal notranslate"><span class="pre">gz_example_robot_description.zip</span></code></a></p>
 <p>We will utilise a new ROS2 package called <code class="docutils literal notranslate"><span class="pre">navigation_demos</span></code> for these activities, which will contain two additional directories <code class="docutils literal notranslate"><span class="pre">launch</span></code> and <code class="docutils literal notranslate"><span class="pre">config</span></code>.</p>
 <p>Make a package the usual way:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/MY_ROS_WS/src/</span>

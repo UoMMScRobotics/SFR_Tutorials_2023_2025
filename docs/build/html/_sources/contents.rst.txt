@@ -14,6 +14,8 @@ Contents
     week10_tut_intro
     week10_tut_pathplan
     week10_tut_controller
+    week10_tut_commands
+    week10_tut_conclusion
 
 .. toctree::
    :maxdepth: 2
