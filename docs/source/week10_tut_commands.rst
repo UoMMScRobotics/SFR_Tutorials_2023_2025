@@ -1,11 +1,11 @@
 Sending Goals to the Robot Navigation Stack
 ================================================
 
-Now everything is ready, start the simulation, SLAM and the navigation stack with ``nav_demo.launch.py`` using the normal,
+Now everything is ready, if you haven't already start the simulation, SLAM and the navigation stack with ``nav_demo.launch.py`` using the normal,
 
 .. code-block:: console
 
-    ros2 launch navigation_demos planner_only.launch.py 
+    ros2 launch navigation_demos nav_demo.launch.py 
 
 
 Navigation Action Servers
@@ -40,6 +40,10 @@ In a new terminal, run the command ``ros2 run rqt_graph rqt_graph`` or simply ru
 
 In the top left corner, select ``Nodes/Topics (all)`` to get a total overview of all the connections between nodes and their topics.  Hover over the oval containing "/planner_server", the green arrows (published topics) go to "/compute_path_to_pose/_action", "/compute_path_through_pose/_action" and a topic called "/plan".  The "/controller_server" node is similar but provides the "/follow_path/_action" topics, a "/local_plan" and most importantly the "/cmd_vel" velocity commands to the robot.
 
+.. image:: ../../figures/rqt_graph_wk10.png
+  :width: 600
+  :alt: ROS graph of node and topic interconnectivity.
+
 
 Send a Goal Pose Manually
 ---------------------------
@@ -51,21 +55,21 @@ Ensure you have RVIZ visible on the screen, and in a new terminal (placed somewh
 .. code-block:: console
 
     ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "pose:
-    header:
+      header:
         stamp:
-            sec: 0
-            nanosec: 0
+          sec: 0
+          nanosec: 0
         frame_id: 'map'
-    pose:
+      pose:
         position:
-        x: 1.0
-        y: 0.0
-        z: 0.0
+          x: 1.0
+          y: 0.0
+          z: 0.0
         orientation:
-        x: 0.0
-        y: 0.0
-        z: 0.0
-        w: 1.0
+          x: 0.0
+          y: 0.0
+          z: 0.0
+          w: 1.0
     behavior_tree: ''" 
 
 Hooray!  The robot should be navigating!  You should see the robot drive forward, whilst publishing the global path and the trajectory the controller is attempting to take.
@@ -83,6 +87,10 @@ It is much easier as a human to select a point on the map, rather than estimate 
 5. Release the left mouse button
 
 The base of the arrow indicates the pose position, whereas the arrow indicates the pose orientation.  Once you release the left mouse button, the goal is sent.
+
+.. image:: ../../figures/rviz_Nav2GoalArrow.png
+  :width: 600
+  :alt: Sending a navigation goal via RVIZ visual tools.
 
 Hooray!  The robot should be driving to where your arrow was!
 
