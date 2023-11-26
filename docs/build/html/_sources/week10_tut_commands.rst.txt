@@ -38,7 +38,7 @@ There is interdependancy between these action servers also, for example, the use
 
 In a new terminal, run the command ``ros2 run rqt_graph rqt_graph`` or simply run ``rqt`` in a terminal and select the plugin (whichever you are more comfortable with).
 
-In the top left corner, select ``Nodes/Topics (all)`` to get a total overview of all the connections between nodes and their topics.  Hover over the oval containing "/planner_server", the green arrows (published topics) go to "/compute_path_to_pose/_action", "/compute_path_through_pose/_action" and a topic called "/plan".  The "/controller_server" node is similar but provides the "/follow_path/_action" topics, a "/local_plan" and most importantly the "/cmd_vel" velocity commands to the robot.
+In the top left corner, select ``Nodes/Topics (all)`` to get a total overview of all the connections between nodes and their topics.  Press the "refresh" arrows button to update the window.  Hover over the oval containing "/planner_server", the green arrows (published topics) go to "/compute_path_to_pose/_action", "/compute_path_through_pose/_action" and a topic called "/plan".  The "/controller_server" node is similar but provides the "/follow_path/_action" topics, a "/local_plan" and most importantly the "/cmd_vel" velocity commands to the robot.
 
 .. image:: ../../figures/rqt_graph_wk10.png
   :width: 600

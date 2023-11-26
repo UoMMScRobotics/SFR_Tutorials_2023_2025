@@ -30,7 +30,7 @@ As a very high-level overview, you can consider the behaviour tree as a solution
 Build a Package for This Tutorial
 ----------------------------------
 
-We will being making use of an UPDATED VERSION of the ``gz_example_description_package``.  Please replace any existing versions you have of this package.  You can download a copy here: |gz_example_robot_description.zip|
+We will begin making use of an UPDATED VERSION of the ``gz_example_description_package``.  Please replace any existing versions you have of this package.  You can download a copy here: |gz_example_robot_description.zip|
 
 .. |gz_example_robot_description.zip| replace::
    :download:`gz_example_robot_description.zip <../../ros_ws/src/gz_example_robot_description.zip>`

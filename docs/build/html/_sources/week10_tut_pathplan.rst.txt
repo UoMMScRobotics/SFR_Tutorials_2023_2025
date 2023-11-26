@@ -63,7 +63,7 @@ For the Global Costmap, we can simply use our SLAM Map (as a static layer), an o
 
 .. The use of the obstacle layer is somewhat overkill, as will be shown in the ``Controller`` part, we can include unknown obstacles there instead.
 
-There are various parameters associated with the costmap (e.g. *global_frame*, *use_sim_time*, *resolution*) but also for each layer there are additional parameters.  It is clearly visible which parameters below to which seciton by the indentation scheme that these xml format files use.  For a full list of costmap parameters check out the `costmap_2d github <https://github.com/ros-planning/navigation2/blob/3ed4c2dfa1ef9b31e117ccb5c35486b599e6b97e/nav2_costmap_2d/src/costmap_2d_ros.cpp#L90-L116>`_.
+There are various parameters associated with the costmap (e.g. *global_frame*, *use_sim_time*, *resolution*) but also for each layer there are additional parameters.  It is clearly visible which parameters below to which section by the indentation scheme that these xml format files use.  For a full list of costmap parameters check out the `costmap_2d github <https://github.com/ros-planning/navigation2/blob/3ed4c2dfa1ef9b31e117ccb5c35486b599e6b97e/nav2_costmap_2d/src/costmap_2d_ros.cpp#L90-L116>`_.
 
 The footprint of the robot is used to calculate if a robot can fit through gaps, and as part of the inflation of the costmap based on physical size of the robot.  It is possible to declare a specific polygon for the footprint of the robot (e.g. four points could define a rectangular chassis), however, to keep things conceptually simpler we will only deal with a radius.
 
