@@ -1,7 +1,7 @@
 Behaviour Trees Introduction
 ================================================
 
-Behaviour trees are a really powerful means for us to add some autonomy to our robots, taking them from glorified remote control cars to realised robots.  Considered more flexible and modular than mroe traditional Finite State Machines, they have become an integral part of the ROS2 navigation stack.
+Behaviour trees are a really powerful means for us to add some autonomy to our robots, taking them from glorified remote control cars to realised robots.  Considered more flexible and modular than more traditional Finite State Machines, they have become an integral part of the ROS2 navigation stack.
 
 .. note::
     In ROS 1, the navigation stack known broadly as the ``move_base`` package, relied on a `state machine architecture <http://wiki.ros.org/move_base#Expected_Robot_Behavior>`_.  This is not to say that state machines are bad, quite the opposite, for example the lifecycle node implementation in ROS2 is state machine based.
@@ -14,6 +14,7 @@ This tutorial, rather than explaining behaviour trees (which is covered adequate
 - A decorator Node
 - Leaf nodes and parents
 - Ticks
+- Behaviour tree blackboards
 - Outcomes (``SUCCESS``, ``FAILURE``, ``RUNNING``)
 
 This tutorial will build up an autonomous navigation behaviour tree, covering the additional behaviour controls which are available through Nav2 (beyond the classic ``Fallback`` and ``Sequence`` controls).  There is nothing to stop you writing behaviour trees for non-navigation tasks!
@@ -52,7 +53,7 @@ You can chose to manually source the workspace (``source ~/groot_ws/install/setu
 Making a Package for This Tutorial
 -----------------------------------
 
-We will utilise a new ROS2 package called ``bt_demos`` for these activities, which will contain three additional directories ``behavior_tree_xml``, ``launch``, and ``config``.  The workspace ``MY_ROS_WS`` is a placeholder for where you wish to buidl this package.
+We will utilise a new ROS2 package called ``bt_demos`` for these activities, which will contain three additional directories ``behavior_tree_xml``, ``launch``, and ``config``.  The workspace ``MY_ROS_WS`` is a placeholder for where you wish to build this package.
 
 Make a package the usual way:
 
