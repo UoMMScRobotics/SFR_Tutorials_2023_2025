@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence name="Navigate">
+            <Action ID="ComputePathToPose" goal="{goal}" path="{path}" planner_id="GridBased"/>
+            <Action ID="FollowPath" controller_id="FollowPath" goal_checker_id="" path="{path}"/>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+</root>

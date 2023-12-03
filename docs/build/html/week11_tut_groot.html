@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investigating Behaviour Trees with Groot &mdash; SFR_Tutorials  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building a Behaviour Tree" href="week11_tut_simplebt.html" />
+    <link rel="prev" title="Behaviour Trees Introduction" href="week11_tut_intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="contents.html" class="icon icon-home">
+            SFR_Tutorials
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Welcome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Software for Robotics Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_intro.html">Autonomous Navigation Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_pathplan.html">Adding Path Planning from Nav2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_controller.html">Adding a Controller from Nav2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_commands.html">Sending Goals to the Robot Navigation Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_conclusion.html">Conclusion</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 11 Synchronous Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_intro.html">Behaviour Trees Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Investigating Behaviour Trees with Groot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#inspect-existing-behaviour-trees">Inspect Existing Behaviour Trees</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-behaviour-tree-0">Example Behaviour Tree 0</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-behaviour-tree-1">Example Behaviour Tree 1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_simplebt.html">Building a Behaviour Tree</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week09_ca.html">Week 09 - Saving a Map</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="contents.html">SFR_Tutorials</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Investigating Behaviour Trees with Groot</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/week11_tut_groot.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="investigating-behaviour-trees-with-groot">
+<h1>Investigating Behaviour Trees with Groot<a class="headerlink" href="#investigating-behaviour-trees-with-groot" title="Link to this heading"></a></h1>
+<p>Ensuring you have sourced the workspace where the groot package has been compiled, in a terminal session run the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ros2 run groot Groot</span>
+</pre></div>
+</div>
+<p>This should launch a GUI session.  Select <code class="docutils literal notranslate"><span class="pre">Editor</span></code> followed by <code class="docutils literal notranslate"><span class="pre">START</span></code>, bringing up a window similar to the picture below.</p>
+<a class="reference internal image-reference" href="_images/groot_launch.png"><img alt="Launching Groot from command line." src="_images/groot_launch.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/groot_start.png"><img alt="Intial Groot screen on launch." src="_images/groot_start.png" style="width: 600px;" /></a>
+<section id="inspect-existing-behaviour-trees">
+<h2>Inspect Existing Behaviour Trees<a class="headerlink" href="#inspect-existing-behaviour-trees" title="Link to this heading"></a></h2>
+<p>The navigation stack already has a bunch of behaviour trees we can begin to unpick.  Let us use Groot to help visualise how they are constructed.</p>
+<p>Firstly, Groot does not know about the Nav2 nodes (Action, Condition, Control, Decorator).  If it can not understand these nodes, then it will fail to read in a .xml file.  Load the existing Nav2 palette from the nav2_behavior_tree package found in <code class="docutils literal notranslate"><span class="pre">/opt/ros/humble/share/nav2_behavior_tree/nav2_tree_nodes.xml</span></code>, the figures below document the steps.</p>
+<a class="reference internal image-reference" href="_images/groot_load_palette_01.png"><img alt="Select &quot;Load Palette&quot;." src="_images/groot_load_palette_01.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/groot_load_palette_02.png"><img alt="Select &quot;Other locations/computer&quot;." src="_images/groot_load_palette_02.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/groot_load_palette_03.png"><img alt="Navigate to the folder /opt/ros/humble/share/nav2_behavior_tree/ and select the nav2_tree_nodes.xml file." src="_images/groot_load_palette_03.png" style="width: 600px;" /></a>
+<section id="example-behaviour-tree-0">
+<h3>Example Behaviour Tree 0<a class="headerlink" href="#example-behaviour-tree-0" title="Link to this heading"></a></h3>
+<p>Download the first example behaviour tree <a class="reference download internal" download="" href="_downloads/ac4c191f94ed7b61da4faf668a386b3b/bt_example_0.xml"><code class="xref download docutils literal notranslate"><span class="pre">bt_example_0.xml</span></code></a>, which is a copy of the <a class="reference external" href="https://github.com/ros-planning/navigation2/blob/humble/nav2_bt_navigator/behavior_trees/odometry_calibration.xml">nav2_bt_navigator odometry_calibration.xml</a>.</p>
+<p>Within the Groot GUI, select “Load Tree” from the upper left side.  When Groot asks you “Clear Palette?”, select “No”, we wish to keep all the definitions of nodes from Nav2 we just loaded.</p>
+<p>This behaviour tree consists of a simple <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> control node, which simply drives forward 2.0 m, performs a positive quarter turn and repeats this a total of four times to hopefully have the robot finish where it started.  However, the <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> control node is itself a child of the <code class="docutils literal notranslate"><span class="pre">Repeat</span></code> decorator node, therefore, the entire sequence attempts to repeat three times.  This example is really on the border of what could be hardcoded in a normal ROS node (with a Twist publisher), but is a super simple example to show what the system will do.</p>
+<p>By inspecting the .xml file, with the visual description as a reference, it is possible to understand how the .xml files are structured.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cm">&lt;!--</span>
+<span class="linenos"> 2</span><span class="cm">  his Behavior Tree drives in a square for odometry calibration experiments</span>
+<span class="linenos"> 3</span><span class="cm">--&gt;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="nt">&lt;root</span><span class="w"> </span><span class="na">main_tree_to_execute=</span><span class="s">&quot;MainTree&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nt">&lt;BehaviorTree</span><span class="w"> </span><span class="na">ID=</span><span class="s">&quot;MainTree&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="nt">&lt;Repeat</span><span class="w"> </span><span class="na">num_cycles=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 8</span><span class="w">      </span><span class="nt">&lt;Sequence</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Drive in a square&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="nt">&lt;DriveOnHeading</span><span class="w"> </span><span class="na">dist_to_travel=</span><span class="s">&quot;2.0&quot;</span><span class="w"> </span><span class="na">speed=</span><span class="s">&quot;0.2&quot;</span><span class="w"> </span><span class="na">time_allowance=</span><span class="s">&quot;12&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">10</span><span class="w">        </span><span class="nt">&lt;Spin</span><span class="w"> </span><span class="na">spin_dist=</span><span class="s">&quot;1.570796&quot;</span><span class="w"> </span><span class="na">is_recovery=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">11</span><span class="w">        </span><span class="nt">&lt;DriveOnHeading</span><span class="w"> </span><span class="na">dist_to_travel=</span><span class="s">&quot;2.0&quot;</span><span class="w"> </span><span class="na">speed=</span><span class="s">&quot;0.2&quot;</span><span class="w"> </span><span class="na">time_allowance=</span><span class="s">&quot;12&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">12</span><span class="w">        </span><span class="nt">&lt;Spin</span><span class="w"> </span><span class="na">spin_dist=</span><span class="s">&quot;1.570796&quot;</span><span class="w"> </span><span class="na">is_recovery=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">13</span><span class="w">        </span><span class="nt">&lt;DriveOnHeading</span><span class="w"> </span><span class="na">dist_to_travel=</span><span class="s">&quot;2.0&quot;</span><span class="w"> </span><span class="na">speed=</span><span class="s">&quot;0.2&quot;</span><span class="w"> </span><span class="na">time_allowance=</span><span class="s">&quot;12&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">14</span><span class="w">        </span><span class="nt">&lt;Spin</span><span class="w"> </span><span class="na">spin_dist=</span><span class="s">&quot;1.570796&quot;</span><span class="w"> </span><span class="na">is_recovery=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">15</span><span class="w">        </span><span class="nt">&lt;DriveOnHeading</span><span class="w"> </span><span class="na">dist_to_travel=</span><span class="s">&quot;2.0&quot;</span><span class="w"> </span><span class="na">speed=</span><span class="s">&quot;0.2&quot;</span><span class="w"> </span><span class="na">time_allowance=</span><span class="s">&quot;12&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">16</span><span class="w">        </span><span class="nt">&lt;Spin</span><span class="w"> </span><span class="na">spin_dist=</span><span class="s">&quot;1.570796&quot;</span><span class="w"> </span><span class="na">is_recovery=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">17</span><span class="w">      </span><span class="nt">&lt;/Sequence&gt;</span>
+<span class="linenos">18</span><span class="w">    </span><span class="nt">&lt;/Repeat&gt;</span>
+<span class="linenos">19</span><span class="w">  </span><span class="nt">&lt;/BehaviorTree&gt;</span>
+<span class="linenos">20</span><span class="nt">&lt;/root&gt;</span>
+</pre></div>
+</div>
+<p>Inside the sequence open and closing tags, are the four sets of <code class="docutils literal notranslate"><span class="pre">DriveOnHeading</span></code> followed by <code class="docutils literal notranslate"><span class="pre">Spin</span></code>.  The <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> tags (called “Drive in a square”) are inside the opening <code class="docutils literal notranslate"><span class="pre">&lt;Repeat&gt;</span></code> and closing <code class="docutils literal notranslate"><span class="pre">&lt;/Repeat&gt;</span></code> tags.  Not impossible to read, but perhaps more difficult to grasp compared to a visual representation.</p>
+</section>
+<section id="example-behaviour-tree-1">
+<h3>Example Behaviour Tree 1<a class="headerlink" href="#example-behaviour-tree-1" title="Link to this heading"></a></h3>
+<p>Download the behaviour tree <a class="reference download internal" download="" href="_downloads/9d4fd544eeb434f3aaf5b2dfb004cb71/bt_example_1.xml"><code class="xref download docutils literal notranslate"><span class="pre">bt_example_1.xml</span></code></a>, which is a copy of the <a class="reference external" href="https://github.com/ros-planning/navigation2/blob/humble/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml">nav2_bt_navigator navigate_to_pose_w_replanning_and_recovery.xml</a>.</p>
+<p>As you can see, already this behaviour tree is getting pretty complicated.  The remainder of this tutorial will be building a similar behaviour tree from the ground up, hopefully getting a feeling of how behaviour trees grow as we add more complexity.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="week11_tut_intro.html" class="btn btn-neutral float-left" title="Behaviour Trees Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="week11_tut_simplebt.html" class="btn btn-neutral float-right" title="Building a Behaviour Tree" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Andy West.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

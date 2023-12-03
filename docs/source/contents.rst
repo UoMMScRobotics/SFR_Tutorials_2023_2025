@@ -18,6 +18,15 @@ Contents
     week10_tut_conclusion
 
 .. toctree::
+    :maxdepth: 1
+    :caption: Week 11 Synchronous Tutorial
+
+    week11_tut_intro
+    week11_tut_groot
+    week11_tut_simplebt
+
+
+.. toctree::
    :maxdepth: 2
    :caption: Continuous Assessment Tutorials
 

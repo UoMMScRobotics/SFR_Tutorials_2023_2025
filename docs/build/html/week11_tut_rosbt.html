@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to Represent the World for Path Planning &mdash; SFR_Tutorials  documentation</title>
+  <title>Behaviour Trees in ROS &mdash; SFR_Tutorials  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -77,9 +77,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">How to Represent the World for Path Planning</li>
+      <li class="breadcrumb-item active">Behaviour Trees in ROS</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/week10_tut_costmap.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/week11_tut_rosbt.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -87,36 +87,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="how-to-represent-the-world-for-path-planning">
-<h1>How to Represent the World for Path Planning<a class="headerlink" href="#how-to-represent-the-world-for-path-planning" title="Link to this heading"></a></h1>
-<p>Previously, <code class="docutils literal notranslate"><span class="pre">Occupancy</span> <span class="pre">Grids</span></code> have been discussed as a means of representing objects on a 2D grid.  They may be binary (occupied/freespace), trinary (occupied/freespace/unknown) and probabilistic (0-1 i.e. freespace to occupied).</p>
-<p>For an occupancy grid, a path is valid if it does not cross any cells which are designated as occupied (i.e. the robot cannot drive through an obstacle).  This simplicity leads to an immediate drawback when being used for path planning.</p>
-<section id="robots-are-not-points">
-<h2>Robots Are Not Points<a class="headerlink" href="#robots-are-not-points" title="Link to this heading"></a></h2>
-<p>Suppose we have a circular robot with diameter 0.5 metres.  The figure below shows</p>
-<p>IMAGE</p>
-</section>
-<section id="costmaps">
-<h2>Costmaps<a class="headerlink" href="#costmaps" title="Link to this heading"></a></h2>
-<p><strong>Costmaps</strong> are an evolution of this concept, which store values (usually integer 8 bit (0-255)) which represent how preferred it is to travel through a cell in the grid.  Now it is possible to not only say if a cell is forbidden (occupied) but if there is a cell we simply don’t like for some reason.</p>
-</section>
-<section id="costmap-layers">
-<h2>Costmap Layers<a class="headerlink" href="#costmap-layers" title="Link to this heading"></a></h2>
-<section id="static-layer">
-<h3>Static Layer<a class="headerlink" href="#static-layer" title="Link to this heading"></a></h3>
-</section>
-<section id="obstacle-layer">
-<h3>Obstacle Layer<a class="headerlink" href="#obstacle-layer" title="Link to this heading"></a></h3>
-</section>
-<section id="inflation-layer">
-<h3>Inflation Layer<a class="headerlink" href="#inflation-layer" title="Link to this heading"></a></h3>
-</section>
-<section id="other-layers">
-<h3>Other Layers<a class="headerlink" href="#other-layers" title="Link to this heading"></a></h3>
-</section>
-</section>
-<section id="how-to-define-a-costmap-configuration-in-yaml">
-<h2>How to Define a Costmap Configuration in .yaml<a class="headerlink" href="#how-to-define-a-costmap-configuration-in-yaml" title="Link to this heading"></a></h2>
+  <section id="behaviour-trees-in-ros">
+<h1>Behaviour Trees in ROS<a class="headerlink" href="#behaviour-trees-in-ros" title="Link to this heading"></a></h1>
+<p>As ROS2 uses the existing BehaviorTree.CPP library, behaviour trees are written in <a class="reference external" href="https://www.behaviortree.dev/docs/learn-the-basics/xml_format/">.xml format</a>.  To actually write new nodes in the tree requires writing C++, constucting a tree however only needs an .xml file.  This tutorial only concerns itself with the latter, not the former.</p>
+<p>The typical nodes in a behaviour tree are <code class="docutils literal notranslate"><span class="pre">Fallback</span></code> and <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> control nodes.  The leaf nodes then report <code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code>, <code class="docutils literal notranslate"><span class="pre">FAILURE</span></code> or <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> and the system evolves based on the response of the leaf node.</p>
+<p>Nav2 has <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html">additional control nodes</a> along side the expected action nodes (e.g. FollowPath), control nodes (e.g. isBatteryLow), and decorator nodes (e.g. RateController).  These are <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-pipelinesequence">PipelineSequence</a>, <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-recovery">Recovery</a>, and <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-roundrobin">RoundRobin</a>.</p>
+<section id="id1">
+<h2>PipelineSequence<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>This acts like a normal <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> control node, but it reticks any earlier nodes.  This is useful if the first node is a condition node.</p>
 </section>
 </section>
 
