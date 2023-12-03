@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence name="Navigate">
+            <Action ID="ComputePathToPose" goal="{goal}" path="{path}" planner_id="GridBased" server_name="compute_path_to_pose" server_timeout="" start=""/>
+            <Action ID="FollowPath" controller_id="FollowPath" goal_checker_id="goal_checker" path="{path}" server_name="follow_path" server_timeout=""/>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="AssistedTeleop">
+            <input_port name="is_recovery">If true recovery count will be incremented</input_port>
+            <input_port name="server_name">Service name</input_port>
+            <input_port name="server_timeout">Server timeout</input_port>
+            <input_port name="time_allowance">Allowed time for spinning</input_port>
+        </Action>
+ ...
+        <Action ID="Wait">
+            <input_port name="server_name">Server name</input_port>
+            <input_port name="server_timeout">Server timeout</input_port>
+            <input_port name="wait_duration">Wait time</input_port>
+        </Action>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>

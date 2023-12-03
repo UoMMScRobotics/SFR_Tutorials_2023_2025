@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Week 09 - Saving a Map" href="week09_ca.html" />
+    <link rel="next" title="Using a Custom Behaviour Tree" href="week11_tut_usingsimplebt.html" />
     <link rel="prev" title="Investigating Behaviour Trees with Groot" href="week11_tut_groot.html" /> 
 </head>
 
@@ -65,6 +65,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#explicit-vs-compact-notation">Explicit Vs Compact Notation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_usingsimplebt.html">Using a Custom Behaviour Tree</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -103,12 +104,13 @@
 <a class="reference internal image-reference" href="_images/groot_grab_node.png"><img alt="Connect BT nodes by grabbing the lower dot of node to the upper dot of another." src="_images/groot_grab_node.png" style="width: 600px;" /></a>
 <p>Once you have placed the nodes, it should look something like the image below.  You can click on the various fields to populate them.</p>
 <a class="reference internal image-reference" href="_images/groot_simple_bt_0.png"><img alt="Simple BT for navigation." src="_images/groot_simple_bt_0.png" style="width: 600px;" /></a>
+<p>In the sequence, once the <code class="docutils literal notranslate"><span class="pre">ComputePathToPose</span></code> returns <code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code> it moves onto the <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code> Node and the robot starts tracking its trajectory.  A path is generated, then it is followed.</p>
 <p>Let us unpick the different parts of the <code class="docutils literal notranslate"><span class="pre">ComputePathToPose</span></code> and <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code> action nodes.</p>
 <section id="computepathtopose-action-node">
 <h2>ComputePathToPose Action Node<a class="headerlink" href="#computepathtopose-action-node" title="Link to this heading"></a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">ComputePathToPose</span></code> action node has multiple inputs and one output.  This will interface with the planner_server (using <code class="docutils literal notranslate"><span class="pre">NavFn</span></code>) we have setup in previous tutorials.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ComputePathToPose</span></code> action node has multiple inputs and one output.  This will interface with the planner_server (with <code class="docutils literal notranslate"><span class="pre">NavFn</span></code> as a plugin) we have setup in previous tutorials.</p>
 <ul class="simple">
-<li><p><strong>[IN] goal</strong>: The goal pose provided by the user or a autonomous agent, the curly braces <code class="docutils literal notranslate"><span class="pre">{goal}</span></code> indicate that this varible is on the <em>Blackboard</em> for the behaviour tree</p></li>
+<li><p><strong>[IN] goal</strong>: The goal pose provided by the user or an autonomous agent, the curly braces <code class="docutils literal notranslate"><span class="pre">{goal}</span></code> indicates that this varible is on the <em>Blackboard</em> for the behaviour tree</p></li>
 <li><p><strong>[IN] planner_id</strong>: In the config file for the planner (planner.yaml), we state the plugin is called <code class="docutils literal notranslate"><span class="pre">GridBased</span></code>, this term is a ROS2/Nav2 convention and should not be changed</p></li>
 <li><p><strong>[IN] server_name</strong>: The planner server, when running, will have an action server to perform the path planning, in this case the action server is called <code class="docutils literal notranslate"><span class="pre">compute_path_to_pose</span></code> - this will be discussed later</p></li>
 <li><p><strong>[IN] start</strong>: It is possible to use a different starting pose for path planning (rather than the current position of the robot)</p></li>
@@ -128,7 +130,7 @@
 <section id="saving-the-behaviour-tree">
 <h2>Saving the Behaviour Tree<a class="headerlink" href="#saving-the-behaviour-tree" title="Link to this heading"></a></h2>
 <p>Once the tree has been generated, it is possible to save it as a .xml file in your <code class="docutils literal notranslate"><span class="pre">bt_demos/behavior_tree_xml</span></code> directory.  Save the file as <code class="docutils literal notranslate"><span class="pre">bt_example_0.xml</span></code>.</p>
-<p>You will notice that the .xml file looks different to most of the example behaviour tree files you will see.  This is because Groot uses “Explicit” notation rather than “Compact” notation, and it is somewhat of a pain…</p>
+<p>You will notice that the .xml file looks different to most of the example behaviour tree files you will see.  This is because Groot uses “Explicit” notation rather than “Compact” notation, and as a ROS user it is somewhat of a pain…</p>
 </section>
 <section id="explicit-vs-compact-notation">
 <h2>Explicit Vs Compact Notation<a class="headerlink" href="#explicit-vs-compact-notation" title="Link to this heading"></a></h2>
@@ -141,6 +143,8 @@
 <p>My <em>personal</em> preference would be for Groot to offer a compact notation option.  <a class="reference external" href="https://github.com/ros-planning/navigation2/issues/3410#issuecomment-1431904865">Groot2 may solve some of this</a>.</p>
 </div>
 <p>The files below show the two same trees, but using the compact and explicit notation.  The explicit version has been clipped to remove most of the <code class="docutils literal notranslate"><span class="pre">&lt;TreeNodesModel&gt;</span></code> Actions.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_compact.xml</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;root</span><span class="w"> </span><span class="na">main_tree_to_execute=</span><span class="s">&quot;BehaviorTree&quot;</span><span class="nt">&gt;</span>
 <span class="linenos">2</span><span class="w">    </span><span class="nt">&lt;BehaviorTree</span><span class="w"> </span><span class="na">ID=</span><span class="s">&quot;BehaviorTree&quot;</span><span class="nt">&gt;</span>
 <span class="linenos">3</span><span class="w">        </span><span class="nt">&lt;Sequence</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Navigate&quot;</span><span class="nt">&gt;</span>
@@ -151,6 +155,9 @@
 <span class="linenos">8</span><span class="nt">&lt;/root&gt;</span>
 </pre></div>
 </div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_explicit_brevity.xml</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="linenos"> 2</span><span class="nt">&lt;root</span><span class="w"> </span><span class="na">main_tree_to_execute=</span><span class="s">&quot;BehaviorTree&quot;</span><span class="nt">&gt;</span>
 <span class="linenos"> 3</span><span class="w">    </span><span class="cm">&lt;!-- ////////// --&gt;</span>
@@ -168,15 +175,17 @@
 <span class="linenos">15</span><span class="w">            </span><span class="nt">&lt;input_port</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;server_timeout&quot;</span><span class="nt">&gt;</span>Server<span class="w"> </span>timeout<span class="nt">&lt;/input_port&gt;</span>
 <span class="linenos">16</span><span class="w">            </span><span class="nt">&lt;input_port</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;time_allowance&quot;</span><span class="nt">&gt;</span>Allowed<span class="w"> </span>time<span class="w"> </span>for<span class="w"> </span>spinning<span class="nt">&lt;/input_port&gt;</span>
 <span class="linenos">17</span><span class="w">        </span><span class="nt">&lt;/Action&gt;</span>
-<span class="linenos">18</span><span class="w">        </span><span class="nt">&lt;Action</span><span class="w"> </span><span class="na">ID=</span><span class="s">&quot;Wait&quot;</span><span class="nt">&gt;</span>
-<span class="linenos">19</span><span class="w">            </span><span class="nt">&lt;input_port</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;server_name&quot;</span><span class="nt">&gt;</span>Server<span class="w"> </span>name<span class="nt">&lt;/input_port&gt;</span>
-<span class="linenos">20</span><span class="w">            </span><span class="nt">&lt;input_port</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;server_timeout&quot;</span><span class="nt">&gt;</span>Server<span class="w"> </span>timeout<span class="nt">&lt;/input_port&gt;</span>
-<span class="linenos">21</span><span class="w">            </span><span class="nt">&lt;input_port</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;wait_duration&quot;</span><span class="nt">&gt;</span>Wait<span class="w"> </span>time<span class="nt">&lt;/input_port&gt;</span>
-<span class="linenos">22</span><span class="w">        </span><span class="nt">&lt;/Action&gt;</span>
-<span class="linenos">23</span><span class="w">    </span><span class="nt">&lt;/TreeNodesModel&gt;</span>
-<span class="linenos">24</span><span class="w">    </span><span class="cm">&lt;!-- ////////// --&gt;</span>
-<span class="linenos">25</span><span class="nt">&lt;/root&gt;</span>
+<span class="linenos">18</span><span class="w"> </span>...
+<span class="linenos">19</span><span class="w">        </span><span class="nt">&lt;Action</span><span class="w"> </span><span class="na">ID=</span><span class="s">&quot;Wait&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">20</span><span class="w">            </span><span class="nt">&lt;input_port</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;server_name&quot;</span><span class="nt">&gt;</span>Server<span class="w"> </span>name<span class="nt">&lt;/input_port&gt;</span>
+<span class="linenos">21</span><span class="w">            </span><span class="nt">&lt;input_port</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;server_timeout&quot;</span><span class="nt">&gt;</span>Server<span class="w"> </span>timeout<span class="nt">&lt;/input_port&gt;</span>
+<span class="linenos">22</span><span class="w">            </span><span class="nt">&lt;input_port</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;wait_duration&quot;</span><span class="nt">&gt;</span>Wait<span class="w"> </span>time<span class="nt">&lt;/input_port&gt;</span>
+<span class="linenos">23</span><span class="w">        </span><span class="nt">&lt;/Action&gt;</span>
+<span class="linenos">24</span><span class="w">    </span><span class="nt">&lt;/TreeNodesModel&gt;</span>
+<span class="linenos">25</span><span class="w">    </span><span class="cm">&lt;!-- ////////// --&gt;</span>
+<span class="linenos">26</span><span class="nt">&lt;/root&gt;</span>
 </pre></div>
+</div>
 </div>
 </section>
 </section>
@@ -186,7 +195,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="week11_tut_groot.html" class="btn btn-neutral float-left" title="Investigating Behaviour Trees with Groot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="week09_ca.html" class="btn btn-neutral float-right" title="Week 09 - Saving a Map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="week11_tut_usingsimplebt.html" class="btn btn-neutral float-right" title="Using a Custom Behaviour Tree" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

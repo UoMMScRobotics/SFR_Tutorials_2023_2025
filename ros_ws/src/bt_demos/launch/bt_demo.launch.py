@@ -12,9 +12,10 @@ def generate_launch_description():
     # Parameters, Nodes and Launch files go here
 
     # Declare package directory
-    pkg_nav_demos = get_package_share_directory('bt_demos')
+    pkg_bt_demos = get_package_share_directory('bt_demos')
     
-    bt_xml_file = PathJoinSubstitution([pkg_nav_demos, 'behavior_tree_xml', 'bt_simple_0.xml'])
+    # Define nav_to_pose behaviour tree
+    bt_xml_navtopose_file = PathJoinSubstitution([pkg_bt_demos, 'behavior_tree_xml', 'bt_simple_0.xml'])
     
     # Necessary fixes
     remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
@@ -27,9 +28,9 @@ def generate_launch_description():
     ]
 
     # LOAD PARAMETERS FROM YAML FILES
-    config_bt_nav     = PathJoinSubstitution([pkg_nav_demos, 'config', 'bt_nav.yaml'])
-    config_planner    = PathJoinSubstitution([pkg_nav_demos, 'config', 'planner.yaml'])
-    config_controller = PathJoinSubstitution([pkg_nav_demos, 'config', 'controller.yaml'])
+    config_bt_nav     = PathJoinSubstitution([pkg_bt_demos, 'config', 'bt_nav.yaml'])
+    config_planner    = PathJoinSubstitution([pkg_bt_demos, 'config', 'planner.yaml'])
+    config_controller = PathJoinSubstitution([pkg_bt_demos, 'config', 'controller.yaml'])
 
     # Include Gazebo Simulation
     launch_gazebo = IncludeLaunchDescription(
@@ -49,7 +50,7 @@ def generate_launch_description():
         executable='bt_navigator',
         name='bt_navigator',
         output='screen',
-        parameters=[config_bt_nav,{'default_nav_to_pose_bt_xml' : bt_xml_file}],
+        parameters=[config_bt_nav,{'default_nav_to_pose_bt_xml' : bt_xml_navtopose_file}],
         remappings=remappings,
     )
 

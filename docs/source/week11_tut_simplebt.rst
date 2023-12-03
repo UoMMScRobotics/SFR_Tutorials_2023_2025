@@ -69,9 +69,8 @@ The files below show the two same trees, but using the compact and explicit nota
    :linenos:
    :caption:
 
-.. literalinclude:: ../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_explicit.xml
+.. literalinclude:: ../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_explicit_brevity.xml
    :language: xml
-   :lines: 1-17,233-
-   :lineno-match:
+   :linenos:
    :caption:
 
