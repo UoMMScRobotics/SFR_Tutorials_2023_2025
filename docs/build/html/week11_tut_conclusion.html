@@ -94,14 +94,16 @@
              
   <section id="conclusion">
 <h1>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h1>
-<p><strong>Topics in this Tutorial</strong>
-- Using Groot to build and modify behaviour trees visually and the underlying .xml description file
-- Generating a simple behaviour tree using existing Nav2 nodes
-- Modifying behaviour trees to include additional functionality (in our case replanning)</p>
-<p>We have seen how the ROS2 Navigation Stack provides the functionality to have a robot semi-autonomously navigate to a goal pose, but the behaviour tree portion was glossed over.</p>
-<p>The behaviour tree is in fact what dictates the order and the capabilities of a robot during navigation (for the ROS navigation stack).</p>
+<p><strong>Topics in this Tutorial</strong></p>
+<ul class="simple">
+<li><p>Using Groot to build and modify behaviour trees visually and the underlying .xml description file</p></li>
+<li><p>Generating a simple behaviour tree using existing Nav2 nodes</p></li>
+<li><p>Modifying behaviour trees to include additional functionality (in our case replanning)</p></li>
+</ul>
+<p>We have seen how the ROS2 Navigation Stack provides the functionality to have a robot semi-autonomously navigate to a goal pose, but the behaviour tree portion was glossed over.  The behaviour tree is in fact what dictates the order and the capabilities of a robot during navigation (for the ROS navigation stack).</p>
 <p>There are existing behaviour trees available for navigation which should serve most purposes, however, behaviour trees are not only useful for navigation.  They can be used to design entire autonomous missions, for example in the book “A Concise Introduction to Robot Programming with ROS” by F. M. Rico they create a patrolling example, a video of which can be seen below.</p>
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lStwIxNIPBc?si=tHyP375JU6oJ8l2D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><p>If you wish to check your code, or are having issues, you can download an example version of the package generated in this tutorial. <a class="reference download internal" download="" href="_downloads/e70820f8d3dc84e8f3f05d23db938737/bt_demos.zip"><code class="xref download docutils literal notranslate"><span class="pre">bt_demos.zip</span></code></a></p>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lStwIxNIPBc?si=tHyP375JU6oJ8l2D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><p>The BehaviourTree.CPP library allows us to write our own tree nodes in C++, and add any behaviour trees to our robots.</p>
+<p>If you wish to check your code, or are having issues, you can download an example version of the package generated in this tutorial. <a class="reference download internal" download="" href="_downloads/e70820f8d3dc84e8f3f05d23db938737/bt_demos.zip"><code class="xref download docutils literal notranslate"><span class="pre">bt_demos.zip</span></code></a></p>
 </section>
 
 

@@ -1,7 +1,7 @@
 Building a Behaviour Tree with Groot
 ======================================
 
-We can use Groot to help build our behaviour tree, rather than write out the xml by hand.  Run Groot, include the Nav2 node palette, and we are ready to begin.
+We can use Groot to help build our behaviour tree, rather than write out the xml by hand.  Run Groot, include the Nav2 node palette, and we are ready to begin.  If you already have Groot open viewing a tree, go to ``File->Clear`` to start fresh.
 
 Mobile robot navigation consists of two main steps, path planning followed by navigation (i.e. following that path).  The simplest behaviour we can build is there for a ``ComputePathToPose`` action node followed by a ``FollowPath`` action node, mediated by a ``Sequence`` control node.
 

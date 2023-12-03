@@ -100,7 +100,7 @@
              
   <section id="building-a-behaviour-tree-with-groot">
 <h1>Building a Behaviour Tree with Groot<a class="headerlink" href="#building-a-behaviour-tree-with-groot" title="Link to this heading"></a></h1>
-<p>We can use Groot to help build our behaviour tree, rather than write out the xml by hand.  Run Groot, include the Nav2 node palette, and we are ready to begin.</p>
+<p>We can use Groot to help build our behaviour tree, rather than write out the xml by hand.  Run Groot, include the Nav2 node palette, and we are ready to begin.  If you already have Groot open viewing a tree, go to <code class="docutils literal notranslate"><span class="pre">File-&gt;Clear</span></code> to start fresh.</p>
 <p>Mobile robot navigation consists of two main steps, path planning followed by navigation (i.e. following that path).  The simplest behaviour we can build is there for a <code class="docutils literal notranslate"><span class="pre">ComputePathToPose</span></code> action node followed by a <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code> action node, mediated by a <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> control node.</p>
 <p>Place the nodes onto the GUI, and connect the nodes by grabbing the lower dot on the parent node and dragging (with the mouse) a connection to the leaf node (see the picture below).</p>
 <a class="reference internal image-reference" href="_images/groot_grab_node.png"><img alt="Connect BT nodes by grabbing the lower dot of node to the upper dot of another." src="_images/groot_grab_node.png" style="width: 600px;" /></a>
