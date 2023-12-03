@@ -1,7 +1,10 @@
 Using a Custom Behaviour Tree
 ===============================
 
-Using the existing `gz_example_description_package` simulation, it is possible to select the desired behaviour tree in the launch file.
+Using the existing |gz_example_robot_description.zip| simulation, it is possible to select the desired behaviour tree in the launch file.
+
+.. |gz_example_robot_description.zip| replace::
+   :download:`gz_example_robot_description.zip <../../ros_ws/src/gz_example_robot_description.zip>`
 
 Prep Work
 ------------
@@ -29,11 +32,10 @@ Download the example launch file |bt_demo.launch.py|, and place it in the ``bt_d
 
 In the code block below, it is highlighted the changes made to accept a new behaviour tree.  We pass as an argument, the path to the .xml file we desire.
 
-.. literalinclude:: ../../ros_ws/src/bt_demos/launch/bt_demo.launch.py
+.. literalinclude:: ../../ros_ws/src/bt_demos/launch/bt_demo_simple.launch.py
    :language: python
    :linenos:
    :emphasize-lines: 17,18,53
-   :caption:
 
 .. note::
     There are two behaviour trees available to the Nav2 Navigation Stack, ``nav_to_pose`` and ``nav_through_poses``.  The former accepts only a single goal, the latter accepts a list of goals.  So far, we have only been interested in the single goal ``nav_to_pose`` behaviour tree.
@@ -66,7 +68,7 @@ Using the Nav2 Goal functionality in RVIZ, set a goal ahead of the robot.  It sh
   :width: 600
   :alt: Simulated robot navigating to the goal.
 
-There are some characteristics which are not great about this behaviour tree.  If the robot has completed a navigation task, then when given a new goal, it will continue to compute a path and navigate to the goal.  If the goal is given *during* navigation, then the behaviour tree (and the robot) ignore it entirely.  During the next step, we will add ``replanning`` to the behaviour tree.
+There are some characteristics which are not great about this behaviour tree.  If the robot has completed a navigation task, then when given a new goal, it will continue to compute a path and navigate to the goal.  If the goal is given *during* navigation however, then the behaviour tree (and the robot) ignore it entirely.  During the next step, we will add ``replanning`` to the behaviour tree.
 
 
 

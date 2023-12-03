@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Week 09 - Saving a Map" href="week09_ca.html" />
+    <link rel="next" title="Adding Replanning" href="week11_tut_addreplanning.html" />
     <link rel="prev" title="Building a Behaviour Tree with Groot" href="week11_tut_simplebt.html" /> 
 </head>
 
@@ -65,6 +65,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#send-a-goal-command">Send A Goal Command</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_addreplanning.html">Adding Replanning</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -97,7 +98,7 @@
              
   <section id="using-a-custom-behaviour-tree">
 <h1>Using a Custom Behaviour Tree<a class="headerlink" href="#using-a-custom-behaviour-tree" title="Link to this heading"></a></h1>
-<p>Using the existing <cite>gz_example_description_package</cite> simulation, it is possible to select the desired behaviour tree in the launch file.</p>
+<p>Using the existing <a class="reference download internal" download="" href="_downloads/5fdaa59b1b9e0910cff4162b06828fb2/gz_example_robot_description.zip"><code class="xref download docutils literal notranslate"><span class="pre">gz_example_robot_description.zip</span></code></a> simulation, it is possible to select the desired behaviour tree in the launch file.</p>
 <section id="prep-work">
 <h2>Prep Work<a class="headerlink" href="#prep-work" title="Link to this heading"></a></h2>
 <p>Download the three necessary configuration .yaml files and add them to the <code class="docutils literal notranslate"><span class="pre">bt_demos/config</span></code> directory.  These should be identical to the config files used in the previous path planning and navigation tutorials.</p>
@@ -108,8 +109,6 @@
 </ul>
 <p>Download the example launch file <a class="reference download internal" download="" href="_downloads/5a5275027a7e68eb1c8c80fff2ede174/bt_demo.launch.py"><code class="xref download docutils literal notranslate"><span class="pre">bt_demo.launch.py</span></code></a>, and place it in the <code class="docutils literal notranslate"><span class="pre">bt_demos/launch</span></code> directory.</p>
 <p>In the code block below, it is highlighted the changes made to accept a new behaviour tree.  We pass as an argument, the path to the .xml file we desire.</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">../../ros_ws/src/bt_demos/launch/bt_demo.launch.py</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">from</span> <span class="nn">ament_index_python.packages</span> <span class="kn">import</span> <span class="n">get_package_share_directory</span>
 <span class="linenos">  2</span><span class="kn">from</span> <span class="nn">launch</span> <span class="kn">import</span> <span class="n">LaunchDescription</span>
 <span class="linenos">  3</span><span class="kn">from</span> <span class="nn">launch.actions</span> <span class="kn">import</span> <span class="n">IncludeLaunchDescription</span>
@@ -219,7 +218,6 @@
 <span class="linenos">107</span>    <span class="k">return</span> <span class="n">ld</span>
 </pre></div>
 </div>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>There are two behaviour trees available to the Nav2 Navigation Stack, <code class="docutils literal notranslate"><span class="pre">nav_to_pose</span></code> and <code class="docutils literal notranslate"><span class="pre">nav_through_poses</span></code>.  The former accepts only a single goal, the latter accepts a list of goals.  So far, we have only been interested in the single goal <code class="docutils literal notranslate"><span class="pre">nav_to_pose</span></code> behaviour tree.</p>
@@ -241,7 +239,7 @@
 <p>Using the Nav2 Goal functionality in RVIZ, set a goal ahead of the robot.  It should start traversing to the goal pose!</p>
 <a class="reference internal image-reference" href="_images/rviz_simplebt_nav.png"><img alt="Using RVIZ to place a Nav2 goal." src="_images/rviz_simplebt_nav.png" style="width: 600px;" /></a>
 <a class="reference internal image-reference" href="_images/rviz_simplebt_nav2.png"><img alt="Simulated robot navigating to the goal." src="_images/rviz_simplebt_nav2.png" style="width: 600px;" /></a>
-<p>There are some characteristics which are not great about this behaviour tree.  If the robot has completed a navigation task, then when given a new goal, it will continue to compute a path and navigate to the goal.  If the goal is given <em>during</em> navigation, then the behaviour tree (and the robot) ignore it entirely.  During the next step, we will add <code class="docutils literal notranslate"><span class="pre">replanning</span></code> to the behaviour tree.</p>
+<p>There are some characteristics which are not great about this behaviour tree.  If the robot has completed a navigation task, then when given a new goal, it will continue to compute a path and navigate to the goal.  If the goal is given <em>during</em> navigation however, then the behaviour tree (and the robot) ignore it entirely.  During the next step, we will add <code class="docutils literal notranslate"><span class="pre">replanning</span></code> to the behaviour tree.</p>
 </section>
 </section>
 
@@ -250,7 +248,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="week11_tut_simplebt.html" class="btn btn-neutral float-left" title="Building a Behaviour Tree with Groot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="week09_ca.html" class="btn btn-neutral float-right" title="Week 09 - Saving a Map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="week11_tut_addreplanning.html" class="btn btn-neutral float-right" title="Adding Replanning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

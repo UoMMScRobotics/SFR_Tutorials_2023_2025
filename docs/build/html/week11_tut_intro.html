@@ -64,6 +64,7 @@
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_groot.html">Investigating Behaviour Trees with Groot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_simplebt.html">Building a Behaviour Tree with Groot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_usingsimplebt.html">Using a Custom Behaviour Tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_addreplanning.html">Adding Replanning</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -112,7 +113,8 @@
 <li><p>Behaviour tree blackboards</p></li>
 <li><p>Outcomes (<code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code>, <code class="docutils literal notranslate"><span class="pre">FAILURE</span></code>, <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code>)</p></li>
 </ul>
-<p>This tutorial will build up an autonomous navigation behaviour tree, covering the additional behaviour controls which are available through Nav2 (beyond the classic <code class="docutils literal notranslate"><span class="pre">Fallback</span></code> and <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> controls).  There is nothing to stop you writing behaviour trees for non-navigation tasks!</p>
+<p>You should also be aware that we will be talking about nodes, and do not mean normal ROS nodes.  Furthermore, action nodes usually call ROS action servers, so keep your wits about you.  In this tutorial, behaviour tree nodes will be called nodes, whereas any ROS action servers will be explicitly referred as an “action server”.</p>
+<p>This tutorial will build up an autonomous navigation behaviour tree, covering the additional behaviour controls which are available through Nav2 (beyond the classic <code class="docutils literal notranslate"><span class="pre">Fallback</span></code> and <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> controls).  There is nothing to stop you writing behaviour trees for non-navigation tasks (e.g. grasping)!</p>
 <p>The Behaviour Tree functionality of Nav2 actually comes from a separate solution called <a class="reference external" href="https://github.com/BehaviorTree/BehaviorTree.CPP">BehaviorTree.CPP</a> as well as a companion GUI called <a class="reference external" href="https://github.com/BehaviorTree/Groot/tree/master">Groot</a>.  As a new version of both BehaviorTree.CPP and Groot are in the works, this tutorial will likely not be valid for much longer.  Keep an eye out for new versions, and more importantly when ROS2/Nav2 actually implements/supports any new versions.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

@@ -66,6 +66,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_usingsimplebt.html">Using a Custom Behaviour Tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_addreplanning.html">Adding Replanning</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -143,8 +144,6 @@
 <p>My <em>personal</em> preference would be for Groot to offer a compact notation option.  <a class="reference external" href="https://github.com/ros-planning/navigation2/issues/3410#issuecomment-1431904865">Groot2 may solve some of this</a>.</p>
 </div>
 <p>The files below show the two same trees, but using the compact and explicit notation.  The explicit version has been clipped to remove most of the <code class="docutils literal notranslate"><span class="pre">&lt;TreeNodesModel&gt;</span></code> Actions.</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_compact.xml</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;root</span><span class="w"> </span><span class="na">main_tree_to_execute=</span><span class="s">&quot;BehaviorTree&quot;</span><span class="nt">&gt;</span>
 <span class="linenos">2</span><span class="w">    </span><span class="nt">&lt;BehaviorTree</span><span class="w"> </span><span class="na">ID=</span><span class="s">&quot;BehaviorTree&quot;</span><span class="nt">&gt;</span>
 <span class="linenos">3</span><span class="w">        </span><span class="nt">&lt;Sequence</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Navigate&quot;</span><span class="nt">&gt;</span>
@@ -155,9 +154,6 @@
 <span class="linenos">8</span><span class="nt">&lt;/root&gt;</span>
 </pre></div>
 </div>
-</div>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_explicit_brevity.xml</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 <span class="linenos"> 2</span><span class="nt">&lt;root</span><span class="w"> </span><span class="na">main_tree_to_execute=</span><span class="s">&quot;BehaviorTree&quot;</span><span class="nt">&gt;</span>
 <span class="linenos"> 3</span><span class="w">    </span><span class="cm">&lt;!-- ////////// --&gt;</span>
@@ -185,7 +181,6 @@
 <span class="linenos">25</span><span class="w">    </span><span class="cm">&lt;!-- ////////// --&gt;</span>
 <span class="linenos">26</span><span class="nt">&lt;/root&gt;</span>
 </pre></div>
-</div>
 </div>
 </section>
 </section>

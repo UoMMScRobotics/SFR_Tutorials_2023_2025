@@ -67,10 +67,8 @@ The files below show the two same trees, but using the compact and explicit nota
 .. literalinclude:: ../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_compact.xml
    :language: xml
    :linenos:
-   :caption:
 
 .. literalinclude:: ../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_explicit_brevity.xml
    :language: xml
    :linenos:
-   :caption:
 

@@ -25,6 +25,7 @@ Contents
     week11_tut_groot
     week11_tut_simplebt
     week11_tut_usingsimplebt
+    week11_tut_addreplanning
 
 
 .. toctree::
