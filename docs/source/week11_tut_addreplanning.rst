@@ -6,7 +6,7 @@ Previously, we have only used control node (``Sequence``) and action nodes (``Co
 Keep Replanning the Path
 --------------------------
 
-Start Groot and open your existing ``bt_example_0.xml`` file.  Change the ``Sequence`` control node for a ``PipelineSequence`` control node.  As the robot is navigating, the ``FollowPath`` node will return ``RUNNING``, we can use this time to check if a new path needs to be computed given the ``{goal}`` variable.  If we kept checking the path planning on every tick, we would likely bog down the system (computationally speaking), so we can use a ``RateController`` `decorator node <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#decorator-nodes>`_ to limit ticks to a set rate.  We will pick 2.0 Hz for this example.
+Start Groot and open your existing ``bt_simple_nav.xml`` file.  Change the ``Sequence`` control node for a ``PipelineSequence`` control node.  As the robot is navigating, the ``FollowPath`` node will return ``RUNNING``, we can use this time to check if a new path needs to be computed given the ``{goal}`` variable.  If we kept checking the path planning on every tick, we would likely bog down the system (computationally speaking), so we can use a ``RateController`` `decorator node <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#decorator-nodes>`_ to limit ticks to a set rate.  We will pick 2.0 Hz for this example.
 
 .. Note::
     The ``PipelineSequence`` control node is similar to a normal sequence control node, however, if another leaf is ``RUNNING`` it reticks the previous leaves in the sequence. You can learn more on the `pipeline sequence docs <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-pipelinesequence>`_.
@@ -62,6 +62,31 @@ Now let's consider a replanning situation, where a new goal has been provided wh
   3. With no new goal, ``GlobalUpdatedGoal`` via the Invertor returns ``SUCCESS`` and the fallback node returns ``SUCCESS`` without moving on to the ``ComputePathToPose`` node
   4. A new goal has been given since the last tick, ``GlobalUpdatedGoal`` via the Invertor returns ``FAILURE``, this triggers the fallback node to query ``ComputePathToPose`` and a new path is calculated
   5. As ``FollowPath`` uses the Blackboard variable ``{path}``, this now reflects the new goal and the robot continues to navigate
+
+Build and source your workspace, and start the launch file.
+
+.. code-block:: console
+
+    cd ~/MY_ROS_WS
+    colcon build
+    source install/setup.bash
+    ros2 launch bt_demos bt_demo.launch.py
+
+If you try to give the robot a new goal whilst it is navigating, it will only then replan the path.  This is much less computationally strenuous (imagine trying to calculate paths for a huge warehouse at a high rate!).
+
+Recovery Behaviours
+--------------------
+
+Recovery behaviours are meant to be called when the robot gets in trouble.  The robot should stop trying to navigate, sort itself out, then try to carry on.
+
+The image below is the `navigate_to_pose_w_replanning_and_recovery.xml <https://github.com/ros-planning/navigation2/blob/humble/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml>`_ behaviour tree from Nav2.  The left hand side of the recovery node called "NavigateRecovery" is essentially our simple replanning tree, with some additional checks.
+
+The right hand side completely handles recovery behaviours.  There are four primary actions the behaviour tree tries to take: Clear Costmaps, Spin, Wait, BackUp.  The ``RoundRobin`` control node acts like a Sequence , trying them all in turn but has `extra conditions <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-roundrobin>`_.  Once the right hand side returns ``SUCCESS`` the RecoveryNode will retry to perform the left hand side navigation.  The recovery node is also slightly special, please `reads the docs <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-recovery>`_ for more information.
+
+.. image:: ../../figures/navigate_to_pose_w_replanning_and_recovery.png
+  :width: 600
+  :alt: The Nav2 BT "navigate_to_pose_w_replanning_and_recovery.xml" as viewed in Groot
+
 
 By expanding trees, we can provide more intricate behaviours for our robots.  They can take a fair amount of head scratching to read and to write, but the best thing is they are simple to modify and iterate upon.
 

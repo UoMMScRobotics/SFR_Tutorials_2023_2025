@@ -43,7 +43,7 @@ The ``FollowPath`` action node accepts the path from the path planner, then pass
 
 Saving the Behaviour Tree
 --------------------------
-Once the tree has been generated, it is possible to save it as a .xml file in your ``bt_demos/behavior_tree_xml`` directory.  Save the file as ``bt_example_0.xml``.
+Once the tree has been generated, it is possible to save it as a .xml file in your ``bt_demos/behavior_tree_xml`` directory.  Save the file as ``bt_simple_nav.xml``.
 
 You will notice that the .xml file looks different to most of the example behaviour tree files you will see.  This is because Groot uses "Explicit" notation rather than "Compact" notation, and as a ROS user it is somewhat of a pain...
 

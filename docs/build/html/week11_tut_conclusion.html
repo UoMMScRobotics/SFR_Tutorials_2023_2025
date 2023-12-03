@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>How to Represent the World for Path Planning &mdash; SFR_Tutorials  documentation</title>
+  <title>Conclusion &mdash; SFR_Tutorials  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,7 +18,9 @@
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Week 09 - Saving a Map" href="week09_ca.html" />
+    <link rel="prev" title="Adding Replanning" href="week11_tut_addreplanning.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,13 +55,13 @@
 <li class="toctree-l1"><a class="reference internal" href="week10_tut_conclusion.html">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Week 11 Synchronous Tutorial</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_intro.html">Behaviour Trees Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_groot.html">Investigating Behaviour Trees with Groot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_simplebt.html">Building a Behaviour Tree with Groot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_usingsimplebt.html">Using a Custom Behaviour Tree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="week11_tut_addreplanning.html">Adding Replanning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="week11_tut_conclusion.html">Conclusion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -80,9 +82,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">How to Represent the World for Path Planning</li>
+      <li class="breadcrumb-item active">Conclusion</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/week10_tut_costmap.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/week11_tut_conclusion.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -90,43 +92,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="how-to-represent-the-world-for-path-planning">
-<h1>How to Represent the World for Path Planning<a class="headerlink" href="#how-to-represent-the-world-for-path-planning" title="Link to this heading"></a></h1>
-<p>Previously, <code class="docutils literal notranslate"><span class="pre">Occupancy</span> <span class="pre">Grids</span></code> have been discussed as a means of representing objects on a 2D grid.  They may be binary (occupied/freespace), trinary (occupied/freespace/unknown) and probabilistic (0-1 i.e. freespace to occupied).</p>
-<p>For an occupancy grid, a path is valid if it does not cross any cells which are designated as occupied (i.e. the robot cannot drive through an obstacle).  This simplicity leads to an immediate drawback when being used for path planning.</p>
-<section id="robots-are-not-points">
-<h2>Robots Are Not Points<a class="headerlink" href="#robots-are-not-points" title="Link to this heading"></a></h2>
-<p>Suppose we have a circular robot with diameter 0.5 metres.  The figure below shows</p>
-<p>IMAGE</p>
-</section>
-<section id="costmaps">
-<h2>Costmaps<a class="headerlink" href="#costmaps" title="Link to this heading"></a></h2>
-<p><strong>Costmaps</strong> are an evolution of this concept, which store values (usually integer 8 bit (0-255)) which represent how preferred it is to travel through a cell in the grid.  Now it is possible to not only say if a cell is forbidden (occupied) but if there is a cell we simply don’t like for some reason.</p>
-</section>
-<section id="costmap-layers">
-<h2>Costmap Layers<a class="headerlink" href="#costmap-layers" title="Link to this heading"></a></h2>
-<section id="static-layer">
-<h3>Static Layer<a class="headerlink" href="#static-layer" title="Link to this heading"></a></h3>
-</section>
-<section id="obstacle-layer">
-<h3>Obstacle Layer<a class="headerlink" href="#obstacle-layer" title="Link to this heading"></a></h3>
-</section>
-<section id="inflation-layer">
-<h3>Inflation Layer<a class="headerlink" href="#inflation-layer" title="Link to this heading"></a></h3>
-</section>
-<section id="other-layers">
-<h3>Other Layers<a class="headerlink" href="#other-layers" title="Link to this heading"></a></h3>
-</section>
-</section>
-<section id="how-to-define-a-costmap-configuration-in-yaml">
-<h2>How to Define a Costmap Configuration in .yaml<a class="headerlink" href="#how-to-define-a-costmap-configuration-in-yaml" title="Link to this heading"></a></h2>
-</section>
+  <section id="conclusion">
+<h1>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading"></a></h1>
+<p><strong>Topics in this Tutorial</strong>
+- Using Groot to build and modify behaviour trees visually and the underlying .xml description file
+- Generating a simple behaviour tree using existing Nav2 nodes
+- Modifying behaviour trees to include additional functionality (in our case replanning)</p>
+<p>We have seen how the ROS2 Navigation Stack provides the functionality to have a robot semi-autonomously navigate to a goal pose, but the behaviour tree portion was glossed over.</p>
+<p>The behaviour tree is in fact what dictates the order and the capabilities of a robot during navigation (for the ROS navigation stack).</p>
+<p>There are existing behaviour trees available for navigation which should serve most purposes, however, behaviour trees are not only useful for navigation.  They can be used to design entire autonomous missions, for example in the book “A Concise Introduction to Robot Programming with ROS” by F. M. Rico they create a patrolling example, a video of which can be seen below.</p>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/lStwIxNIPBc?si=tHyP375JU6oJ8l2D" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><p>If you wish to check your code, or are having issues, you can download an example version of the package generated in this tutorial. <a class="reference download internal" download="" href="_downloads/e70820f8d3dc84e8f3f05d23db938737/bt_demos.zip"><code class="xref download docutils literal notranslate"><span class="pre">bt_demos.zip</span></code></a></p>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="week11_tut_addreplanning.html" class="btn btn-neutral float-left" title="Adding Replanning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="week09_ca.html" class="btn btn-neutral float-right" title="Week 09 - Saving a Map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

@@ -15,7 +15,7 @@ def generate_launch_description():
     pkg_bt_demos = get_package_share_directory('bt_demos')
     
     # Define nav_to_pose behaviour tree
-    bt_xml_navtopose_file = PathJoinSubstitution([pkg_bt_demos, 'behavior_tree_xml', 'bt_simple_0.xml'])
+    bt_xml_navtopose_file = PathJoinSubstitution([pkg_bt_demos, 'behavior_tree_xml', 'bt_simple_nav.xml'])
     
     # Necessary fixes
     remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]

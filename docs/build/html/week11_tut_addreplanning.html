@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Week 09 - Saving a Map" href="week09_ca.html" />
+    <link rel="next" title="Conclusion" href="week11_tut_conclusion.html" />
     <link rel="prev" title="Using a Custom Behaviour Tree" href="week11_tut_usingsimplebt.html" /> 
 </head>
 
@@ -63,8 +63,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Adding Replanning</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#keep-replanning-the-path">Keep Replanning the Path</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#trigger-replanning-of-the-path">Trigger Replanning of the Path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recovery-behaviours">Recovery Behaviours</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_conclusion.html">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
 <ul>
@@ -100,7 +102,7 @@
 <p>Previously, we have only used control node (<code class="docutils literal notranslate"><span class="pre">Sequence</span></code>) and action nodes (<code class="docutils literal notranslate"><span class="pre">ComputePathToPose</span></code> and <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code>).  Now we will need to leverage decorator and condition nodes.</p>
 <section id="keep-replanning-the-path">
 <h2>Keep Replanning the Path<a class="headerlink" href="#keep-replanning-the-path" title="Link to this heading"></a></h2>
-<p>Start Groot and open your existing <code class="docutils literal notranslate"><span class="pre">bt_example_0.xml</span></code> file.  Change the <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> control node for a <code class="docutils literal notranslate"><span class="pre">PipelineSequence</span></code> control node.  As the robot is navigating, the <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code> node will return <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code>, we can use this time to check if a new path needs to be computed given the <code class="docutils literal notranslate"><span class="pre">{goal}</span></code> variable.  If we kept checking the path planning on every tick, we would likely bog down the system (computationally speaking), so we can use a <code class="docutils literal notranslate"><span class="pre">RateController</span></code> <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#decorator-nodes">decorator node</a> to limit ticks to a set rate.  We will pick 2.0 Hz for this example.</p>
+<p>Start Groot and open your existing <code class="docutils literal notranslate"><span class="pre">bt_simple_nav.xml</span></code> file.  Change the <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> control node for a <code class="docutils literal notranslate"><span class="pre">PipelineSequence</span></code> control node.  As the robot is navigating, the <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code> node will return <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code>, we can use this time to check if a new path needs to be computed given the <code class="docutils literal notranslate"><span class="pre">{goal}</span></code> variable.  If we kept checking the path planning on every tick, we would likely bog down the system (computationally speaking), so we can use a <code class="docutils literal notranslate"><span class="pre">RateController</span></code> <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#decorator-nodes">decorator node</a> to limit ticks to a set rate.  We will pick 2.0 Hz for this example.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">PipelineSequence</span></code> control node is similar to a normal sequence control node, however, if another leaf is <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> it reticks the previous leaves in the sequence. You can learn more on the <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-pipelinesequence">pipeline sequence docs</a>.</p>
@@ -144,6 +146,21 @@
 <li><p>As <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code> uses the Blackboard variable <code class="docutils literal notranslate"><span class="pre">{path}</span></code>, this now reflects the new goal and the robot continues to navigate</p></li>
 </ol>
 </div></blockquote>
+<p>Build and source your workspace, and start the launch file.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/MY_ROS_WS</span>
+<span class="go">colcon build</span>
+<span class="go">source install/setup.bash</span>
+<span class="go">ros2 launch bt_demos bt_demo.launch.py</span>
+</pre></div>
+</div>
+<p>If you try to give the robot a new goal whilst it is navigating, it will only then replan the path.  This is much less computationally strenuous (imagine trying to calculate paths for a huge warehouse at a high rate!).</p>
+</section>
+<section id="recovery-behaviours">
+<h2>Recovery Behaviours<a class="headerlink" href="#recovery-behaviours" title="Link to this heading"></a></h2>
+<p>Recovery behaviours are meant to be called when the robot gets in trouble.  The robot should stop trying to navigate, sort itself out, then try to carry on.</p>
+<p>The image below is the <a class="reference external" href="https://github.com/ros-planning/navigation2/blob/humble/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml">navigate_to_pose_w_replanning_and_recovery.xml</a> behaviour tree from Nav2.  The left hand side of the recovery node called “NavigateRecovery” is essentially our simple replanning tree, with some additional checks.</p>
+<p>The right hand side completely handles recovery behaviours.  There are four primary actions the behaviour tree tries to take: Clear Costmaps, Spin, Wait, BackUp.  The <code class="docutils literal notranslate"><span class="pre">RoundRobin</span></code> control node acts like a Sequence , trying them all in turn but has <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-roundrobin">extra conditions</a>.  Once the right hand side returns <code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code> the RecoveryNode will retry to perform the left hand side navigation.  The recovery node is also slightly special, please <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-recovery">reads the docs</a> for more information.</p>
+<a class="reference internal image-reference" href="_images/navigate_to_pose_w_replanning_and_recovery.png"><img alt="The Nav2 BT &quot;navigate_to_pose_w_replanning_and_recovery.xml&quot; as viewed in Groot" src="_images/navigate_to_pose_w_replanning_and_recovery.png" style="width: 600px;" /></a>
 <p>By expanding trees, we can provide more intricate behaviours for our robots.  They can take a fair amount of head scratching to read and to write, but the best thing is they are simple to modify and iterate upon.</p>
 </section>
 </section>
@@ -153,7 +170,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="week11_tut_usingsimplebt.html" class="btn btn-neutral float-left" title="Using a Custom Behaviour Tree" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="week09_ca.html" class="btn btn-neutral float-right" title="Week 09 - Saving a Map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="week11_tut_conclusion.html" class="btn btn-neutral float-right" title="Conclusion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
