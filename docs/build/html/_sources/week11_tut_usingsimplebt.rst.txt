@@ -32,7 +32,7 @@ Download the example launch file |bt_demo.launch.py|, and place it in the ``bt_d
 
 In the code block below, it is highlighted the changes made to accept a new behaviour tree.  We pass as an argument, the path to the .xml file we desire.
 
-.. literalinclude:: ../../ros_ws/src/bt_demos/launch/bt_demo_simple.launch.py
+.. literalinclude:: ../../ros_ws/src/bt_demos/launch/bt_demo.launch.py
    :language: python
    :linenos:
    :emphasize-lines: 17,18,53
@@ -63,10 +63,12 @@ Using the Nav2 Goal functionality in RVIZ, set a goal ahead of the robot.  It sh
 .. image:: ../../figures/rviz_simplebt_nav.png
   :width: 600
   :alt: Using RVIZ to place a Nav2 goal.
+  :align: center  
 
 .. image:: ../../figures/rviz_simplebt_nav2.png
   :width: 600
   :alt: Simulated robot navigating to the goal.
+  :align: center  
 
 There are some characteristics which are not great about this behaviour tree.  If the robot has completed a navigation task, then when given a new goal, it will continue to compute a path and navigate to the goal.  If the goal is given *during* navigation however, then the behaviour tree (and the robot) ignore it entirely.  During the next step, we will add ``replanning`` to the behaviour tree.
 

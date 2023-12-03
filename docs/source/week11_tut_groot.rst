@@ -13,11 +13,12 @@ This should launch a GUI session.  Select ``Editor`` followed by ``START``, brin
 .. image:: ../../figures/groot_launch.png
   :width: 600
   :alt: Launching Groot from command line.
+  :align: center  
 
 .. image:: ../../figures/groot_start.png
   :width: 600
   :alt: Intial Groot screen on launch.
-
+  :align: center
 
 
 Inspect Existing Behaviour Trees
@@ -30,16 +31,18 @@ Firstly, Groot does not know about the Nav2 nodes (Action, Condition, Control, D
 .. image:: ../../figures/groot_load_palette_01.png
   :width: 600
   :alt: Select "Load Palette".
+  :align: center  
 
 .. image:: ../../figures/groot_load_palette_02.png
   :width: 600
   :alt: Select "Other locations/computer".
+  :align: center  
 
 
 .. image:: ../../figures/groot_load_palette_03.png
   :width: 600
   :alt: Navigate to the folder /opt/ros/humble/share/nav2_behavior_tree/ and select the nav2_tree_nodes.xml file.
-
+  :align: center
 
 
 Example Behaviour Tree 0
@@ -55,6 +58,7 @@ Within the Groot GUI, select "Load Tree" from the upper left side.  When Groot a
 .. image:: ../../figures/bt_odometry_calibration.png
   :width: 600
   :alt: The Nav2 BT "odometry_calibration.xml" as viewed in Groot
+  :align: center
 
 
 This behaviour tree consists of a simple ``Sequence`` control node, which simply drives forward 2.0 m, performs a positive quarter turn and repeats this a total of four times to hopefully have the robot finish where it started.  However, the ``Sequence`` control node is itself a child of the ``Repeat`` decorator node, therefore, the entire sequence attempts to repeat three times.  This example is really on the border of what could be hardcoded in a normal ROS node (with a Twist publisher), but is a super simple example to show what the system will do.
@@ -78,6 +82,7 @@ Download the behaviour tree |bt_example_1.xml|, which is a copy of the `nav2_bt_
 .. image:: ../../figures/navigate_to_pose_w_replanning_and_recovery.png
   :width: 600
   :alt: The Nav2 BT "navigate_to_pose_w_replanning_and_recovery.xml" as viewed in Groot
+  :align: center
 
 As you can see, already this behaviour tree is getting pretty complicated.  The remainder of this tutorial will be building a similar behaviour tree from the ground up, hopefully getting a feeling of how behaviour trees grow as we add more complexity.
 

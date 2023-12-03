@@ -16,7 +16,7 @@ The behaviour tree should now look something like the image below.  The ``Comput
 .. image:: ../../figures/bt_withConstantReplanning.png
   :width: 600
   :alt: The ComputePathToPose action node is being recalled every 2.0 Hz if FollowPath is RUNNING.
-
+  :align: center
 
 Build and source your workspace, and start the launch file.
 
@@ -47,6 +47,7 @@ This likely all sounds confusing, so let's take a look at the tree in Groot and 
 .. image:: ../../figures/bt_withTriggeredReplanning.png
   :width: 600
   :alt: The ComputePathToPose action node is only called if there is a new global goal.
+  :align: center  
 
 Let us breakdown the steps in this behaviour tree in the "normal" case (goal is given, the robot traverses to that goal).
 
@@ -86,6 +87,7 @@ The right hand side completely handles recovery behaviours.  There are four prim
 .. image:: ../../figures/navigate_to_pose_w_replanning_and_recovery.png
   :width: 600
   :alt: The Nav2 BT "navigate_to_pose_w_replanning_and_recovery.xml" as viewed in Groot
+  :align: center
 
 
 By expanding trees, we can provide more intricate behaviours for our robots.  They can take a fair amount of head scratching to read and to write, but the best thing is they are simple to modify and iterate upon.
