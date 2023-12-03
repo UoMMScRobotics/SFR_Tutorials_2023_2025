@@ -17,13 +17,15 @@ Once you have placed the nodes, it should look something like the image below.  
   :width: 600
   :alt: Simple BT for navigation.
 
+In the sequence, once the ``ComputePathToPose`` returns ``SUCCESS`` it moves onto the ``FollowPath`` Node and the robot starts tracking its trajectory.  A path is generated, then it is followed.
+
 Let us unpick the different parts of the ``ComputePathToPose`` and ``FollowPath`` action nodes.
 
 ComputePathToPose Action Node
 ------------------------------
-The ``ComputePathToPose`` action node has multiple inputs and one output.  This will interface with the planner_server (using ``NavFn``) we have setup in previous tutorials.
+The ``ComputePathToPose`` action node has multiple inputs and one output.  This will interface with the planner_server (with ``NavFn`` as a plugin) we have setup in previous tutorials.
 
-- **[IN] goal**: The goal pose provided by the user or a autonomous agent, the curly braces ``{goal}`` indicate that this varible is on the *Blackboard* for the behaviour tree
+- **[IN] goal**: The goal pose provided by the user or an autonomous agent, the curly braces ``{goal}`` indicates that this varible is on the *Blackboard* for the behaviour tree
 - **[IN] planner_id**: In the config file for the planner (planner.yaml), we state the plugin is called ``GridBased``, this term is a ROS2/Nav2 convention and should not be changed
 - **[IN] server_name**: The planner server, when running, will have an action server to perform the path planning, in this case the action server is called ``compute_path_to_pose`` - this will be discussed later
 - **[IN] start**: It is possible to use a different starting pose for path planning (rather than the current position of the robot)
@@ -43,7 +45,7 @@ Saving the Behaviour Tree
 --------------------------
 Once the tree has been generated, it is possible to save it as a .xml file in your ``bt_demos/behavior_tree_xml`` directory.  Save the file as ``bt_example_0.xml``.
 
-You will notice that the .xml file looks different to most of the example behaviour tree files you will see.  This is because Groot uses "Explicit" notation rather than "Compact" notation, and it is somewhat of a pain...
+You will notice that the .xml file looks different to most of the example behaviour tree files you will see.  This is because Groot uses "Explicit" notation rather than "Compact" notation, and as a ROS user it is somewhat of a pain...
 
 
 Explicit Vs Compact Notation
@@ -65,9 +67,11 @@ The files below show the two same trees, but using the compact and explicit nota
 .. literalinclude:: ../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_compact.xml
    :language: xml
    :linenos:
+   :caption:
 
 .. literalinclude:: ../../ros_ws/src/bt_demos/behavior_tree_xml/bt_0_explicit.xml
    :language: xml
    :lines: 1-17,233-
-   :linenos:
+   :lineno-match:
+   :caption:
 
