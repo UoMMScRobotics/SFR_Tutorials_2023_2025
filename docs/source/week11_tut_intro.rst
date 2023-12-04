@@ -45,6 +45,7 @@ Groot in comparison is not installed, and we will need to clone the available re
 .. code-block:: console
 
     cd ~/groot_ws/src/
+    sudo apt install qtbase5-dev libqt5svg5-dev libzmq3-dev libdw-dev
     git clone --recurse-submodules https://github.com/BehaviorTree/Groot.git
     cd ..
     colcon build

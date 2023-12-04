@@ -133,6 +133,7 @@
 </div>
 <p>Groot in comparison is not installed, and we will need to clone the available repository and <code class="docutils literal notranslate"><span class="pre">colcon</span> <span class="pre">build</span></code>.  You can either use an existing ros workspace or make a new one.  For the following guide we will assume the workspace is called <code class="docutils literal notranslate"><span class="pre">groot_ws</span></code>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/groot_ws/src/</span>
+<span class="go">sudo apt install qtbase5-dev libqt5svg5-dev libzmq3-dev libdw-dev</span>
 <span class="go">git clone --recurse-submodules https://github.com/BehaviorTree/Groot.git</span>
 <span class="go">cd ..</span>
 <span class="go">colcon build</span>

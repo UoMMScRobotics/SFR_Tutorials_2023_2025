@@ -79,7 +79,7 @@ Download the behaviour tree |bt_example_1.xml|, which is a copy of the `nav2_bt_
 .. |bt_example_1.xml| replace::
    :download:`bt_example_1.xml <../../ros_ws/src/bt_demos/behavior_tree_xml/bt_example_1.xml>`
 
-.. image:: ../../figures/navigate_to_pose_w_replanning_and_recovery.png
+.. image:: ../../figures/bt_example_1.png
   :width: 600
   :alt: The Nav2 BT "navigate_to_pose_w_replanning_and_recovery.xml" as viewed in Groot
   :align: center

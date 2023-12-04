@@ -11,7 +11,7 @@ Start Groot and open your existing ``bt_simple_nav.xml`` file.  Change the ``Seq
 .. Note::
     The ``PipelineSequence`` control node is similar to a normal sequence control node, however, if another leaf is ``RUNNING`` it reticks the previous leaves in the sequence. You can learn more on the `pipeline sequence docs <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-pipelinesequence>`_.
 
-The behaviour tree should now look something like the image below.  The ``ComputePathToPose`` action node will be called every 2.0 Hz if ``FollowPath`` is ``RUNNING``.  Overwrite your existing ``bt_example_0.xml`` file with this new tree.
+The behaviour tree should now look something like the image below.  The ``ComputePathToPose`` action node will be called every 2.0 Hz if ``FollowPath`` is ``RUNNING``.  Overwrite your existing ``bt_simple_nav.xml`` file with this new tree.
 
 .. image:: ../../figures/bt_withConstantReplanning.png
   :width: 600
@@ -51,7 +51,7 @@ This likely all sounds confusing, so let's take a look at the tree in Groot and 
 
 Let us breakdown the steps in this behaviour tree in the "normal" case (goal is given, the robot traverses to that goal).
 
-  1. A new goal is requested - start on the left hand side of the tree - ``GlobalUpdatedGoal`` via ``Invertor`` returns ``FAILURE``
+  1. A new goal is requested - start on the left hand side of the tree - ``GlobalUpdatedGoal`` via ``Inverter`` returns ``FAILURE``
   2. This ``FAILURE`` triggers the Fallback control node to tick ``ComputePathToPose`` - this returns ``SUCCESS``
   3. The PipelineSequence control node moves over to ``FollowPath``, returning ``RUNNING`` whilst the robot is moving
   4. The robot reaches the goal, ``FollowPath`` returns ``SUCCESS`` and the behaviour tree is completed
@@ -60,8 +60,8 @@ Now let's consider a replanning situation, where a new goal has been provided wh
 
   1. The PipelineSequence still ticks the RateController whilst the robot is moving
   2. Every 2.0 Hz, the fallback node is ticked
-  3. With no new goal, ``GlobalUpdatedGoal`` via the Invertor returns ``SUCCESS`` and the fallback node returns ``SUCCESS`` without moving on to the ``ComputePathToPose`` node
-  4. A new goal has been given since the last tick, ``GlobalUpdatedGoal`` via the Invertor returns ``FAILURE``, this triggers the fallback node to query ``ComputePathToPose`` and a new path is calculated
+  3. With no new goal, ``GlobalUpdatedGoal`` via the ``Inverter`` returns ``SUCCESS`` and the fallback node returns ``SUCCESS`` without moving on to the ``ComputePathToPose`` node
+  4. A new goal has been given since the last tick, ``GlobalUpdatedGoal`` via the ``Inverter`` returns ``FAILURE``, this triggers the fallback node to query ``ComputePathToPose`` and a new path is calculated
   5. As ``FollowPath`` uses the Blackboard variable ``{path}``, this now reflects the new goal and the robot continues to navigate
 
 Modify your ``bt_simple_nav.xml`` file to replicate the behaviour tree in the above image.  You may use Groot or modify the xml tags manually.  Build and source your workspace, and start the launch file.
@@ -80,13 +80,13 @@ Recovery Behaviours
 
 Recovery behaviours are meant to be called when the robot gets in trouble.  The robot should stop trying to navigate, sort itself out, then try to carry on.
 
-The image below is the `navigate_to_pose_w_replanning_and_recovery.xml <https://github.com/ros-planning/navigation2/blob/humble/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml>`_ behaviour tree from Nav2.  The left hand side of the recovery node called "NavigateRecovery" is essentially our simple replanning tree from above, with some additional checks (for example, in ``bt_simple_nav.xml`` it is assumed our ``ComputePathToPose`` will always succeed - not very robust).
+The image below is the `nav_to_pose_with_consistent_replanning_and_if_path_becomes_invalid <https://github.com/ros-planning/navigation2/blob/humble/nav2_bt_navigator/behavior_trees/nav_to_pose_with_consistent_replanning_and_if_path_becomes_invalid.xml>`_ behaviour tree from Nav2.  The left hand side of the recovery node called "NavigateRecovery" is essentially our simple replanning tree from above, with some additional checks (for example, in ``bt_simple_nav.xml`` it is assumed our ``ComputePathToPose`` will always succeed - not very robust).
 
 The right hand side completely handles recovery behaviours.  There are four primary actions the behaviour tree tries to take: Clear Costmaps, Spin, Wait, BackUp.  The ``RoundRobin`` control node acts like a Sequence , trying them all in turn but has `extra conditions <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-roundrobin>`_.  Once the right hand side returns ``SUCCESS`` the RecoveryNode will retry to perform the left hand side navigation.  The recovery node is also slightly special, please `reads the docs <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-recovery>`_ for more information.
 
-.. image:: ../../figures/navigate_to_pose_w_replanning_and_recovery.png
+.. image:: ../../figures/nav_to_pose_with_consistent_replanning_and_if_path_becomes_invalid.png
   :width: 600
-  :alt: The Nav2 BT "navigate_to_pose_w_replanning_and_recovery.xml" as viewed in Groot
+  :alt: The Nav2 BT "nav_to_pose_with_consistent_replanning_and_if_path_becomes_invalid.xml" as viewed in Groot
   :align: center
 
 
