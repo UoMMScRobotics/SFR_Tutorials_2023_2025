@@ -10,6 +10,20 @@ Previously, Dr. Murilo Marinho's tutorial material had formed the backbone of th
 
 These tutorials are intended to provide the same feeling as those earlier tutorials.
 
+Prerequisties
+---------------------------
+- Writing nodes, specifically Action servers/clients
+- Making ROS2 packages
+- Writing launch files
+
+
+Topics
+---------------------------
+- Describing robots and their movement
+- How sensors and perception is handled with ROS
+- Writing and running a simulation (using Gazebo)
+- Path planning and navigation (for mobile robots)
+- Autonomy with Behaviour Trees
 
 
 .. Indices and tables

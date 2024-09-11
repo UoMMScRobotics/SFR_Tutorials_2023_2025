@@ -10,7 +10,7 @@
 master_doc = "contents"
 
 project = 'SFR_Tutorials'
-copyright = '2023, Andy West'
+copyright = '2024, Andy West'
 author = 'Andy West'
 
 # -- General configuration ---------------------------------------------------

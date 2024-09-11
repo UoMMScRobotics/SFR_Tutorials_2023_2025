@@ -9,6 +9,13 @@ Contents
 
 .. toctree::
     :maxdepth: 1
+    :caption: Week 07 Synchronous Tutorial
+
+    week07/week07_tut_intro
+    week07/week07_tut_joints
+
+.. toctree::
+    :maxdepth: 1
     :caption: Week 10 Synchronous Tutorial
 
     week10_tut_intro
@@ -30,7 +37,7 @@ Contents
 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Continuous Assessment Tutorials
+    :maxdepth: 2
+    :caption: Continuous Assessment Tutorials
 
-   week09_ca
+    week09_ca
