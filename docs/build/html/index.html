@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Software for Robotics Tutorials &mdash; SFR_Tutorials  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Software for Robotics Tutorials &mdash; Software for Robotics Tutorials  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_mods.css?v=a1f80f96" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,12 +17,12 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Autonomous Navigation Introduction" href="week10_tut_intro.html" />
+    <link rel="next" title="Describing Robots using URDF" href="week07_tut_intro.html" />
     <link rel="prev" title="Contents" href="contents.html" /> 
 </head>
 
@@ -32,7 +35,7 @@
           
           
           <a href="contents.html" class="icon icon-home">
-            SFR_Tutorials
+            Software for Robotics Tutorials
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -44,7 +47,19 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Welcome</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Software for Robotics Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Software for Robotics Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisties">Prerequisties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#topics">Topics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 07 Synchronous Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_intro.html">Describing Robots using URDF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_joints.html">Adding Joints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_links.html">Adding Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_collisions.html">Adding Collisions and Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_conclusion.html">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
 <ul>
@@ -74,7 +89,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="contents.html">SFR_Tutorials</a>
+          <a href="contents.html">Software for Robotics Tutorials</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -84,7 +99,6 @@
       <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Software for Robotics Tutorials</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -96,6 +110,24 @@
 <h1>Software for Robotics Tutorials<a class="headerlink" href="#software-for-robotics-tutorials" title="Link to this heading"></a></h1>
 <p>Previously, Dr. Murilo Marinho’s tutorial material had formed the backbone of the course material, however, there is still much ROS wilderness to explore.</p>
 <p>These tutorials are intended to provide the same feeling as those earlier tutorials.</p>
+<section id="prerequisties">
+<h2>Prerequisties<a class="headerlink" href="#prerequisties" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Writing nodes, specifically Action servers/clients</p></li>
+<li><p>Making ROS2 packages</p></li>
+<li><p>Writing launch files</p></li>
+</ul>
+</section>
+<section id="topics">
+<h2>Topics<a class="headerlink" href="#topics" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Describing robots and their movement</p></li>
+<li><p>How sensors and perception is handled with ROS</p></li>
+<li><p>Writing and running a simulation (using Gazebo)</p></li>
+<li><p>Path planning and navigation (for mobile robots)</p></li>
+<li><p>Autonomy with Behaviour Trees</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -103,13 +135,13 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="contents.html" class="btn btn-neutral float-left" title="Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="week10_tut_intro.html" class="btn btn-neutral float-right" title="Autonomous Navigation Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="week07_tut_intro.html" class="btn btn-neutral float-right" title="Describing Robots using URDF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Andy West.</p>
+    <p>&#169; Copyright 2024, Andy West.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

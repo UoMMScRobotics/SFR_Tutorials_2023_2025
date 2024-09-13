@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adding Links &mdash; Software for Robotics Tutorials  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_mods.css?v=a1f80f96" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Adding Collisions and Inertia" href="week07_tut_collisions.html" />
+    <link rel="prev" title="Adding Joints" href="week07_tut_joints.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="contents.html" class="icon icon-home">
+            Software for Robotics Tutorials
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Welcome</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Software for Robotics Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 07 Synchronous Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_intro.html">Describing Robots using URDF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_joints.html">Adding Joints</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Adding Links</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#adding-visuals">Adding Visuals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-a-mesh-file">Using a Mesh File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#where-is-the-castor">Where is the Castor?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_collisions.html">Adding Collisions and Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_conclusion.html">Conclusion</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_intro.html">Autonomous Navigation Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_pathplan.html">Adding Path Planning from Nav2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_controller.html">Adding a Controller from Nav2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_commands.html">Sending Goals to the Robot Navigation Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week10_tut_conclusion.html">Conclusion</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 11 Synchronous Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_intro.html">Behaviour Trees Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_groot.html">Investigating Behaviour Trees with Groot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_simplebt.html">Building a Behaviour Tree with Groot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_usingsimplebt.html">Using a Custom Behaviour Tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_addreplanning.html">Adding Replanning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week11_tut_conclusion.html">Conclusion</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Continuous Assessment Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week09_ca.html">Week 09 - Saving a Map</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="contents.html">Software for Robotics Tutorials</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Adding Links</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="adding-links">
+<h1>Adding Links<a class="headerlink" href="#adding-links" title="Link to this heading"></a></h1>
+<p>The additional elements of a URDF link are all optional (visual, collison, inertial), but they are helpful in other ways beyond performing rigid body transformations.</p>
+<div class="note admonition">
+<p class="admonition-title">Story Time</p>
+<p>Humans rely on their vision for a lot of interpretation.  Adding visual indicators to our robot model can be incredibly beneficial.
+When deploying robots and trying not to crash into anything (such as a nuclear reactor), being able to see the chassis of a mobile robot or manipulator can genuinely be the difference between a good day and a very bad day.</p>
+</div>
+<section id="adding-visuals">
+<h2>Adding Visuals<a class="headerlink" href="#adding-visuals" title="Link to this heading"></a></h2>
+<p>There are two primary ways to add visual elements to a URDF file, either through a simple primitive geometry (box, cylinder, sphere) or by adding a mesh file.  To save time, we will only explore the use of primitive geometries.</p>
+<p>Adding a visual tag to the <code class="docutils literal notranslate"><span class="pre">base_link</span></code>, the code below simply adds a <code class="docutils literal notranslate"><span class="pre">box</span></code> which is slightly offset from the <code class="docutils literal notranslate"><span class="pre">base_link</span></code> link.  Notice we swapped a single line <code class="docutils literal notranslate"><span class="pre">&lt;link</span> <span class="pre">name=&quot;&quot;/&gt;</span></code> tag to instead use opening and closing tags <code class="docutils literal notranslate"><span class="pre">&lt;link&gt;&lt;/link&gt;</span></code>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;diff_drive_example&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="cm">&lt;!-- LINKS --&gt;</span>
+<span class="hll"><span class="linenos"> 6</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link&quot;</span><span class="nt">&gt;</span>
+</span><span class="hll"><span class="linenos"> 7</span><span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+</span><span class="hll"><span class="linenos"> 8</span><span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+</span><span class="hll"><span class="linenos"> 9</span><span class="w">            </span><span class="cm">&lt;!-- Box is defined as xyz lengths in m --&gt;</span>
+</span><span class="hll"><span class="linenos">10</span><span class="w">            </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;0.5 0.4 0.3&quot;</span><span class="nt">/&gt;</span>
+</span><span class="hll"><span class="linenos">11</span><span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+</span><span class="hll"><span class="linenos">12</span><span class="w">        </span><span class="cm">&lt;!-- Centre of box relative to link --&gt;</span>
+</span><span class="hll"><span class="linenos">13</span><span class="w">        </span><span class="cm">&lt;!-- Leave as &quot;0 0 0&quot; for box centre at link origin --&gt;</span>
+</span><span class="hll"><span class="linenos">14</span><span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.15 0 0.10&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+</span><span class="hll"><span class="linenos">15</span><span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+</span><span class="hll"><span class="linenos">16</span><span class="nt">&lt;/link&gt;</span>
+</span><span class="linenos">17</span>
+<span class="linenos">18</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;lidar_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">19</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;wheel_left&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">20</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;wheel_right&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="cm">&lt;!-- JOINTS --&gt;</span>
+<span class="linenos">23</span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_lidar_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">24</span><span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">25</span><span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;lidar_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">26</span><span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0.3&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">27</span><span class="nt">&lt;/joint&gt;</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_wheel_left_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">30</span><span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">31</span><span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;wheel_left&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">32</span><span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0.2 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;-1.5707 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">33</span><span class="w">    </span><span class="nt">&lt;axis</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">34</span><span class="nt">&lt;/joint&gt;</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_wheel_right_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">37</span><span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">38</span><span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;wheel_right&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">39</span><span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 -0.2 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;-1.5707 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">40</span><span class="w">    </span><span class="nt">&lt;axis</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">41</span><span class="nt">&lt;/joint&gt;</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span><span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<p>Let’s keep <em>rolling</em> by modifying the wheel links, adding cylinders to represent the wheels.  Replace lines 19 and 20 with the code below.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">19</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;wheel_left&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">20</span><span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+<span class="linenos">21</span><span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+<span class="linenos">22</span><span class="w">            </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;0.06&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;0.1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="linenos">23</span><span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="linenos">24</span><span class="w">        </span>
+<span class="linenos">25</span><span class="w">        </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uom_purple&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">26</span><span class="w">        </span><span class="cm">&lt;!-- Define a colour for the link --&gt;</span>
+<span class="linenos">27</span><span class="w">            </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0.4 0 0.6 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">28</span><span class="w">        </span><span class="nt">&lt;/material&gt;</span>
+<span class="linenos">29</span><span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0.03&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">30</span><span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+<span class="linenos">31</span><span class="nt">&lt;/link&gt;</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;wheel_right&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">34</span><span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+<span class="linenos">35</span><span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+<span class="linenos">36</span><span class="w">            </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;0.06&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;0.1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="linenos">37</span><span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="w">        </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uom_purple&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">40</span><span class="w">            </span><span class="cm">&lt;!-- Define a colour for the link --&gt;</span>
+<span class="linenos">41</span><span class="w">            </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0.4 0 0.6 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">42</span><span class="w">        </span><span class="nt">&lt;/material&gt;</span>
+<span class="linenos">43</span><span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 -0.03&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">44</span><span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+<span class="linenos">45</span><span class="nt">&lt;/link&gt;</span>
+</pre></div>
+</div>
+<p>This time we have defined a colour for the link using the <code class="docutils literal notranslate"><span class="pre">material</span></code> tag.  The cylinders have been offset using the <code class="docutils literal notranslate"><span class="pre">&lt;origin&gt;</span></code> tag, so they are outside the base_link chassis, radius 0.1m and height 0.06m.</p>
+<p>The resulting representation should look similar to that in the picture below.</p>
+<a class="reference internal image-reference" href="_images/rviz_3.png"><img alt="RVIZ screen capture of a differential drive robot with visual approximations." class="align-center" src="_images/rviz_3.png" style="width: 800px;" /></a>
+</section>
+<section id="using-a-mesh-file">
+<h2>Using a Mesh File<a class="headerlink" href="#using-a-mesh-file" title="Link to this heading"></a></h2>
+<p>Mesh files, such as an <code class="docutils literal notranslate"><span class="pre">.stl</span></code> file, can be used as a visual element.  This is great for more bespoke parts of a robot and a more accurate representation.</p>
+<p>For the lidar, please download the file <a class="reference download internal" download="" href="_downloads/9137989e037372acfa9708ec750a8589/Generic_100mm_lidar.stl"><code class="xref download docutils literal notranslate"><span class="pre">/meshes/Generic_100mm_lidar</span></code></a>, and copy it into the <code class="docutils literal notranslate"><span class="pre">meshes</span></code> directory.</p>
+<p>This stl file will act as the visual element for the lidar, with more intricate features than a simple cylinder, box or sphere.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nt">&lt;robot</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;diff_drive_example&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 4</span>
+<span class="hll"><span class="linenos"> 5</span><span class="cm">&lt;!-- Materials --&gt;</span>
+</span><span class="hll"><span class="linenos"> 6</span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uom_yellow&quot;</span><span class="nt">&gt;</span>
+</span><span class="hll"><span class="linenos"> 7</span><span class="w">    </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;1.0 0.8 0.2 1&quot;</span><span class="nt">/&gt;</span>
+</span><span class="hll"><span class="linenos"> 8</span><span class="nt">&lt;/material&gt;</span>
+</span><span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="cm">&lt;!-- LINKS --&gt;</span>
+<span class="linenos">11</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_link&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">12</span><span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+<span class="linenos">13</span><span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+<span class="linenos">14</span><span class="w">            </span><span class="cm">&lt;!-- Box is defined as xyz lengths in m --&gt;</span>
+<span class="linenos">15</span><span class="w">            </span><span class="nt">&lt;box</span><span class="w"> </span><span class="na">size=</span><span class="s">&quot;0.5 0.4 0.3&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">16</span><span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="linenos">17</span><span class="w">        </span><span class="cm">&lt;!-- Centre of box relative to link --&gt;</span>
+<span class="linenos">18</span><span class="w">        </span><span class="cm">&lt;!-- Leave as &quot;0 0 0&quot; for box centre at link origin --&gt;</span>
+<span class="linenos">19</span><span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0.15 0 0.10&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">20</span><span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+<span class="linenos">21</span><span class="nt">&lt;/link&gt;</span>
+<span class="linenos">22</span>
+<span class="hll"><span class="linenos">23</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;lidar_link&quot;</span><span class="nt">&gt;</span>
+</span><span class="hll"><span class="linenos">24</span><span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+</span><span class="hll"><span class="linenos">25</span><span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+</span><span class="hll"><span class="linenos">26</span><span class="w">            </span><span class="cm">&lt;!-- Mesh file uses &quot;package://&lt;packagename&gt;/&lt;path&gt;&quot; --&gt;</span>
+</span><span class="hll"><span class="linenos">27</span><span class="w">            </span><span class="cm">&lt;!-- Scale &quot;x y z&quot; can be useful when converting to mm &lt;-&gt; metres --&gt;</span>
+</span><span class="hll"><span class="linenos">28</span><span class="w">            </span><span class="nt">&lt;mesh</span><span class="w"> </span><span class="na">filename=</span><span class="s">&quot;package://example_urdf_description/meshes/Generic_100mm_lidar.stl&quot;</span><span class="w"> </span><span class="na">scale=</span><span class="s">&quot;1 1 1&quot;</span><span class="nt">/&gt;</span>
+</span><span class="hll"><span class="linenos">29</span><span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+</span><span class="hll"><span class="linenos">30</span><span class="w">        </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uom_yellow&quot;</span><span class="nt">/&gt;</span>
+</span><span class="hll"><span class="linenos">31</span><span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+</span><span class="hll"><span class="linenos">32</span><span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+</span><span class="hll"><span class="linenos">33</span><span class="nt">&lt;/link&gt;</span>
+</span><span class="linenos">34</span>
+<span class="linenos">35</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;wheel_left&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">36</span><span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+<span class="linenos">37</span><span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+<span class="linenos">38</span><span class="w">            </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;0.06&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;0.1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="linenos">39</span><span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="linenos">40</span><span class="w">        </span>
+<span class="linenos">41</span><span class="w">        </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uom_purple&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">42</span><span class="w">        </span><span class="cm">&lt;!-- Define a colour for the link --&gt;</span>
+<span class="linenos">43</span><span class="w">            </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0.4 0 0.6 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">44</span><span class="w">        </span><span class="nt">&lt;/material&gt;</span>
+<span class="linenos">45</span><span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0.03&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">46</span><span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+<span class="linenos">47</span><span class="nt">&lt;/link&gt;</span>
+<span class="linenos">48</span>
+<span class="linenos">49</span><span class="nt">&lt;link</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;wheel_right&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">50</span><span class="w">    </span><span class="nt">&lt;visual&gt;</span>
+<span class="linenos">51</span><span class="w">        </span><span class="nt">&lt;geometry&gt;</span>
+<span class="linenos">52</span><span class="w">            </span><span class="nt">&lt;cylinder</span><span class="w"> </span><span class="na">length=</span><span class="s">&quot;0.06&quot;</span><span class="w"> </span><span class="na">radius=</span><span class="s">&quot;0.1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="linenos">53</span><span class="w">        </span><span class="nt">&lt;/geometry&gt;</span>
+<span class="linenos">54</span>
+<span class="linenos">55</span><span class="w">        </span><span class="nt">&lt;material</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;uom_purple&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">56</span><span class="w">            </span><span class="cm">&lt;!-- Define a colour for the link --&gt;</span>
+<span class="linenos">57</span><span class="w">            </span><span class="nt">&lt;color</span><span class="w"> </span><span class="na">rgba=</span><span class="s">&quot;0.4 0 0.6 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">58</span><span class="w">        </span><span class="nt">&lt;/material&gt;</span>
+<span class="linenos">59</span><span class="w">        </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 -0.03&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">60</span><span class="w">    </span><span class="nt">&lt;/visual&gt;</span>
+<span class="linenos">61</span><span class="nt">&lt;/link&gt;</span>
+<span class="linenos">62</span>
+<span class="linenos">63</span><span class="cm">&lt;!-- JOINTS --&gt;</span>
+<span class="linenos">64</span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_lidar_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">65</span><span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">66</span><span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;lidar_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">67</span><span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 0.3&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">68</span><span class="nt">&lt;/joint&gt;</span>
+<span class="linenos">69</span>
+<span class="linenos">70</span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_wheel_left_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">71</span><span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">72</span><span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;wheel_left&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">73</span><span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0.2 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;-1.5707 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">74</span><span class="w">    </span><span class="nt">&lt;axis</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">75</span><span class="nt">&lt;/joint&gt;</span>
+<span class="linenos">76</span>
+<span class="linenos">77</span><span class="nt">&lt;joint</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;base_wheel_right_joint&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">78</span><span class="w">    </span><span class="nt">&lt;parent</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;base_link&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">79</span><span class="w">    </span><span class="nt">&lt;child</span><span class="w"> </span><span class="na">link=</span><span class="s">&quot;wheel_right&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">80</span><span class="w">    </span><span class="nt">&lt;origin</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 -0.2 0&quot;</span><span class="w"> </span><span class="na">rpy=</span><span class="s">&quot;-1.5707 0 0&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">81</span><span class="w">    </span><span class="nt">&lt;axis</span><span class="w"> </span><span class="na">xyz=</span><span class="s">&quot;0 0 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">82</span><span class="nt">&lt;/joint&gt;</span>
+<span class="linenos">83</span>
+<span class="linenos">84</span><span class="nt">&lt;/robot&gt;</span>
+</pre></div>
+</div>
+<p>We have also added a specific material (<code class="docutils literal notranslate"><span class="pre">uom_yellow</span></code>) <em>outside</em> of tag, this means it can be reused elsewhere in the file.</p>
+<a class="reference internal image-reference" href="_images/rviz_4.png"><img alt="RVIZ screen capture including a lidar mesh element." class="align-center" src="_images/rviz_4.png" style="width: 800px;" /></a>
+<section id="where-is-the-castor">
+<h3>Where is the Castor?<a class="headerlink" href="#where-is-the-castor" title="Link to this heading"></a></h3>
+<p>Including the castor (modelled as a sphere) will be left as a stretch task.  For now let’s concentrate on the final aspects behind links.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="week07_tut_joints.html" class="btn btn-neutral float-left" title="Adding Joints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="week07_tut_collisions.html" class="btn btn-neutral float-right" title="Adding Collisions and Inertia" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Andy West.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

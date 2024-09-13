@@ -7,14 +7,14 @@ Mobile robot navigation consists of two main steps, path planning followed by na
 
 Place the nodes onto the GUI, and connect the nodes by grabbing the lower dot on the parent node and dragging (with the mouse) a connection to the leaf node (see the picture below).
 
-.. image:: ../../figures/groot_grab_node.png
+.. image:: ../../figures/week11/groot_grab_node.png
   :width: 600
   :alt: Connect BT nodes by grabbing the lower dot of node to the upper dot of another.
   :align: center  
 
 Once you have placed the nodes, it should look something like the image below.  You can click on the various fields to populate them.
 
-.. image:: ../../figures/groot_simple_bt_0.png
+.. image:: ../../figures/week11/groot_simple_bt_0.png
   :width: 600
   :alt: Simple BT for navigation.
   :align: center  

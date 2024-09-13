@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using a Custom Behaviour Tree &mdash; SFR_Tutorials  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Using a Custom Behaviour Tree &mdash; Software for Robotics Tutorials  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_mods.css?v=a1f80f96" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +17,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -32,7 +35,7 @@
           
           
           <a href="contents.html" class="icon icon-home">
-            SFR_Tutorials
+            Software for Robotics Tutorials
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -45,6 +48,14 @@
               <p class="caption" role="heading"><span class="caption-text">Welcome</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Software for Robotics Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 07 Synchronous Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_intro.html">Describing Robots using URDF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_joints.html">Adding Joints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_links.html">Adding Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_collisions.html">Adding Collisions and Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_conclusion.html">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
 <ul>
@@ -79,7 +90,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="contents.html">SFR_Tutorials</a>
+          <a href="contents.html">Software for Robotics Tutorials</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -89,7 +100,6 @@
       <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Using a Custom Behaviour Tree</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/week11_tut_usingsimplebt.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -238,8 +248,8 @@
 <section id="send-a-goal-command">
 <h2>Send A Goal Command<a class="headerlink" href="#send-a-goal-command" title="Link to this heading"></a></h2>
 <p>Using the Nav2 Goal functionality in RVIZ, set a goal ahead of the robot.  It should start traversing to the goal pose!</p>
-<a class="reference internal image-reference" href="_images/rviz_simplebt_nav.png"><img alt="Using RVIZ to place a Nav2 goal." class="align-center" src="_images/rviz_simplebt_nav.png" style="width: 600px;" /></a>
-<a class="reference internal image-reference" href="_images/rviz_simplebt_nav2.png"><img alt="Simulated robot navigating to the goal." class="align-center" src="_images/rviz_simplebt_nav2.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/rviz_simplebt_nav.png"><img alt="Using RVIZ to place a Nav2 goal." class="align-center" src="_images/rviz_simplebt_nav.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="_images/rviz_simplebt_nav2.png"><img alt="Simulated robot navigating to the goal." class="align-center" src="_images/rviz_simplebt_nav2.png" style="width: 800px;" /></a>
 <p>There are some characteristics which are not great about this behaviour tree.  If the robot has completed a navigation task, then when given a new goal, it will continue to compute a path and navigate to the goal.  If the goal is given <em>during</em> navigation however, then the behaviour tree (and the robot) ignore it entirely.  During the next step, we will add <code class="docutils literal notranslate"><span class="pre">replanning</span></code> to the behaviour tree.</p>
 </section>
 </section>
@@ -255,7 +265,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Andy West.</p>
+    <p>&#169; Copyright 2024, Andy West.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

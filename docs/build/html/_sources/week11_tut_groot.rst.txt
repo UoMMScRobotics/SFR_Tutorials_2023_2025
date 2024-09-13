@@ -10,12 +10,12 @@ Ensuring you have sourced the workspace where the groot package has been compile
 This should launch a GUI session.  Select ``Editor`` followed by ``START``, bringing up a window similar to the picture below.
 
 
-.. image:: ../../figures/groot_launch.png
+.. image:: ../../figures/week11/groot_launch.png
   :width: 600
   :alt: Launching Groot from command line.
   :align: center  
 
-.. image:: ../../figures/groot_start.png
+.. image:: ../../figures/week11/groot_start.png
   :width: 600
   :alt: Intial Groot screen on launch.
   :align: center
@@ -28,19 +28,19 @@ The navigation stack already has a bunch of behaviour trees we can begin to unpi
 
 Firstly, Groot does not know about the Nav2 nodes (Action, Condition, Control, Decorator).  If it can not understand these nodes, then it will fail to read in a .xml file.  Load the existing Nav2 palette from the nav2_behavior_tree package found in ``/opt/ros/humble/share/nav2_behavior_tree/nav2_tree_nodes.xml``, the figures below document the steps.
 
-.. image:: ../../figures/groot_load_palette_01.png
-  :width: 600
+.. image:: ../../figures/week11/groot_load_palette_01.png
+  :width: 800
   :alt: Select "Load Palette".
   :align: center  
 
-.. image:: ../../figures/groot_load_palette_02.png
-  :width: 600
+.. image:: ../../figures/week11/groot_load_palette_02.png
+  :width: 800
   :alt: Select "Other locations/computer".
   :align: center  
 
 
-.. image:: ../../figures/groot_load_palette_03.png
-  :width: 600
+.. image:: ../../figures/week11/groot_load_palette_03.png
+  :width: 800
   :alt: Navigate to the folder /opt/ros/humble/share/nav2_behavior_tree/ and select the nav2_tree_nodes.xml file.
   :align: center
 
@@ -55,8 +55,8 @@ Download the first example behaviour tree |bt_example_0.xml|, which is a copy of
 
 Within the Groot GUI, select "Load Tree" from the upper left side.  When Groot asks you "Clear Palette?", select "No", we wish to keep all the definitions of nodes from Nav2 we just loaded.
 
-.. image:: ../../figures/bt_odometry_calibration.png
-  :width: 600
+.. image:: ../../figures/week11/bt_odometry_calibration.png
+  :width: 800
   :alt: The Nav2 BT "odometry_calibration.xml" as viewed in Groot
   :align: center
 
@@ -79,8 +79,8 @@ Download the behaviour tree |bt_example_1.xml|, which is a copy of the `nav2_bt_
 .. |bt_example_1.xml| replace::
    :download:`bt_example_1.xml <../../ros_ws/src/bt_demos/behavior_tree_xml/bt_example_1.xml>`
 
-.. image:: ../../figures/bt_example_1.png
-  :width: 600
+.. image:: ../../figures/week11/bt_example_1.png
+  :width: 800
   :alt: The Nav2 BT "navigate_to_pose_w_replanning_and_recovery.xml" as viewed in Groot
   :align: center
 

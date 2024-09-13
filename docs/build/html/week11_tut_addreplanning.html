@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adding Replanning &mdash; SFR_Tutorials  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Adding Replanning &mdash; Software for Robotics Tutorials  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_mods.css?v=a1f80f96" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -14,7 +17,7 @@
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
         <script src="_static/documentation_options.js?v=5929fcd5"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -32,7 +35,7 @@
           
           
           <a href="contents.html" class="icon icon-home">
-            SFR_Tutorials
+            Software for Robotics Tutorials
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -45,6 +48,14 @@
               <p class="caption" role="heading"><span class="caption-text">Welcome</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Software for Robotics Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Week 07 Synchronous Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_intro.html">Describing Robots using URDF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_joints.html">Adding Joints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_links.html">Adding Links</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_collisions.html">Adding Collisions and Inertia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="week07_tut_conclusion.html">Conclusion</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Week 10 Synchronous Tutorial</span></p>
 <ul>
@@ -79,7 +90,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="contents.html">SFR_Tutorials</a>
+          <a href="contents.html">Software for Robotics Tutorials</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -89,7 +100,6 @@
       <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Adding Replanning</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/week11_tut_addreplanning.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -108,7 +118,7 @@
 <p>The <code class="docutils literal notranslate"><span class="pre">PipelineSequence</span></code> control node is similar to a normal sequence control node, however, if another leaf is <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> it reticks the previous leaves in the sequence. You can learn more on the <a class="reference external" href="https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-pipelinesequence">pipeline sequence docs</a>.</p>
 </div>
 <p>The behaviour tree should now look something like the image below.  The <code class="docutils literal notranslate"><span class="pre">ComputePathToPose</span></code> action node will be called every 2.0 Hz if <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code> is <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code>.  Overwrite your existing <code class="docutils literal notranslate"><span class="pre">bt_simple_nav.xml</span></code> file with this new tree.</p>
-<a class="reference internal image-reference" href="_images/bt_withConstantReplanning.png"><img alt="The ComputePathToPose action node is being recalled every 2.0 Hz if FollowPath is RUNNING." class="align-center" src="_images/bt_withConstantReplanning.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/bt_withConstantReplanning.png"><img alt="The ComputePathToPose action node is being recalled every 2.0 Hz if FollowPath is RUNNING." class="align-center" src="_images/bt_withConstantReplanning.png" style="width: 800px;" /></a>
 <p>Build and source your workspace, and start the launch file.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/MY_ROS_WS</span>
 <span class="go">colcon build</span>
@@ -126,7 +136,7 @@
 <p>A Fallback control node will work nicely in this instance.  A fallback node will only move onto the next leaf if the first one fails.  If we make the first leaf a check that a new goal has been given, then we can move on to planning a path.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">GlobalUpdatedGoal</span></code> will only return a <code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code> with a new goal, therefore, we need to convert that into a <code class="docutils literal notranslate"><span class="pre">FAILURE</span></code> to trigger the path planning.  An <code class="docutils literal notranslate"><span class="pre">Inverter</span></code> decorator node solves this.</p>
 <p>This likely all sounds confusing, so let’s take a look at the tree in Groot and figure out the conditions.</p>
-<a class="reference internal image-reference" href="_images/bt_withTriggeredReplanning.png"><img alt="The ComputePathToPose action node is only called if there is a new global goal." class="align-center" src="_images/bt_withTriggeredReplanning.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="_images/bt_withTriggeredReplanning.png"><img alt="The ComputePathToPose action node is only called if there is a new global goal." class="align-center" src="_images/bt_withTriggeredReplanning.png" style="width: 800px;" /></a>
 <p>Let us breakdown the steps in this behaviour tree in the “normal” case (goal is given, the robot traverses to that goal).</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -176,7 +186,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Andy West.</p>
+    <p>&#169; Copyright 2024, Andy West.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

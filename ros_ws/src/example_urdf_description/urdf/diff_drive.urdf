@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<robot name="diff_drive_example">
+
+<link name="base_link"/>
+
+</robot>

@@ -11,8 +11,11 @@ Contents
     :maxdepth: 1
     :caption: Week 07 Synchronous Tutorial
 
-    week07/week07_tut_intro
-    week07/week07_tut_joints
+    week07_tut_intro
+    week07_tut_joints
+    week07_tut_links
+    week07_tut_collisions
+    week07_tut_conclusion
 
 .. toctree::
     :maxdepth: 1

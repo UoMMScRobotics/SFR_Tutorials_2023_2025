@@ -40,8 +40,8 @@ In a new terminal, run the command ``ros2 run rqt_graph rqt_graph`` or simply ru
 
 In the top left corner, select ``Nodes/Topics (all)`` to get a total overview of all the connections between nodes and their topics.  Press the "refresh" arrows button to update the window.  Hover over the oval containing "/planner_server", the green arrows (published topics) go to "/compute_path_to_pose/_action", "/compute_path_through_pose/_action" and a topic called "/plan".  The "/controller_server" node is similar but provides the "/follow_path/_action" topics, a "/local_plan" and most importantly the "/cmd_vel" velocity commands to the robot.
 
-.. image:: ../../figures/rqt_graph_wk10.png
-  :width: 600
+.. image:: ../../figures/week10/rqt_graph_wk10.png
+  :width: 800
   :alt: ROS graph of node and topic interconnectivity.
 
 
@@ -88,8 +88,8 @@ It is much easier as a human to select a point on the map, rather than estimate 
 
 The base of the arrow indicates the pose position, whereas the arrow indicates the pose orientation.  Once you release the left mouse button, the goal is sent.
 
-.. image:: ../../figures/rviz_Nav2GoalArrow.png
-  :width: 600
+.. image:: ../../figures/week10/rviz_Nav2GoalArrow.png
+  :width: 800
   :alt: Sending a navigation goal via RVIZ visual tools.
 
 Hooray!  The robot should be driving to where your arrow was!

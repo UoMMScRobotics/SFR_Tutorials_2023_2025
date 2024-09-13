@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<robot name="diff_drive_example">
+
+<!-- Materials -->
+<material name="uom_yellow">
+    <color rgba="1.0 0.8 0.2 1"/>
+</material>
+
+<!-- LINKS -->
+<link name="base_link">
+    <visual>
+        <geometry>
+            <!-- Box is defined as xyz lengths in m -->
+            <box size="0.5 0.4 0.3"/>
+        </geometry>
+        <!-- Centre of box relative to link -->
+        <!-- Leave as "0 0 0" for box centre at link origin -->
+        <origin xyz="0.15 0 0.10" rpy="0 0 0"/>
+    </visual>
+    
+    <inertial>
+      <mass value="12"/>
+      <inertia ixx="0.25" ixy="0.0" ixz="0.0" iyy="0.34" iyz="0.0" izz="0.41"/>
+      <origin xyz="0.15 0 0.10" rpy="0 0 0"/>
+    </inertial>
+</link>
+
+<link name="lidar_link">
+    <visual>
+        <geometry>
+            <!-- Mesh file uses "package://<packagename>/<path>" -->
+            <!-- Scale "x y z" can be useful when converting to mm <-> metres -->
+            <mesh filename="package://example_urdf_description/meshes/Generic_100mm_lidar.stl" scale="1 1 1"/>
+        </geometry>
+        <material name="uom_yellow"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+</link>
+
+<link name="wheel_left">
+    <visual>
+        <geometry>
+            <cylinder length="0.06" radius="0.1" />
+        </geometry>
+        
+        <material name="uom_purple">
+        <!-- Define a colour for the link -->
+            <color rgba="0.4 0 0.6 1"/>
+        </material>
+        <origin xyz="0 0 0.03" rpy="0 0 0"/>
+    </visual>
+</link>
+
+<link name="wheel_right">
+    <visual>
+        <geometry>
+            <cylinder length="0.06" radius="0.1" />
+        </geometry>
+
+        <material name="uom_purple">
+            <!-- Define a colour for the link -->
+            <color rgba="0.4 0 0.6 1"/>
+        </material>
+        <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+    </visual>
+</link>
+
+<!-- JOINTS -->
+<joint name="base_lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+</joint>
+
+<joint name="base_wheel_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_left"/>
+    <origin xyz="0 0.2 0" rpy="-1.5707 0 0"/>
+    <axis xyz="0 0 1"/>
+</joint>
+
+<joint name="base_wheel_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_right"/>
+    <origin xyz="0 -0.2 0" rpy="-1.5707 0 0"/>
+    <axis xyz="0 0 1"/>
+</joint>
+
+</robot>

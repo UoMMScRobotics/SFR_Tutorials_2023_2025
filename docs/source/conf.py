@@ -9,7 +9,7 @@
 # Try to have the index landing page clean.
 master_doc = "contents"
 
-project = 'SFR_Tutorials'
+project = 'Software for Robotics Tutorials'
 copyright = '2024, Andy West'
 author = 'Andy West'
 
@@ -28,3 +28,7 @@ exclude_patterns = []
 
 html_theme = 'sphinx_rtd_theme' #'alabaster'
 html_static_path = ['_static']
+html_css_files = [
+    'theme_mods.css',
+]
+html_show_sourcelink = False # Remove "View Page Source" link

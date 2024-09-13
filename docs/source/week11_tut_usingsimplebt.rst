@@ -60,13 +60,13 @@ Send A Goal Command
 
 Using the Nav2 Goal functionality in RVIZ, set a goal ahead of the robot.  It should start traversing to the goal pose!
 
-.. image:: ../../figures/rviz_simplebt_nav.png
-  :width: 600
+.. image:: ../../figures/week11/rviz_simplebt_nav.png
+  :width: 800
   :alt: Using RVIZ to place a Nav2 goal.
   :align: center  
 
-.. image:: ../../figures/rviz_simplebt_nav2.png
-  :width: 600
+.. image:: ../../figures/week11/rviz_simplebt_nav2.png
+  :width: 800
   :alt: Simulated robot navigating to the goal.
   :align: center  
 

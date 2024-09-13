@@ -13,8 +13,8 @@ Start Groot and open your existing ``bt_simple_nav.xml`` file.  Change the ``Seq
 
 The behaviour tree should now look something like the image below.  The ``ComputePathToPose`` action node will be called every 2.0 Hz if ``FollowPath`` is ``RUNNING``.  Overwrite your existing ``bt_simple_nav.xml`` file with this new tree.
 
-.. image:: ../../figures/bt_withConstantReplanning.png
-  :width: 600
+.. image:: ../../figures/week11/bt_withConstantReplanning.png
+  :width: 800
   :alt: The ComputePathToPose action node is being recalled every 2.0 Hz if FollowPath is RUNNING.
   :align: center
 
@@ -44,8 +44,8 @@ The ``GlobalUpdatedGoal`` will only return a ``SUCCESS`` with a new goal, theref
 
 This likely all sounds confusing, so let's take a look at the tree in Groot and figure out the conditions.
 
-.. image:: ../../figures/bt_withTriggeredReplanning.png
-  :width: 600
+.. image:: ../../figures/week11/bt_withTriggeredReplanning.png
+  :width: 800
   :alt: The ComputePathToPose action node is only called if there is a new global goal.
   :align: center  
 
@@ -84,7 +84,7 @@ The image below is the `nav_to_pose_with_consistent_replanning_and_if_path_becom
 
 The right hand side completely handles recovery behaviours.  There are four primary actions the behaviour tree tries to take: Clear Costmaps, Spin, Wait, BackUp.  The ``RoundRobin`` control node acts like a Sequence , trying them all in turn but has `extra conditions <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-roundrobin>`_.  Once the right hand side returns ``SUCCESS`` the RecoveryNode will retry to perform the left hand side navigation.  The recovery node is also slightly special, please `reads the docs <https://navigation.ros.org/behavior_trees/overview/nav2_specific_nodes.html#control-recovery>`_ for more information.
 
-.. image:: ../../figures/nav_to_pose_with_consistent_replanning_and_if_path_becomes_invalid.png
+.. image:: ../../figures/week11/nav_to_pose_with_consistent_replanning_and_if_path_becomes_invalid.png
   :width: 600
   :alt: The Nav2 BT "nav_to_pose_with_consistent_replanning_and_if_path_becomes_invalid.xml" as viewed in Groot
   :align: center

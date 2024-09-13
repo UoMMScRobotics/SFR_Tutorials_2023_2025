@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<robot name="diff_drive_example">
+
+<!-- LINKS -->
+<link name="base_link"/>
+<link name="lidar_link"/>
+<link name="wheel_left"/>
+<link name="wheel_right"/>
+
+<!-- JOINTS -->
+<joint name="base_lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+</joint>
+
+<joint name="base_wheel_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_left"/>
+    <origin xyz="0 0.2 0" rpy="-1.5707 0 0"/>
+    <axis xyz="0 0 1"/>
+</joint>
+
+<joint name="base_wheel_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_right"/>
+    <origin xyz="0 -0.2 0" rpy="-1.5707 0 0"/>
+    <axis xyz="0 0 1"/>
+</joint>
+
+</robot>
