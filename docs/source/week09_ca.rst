@@ -18,7 +18,7 @@ In this guide we will use ``map_maker_pkg`` as the package name, but this should
 
 Step 1 - Make a Package
 -----------------------------------------
-This package can be used both for the submission (which requires a ROS package), but also to hold a luanch file which will make running all this easier.
+This package can be used both for the submission (which requires a ROS package), but also to hold a launch file which will make running all this easier.
 
 .. note:: *Why bother with a launch file at all?  Bring on lots of terminal sessions!*
     The biggest convenience of the launch file is being able to declare that all the nodes should ``use_sim_time``, the time provided by the Gazebo simulator rather than the computer's local clock.
