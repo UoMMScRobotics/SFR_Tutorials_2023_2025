@@ -2,10 +2,11 @@ Conclusion
 ===========
 
 **Topics in this Tutorial**
-- Running a robot (simulation) with SLAM
-- Adding sensor data and an occupancy grid map to make costmaps
-- Autonomous navigation using the ROS 2 Navigation Stack
-- How to find a planner and controller suitable for a physical robot
+
+* Running a robot (simulation) with SLAM
+* Adding sensor data and an occupancy grid map to make costmaps
+* Autonomous navigation using the ROS 2 Navigation Stack
+* How to find a planner and controller suitable for a physical robot
 
 We have seen how the ROS2 Navigation Stack provides the functionality to have a robot semi-autonomously navigate to a goal pose.
 

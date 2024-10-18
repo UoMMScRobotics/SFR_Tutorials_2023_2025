@@ -4,7 +4,7 @@ Linking Gazebo and ROS2
 This portion of the tutorial will guide you through how to connect the simulation to ROS.  This is the same for any simulation engine you might want to use (`Unreal <https://youtu.be/Ar0Ns4gVKME?feature=shared>`_, `Unity <https://unity.com/blog/engine-platform/advance-your-robot-autonomy-with-ros-2-and-unity>`_, `IsaacSim <https://nvidia-isaac-ros.github.io/getting_started/isaac_sim/index.html>`_)
 
 Introspection of the Gazebo Simulation
--------------------------------------
+-------------------------------------------------
 
 Open a terminal with ``Ctrl+Alt+T`` and start a simulation containing the robot described by the xacro files covered so far:
 
@@ -75,13 +75,14 @@ The ``sim_robot.launch.py`` file shows how this is done.
 
 .. literalinclude:: ../../ros_ws/src/example_urdf_robot/launch/sim_robot.launch.py
     :language: xml
-    :lines: 72-96
-    :lineno-start: 72
+    :lines: 55-79
+    :lineno-start: 53
     :linenos:
 
 The bridge can provide one-way (unidirectional) or two-way (bidirectional) sharing of topics between ROS and Gazebo.  The arguments are written as follows:
 
 .. code-block:: python
+
     '/TOPIC_NAME_IN_GZ'  + '@ROS_MSG_PKG/msg/TYPE'   + 'DIRECTION' + 'ignition.msgs.TYPE',
 
 The list of mapping from ROS msg to ignition msg can be found `here <https://github.com/gazebosim/ros_gz/tree/humble/ros_gz_bridge>`_.  Note that going forward, ignition.msg.Type will become gz.msg.Type for future Gazebo versions - this is likely what you might see in any very up-to-date tutorials.

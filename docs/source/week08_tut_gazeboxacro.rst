@@ -152,7 +152,7 @@ For our robot to have the wheels stick to the floor, but the castors slide, the 
     :lineno-start: 155
     :linenos:
 
-The front and rear castors have their friction values set to a very small value (1e-5), whereas the wheels have a large coefficient value.  The actual definitions of ``<mu>`` and ``<mu2>`` are not important for this example, but more details can be found `here <https://github.com/osrf/gazebo_tutorials/blob/master/friction/tutorial.md>`_, `here <https://classic.gazebosim.org/tutorials?tut=friction>`_ and `here <https://www.althack.dev/ignition_vs_gazebo/friction/#>`_.  As a general rule, the two values should be identical.
+The front and rear castors have their friction values set to a very small value (1e-5), whereas the wheels have a large coefficient value.  The actual definitions of ``<mu>`` and ``<mu2>`` are not important for this example, but more details can be found `here on GitHub <https://github.com/osrf/gazebo_tutorials/blob/master/friction/tutorial.md>`_, `here on Gazebo Classic docs <https://classic.gazebosim.org/tutorials?tut=friction>`_ and `here on a third party forum <https://www.althack.dev/ignition_vs_gazebo/friction/#>`_.  As a general rule, the two values should be identical.
 
 
 Now we have examined the gazebo plugins.  The next section will run the simulation and explore how to link it into ROS more closely.

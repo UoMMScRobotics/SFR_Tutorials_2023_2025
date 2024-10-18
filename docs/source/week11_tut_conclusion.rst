@@ -3,9 +3,9 @@ Conclusion
 
 **Topics in this Tutorial**
 
-- Using Groot to build and modify behaviour trees visually and the underlying .xml description file
-- Generating a simple behaviour tree using existing Nav2 nodes
-- Modifying behaviour trees to include additional functionality (in our case replanning)
+* Using Groot to build and modify behaviour trees visually and the underlying .xml description file
+* Generating a simple behaviour tree using existing Nav2 nodes
+* Modifying behaviour trees to include additional functionality (in our case replanning)
 
 We have seen how the ROS2 Navigation Stack provides the functionality to have a robot semi-autonomously navigate to a goal pose, but the behaviour tree portion was glossed over.  The behaviour tree is in fact what dictates the order and the capabilities of a robot during navigation (for the ROS navigation stack).
 
