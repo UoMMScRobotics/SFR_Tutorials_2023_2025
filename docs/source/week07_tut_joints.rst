@@ -46,7 +46,7 @@ There are two *links* (think of these as seperate coordinate frames), connected 
 Inspecting the URDF
 ~~~~~~~~~~~~~~~~~~~~~~
 
-It is incredibly easy to create a typo when writing in <tags></tags>.  Therefore, always check for errors using automated tools.  There are xml validators/checkers available online, however, ROS provides a urdf checker.  Navigate to where the .urdf file is and run the ```check_urdf /path_to_file/name_of_file.urdf```.
+It is incredibly easy to create a typo when writing in <tags></tags>.  Therefore, always check for errors using automated tools.  There are xml validators/checkers available online, however, ROS provides a urdf checker.  Navigate to where the .urdf file is and run the ``check_urdf /path_to_file/name_of_file.urdf``.
 
 .. code-block:: console
 
