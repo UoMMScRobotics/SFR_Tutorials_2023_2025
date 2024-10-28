@@ -21,7 +21,7 @@ You should be greeted with a welcome screen like the one above.  If not, use the
 
 .. code-block:: console
     
-    sudo apt install ros-humble-desktop-full
+    sudo apt-get install ros-${ROS_DISTRO}-ros-gz
 
 You can then check the installation with ``ign gazebo`` in the terminal as shown above.
 
