@@ -32,7 +32,9 @@ Let's keep *rolling* by modifying the wheel links, adding cylinders to represent
 
 This time we have defined a colour for the link using the ``material`` tag.  The cylinders have been offset using the ``<origin>`` tag, so they are outside the base_link chassis, radius 0.1m and height 0.06m.
 
-The resulting representation should look similar to that in the picture below.
+
+
+Rebuild the package. The resulting representation should look similar to that in the picture below.
 
 .. image:: ../../figures/week07/rviz_3.png
     :width: 800
@@ -53,7 +55,7 @@ This stl file will act as the visual element for the lidar, with more intricate 
     :emphasize-lines: 5-8, 23-33
     :linenos:
 
-We have also added a specific material (``uom_yellow``) *outside* of tag, this means it can be reused elsewhere in the file.
+We have also added a specific material (``uom_yellow``) *outside* of tag, this means it can be reused elsewhere in the file. Rebuild the package to see image similar to below.
 
 .. image:: ../../figures/week07/rviz_4.png
     :width: 800
