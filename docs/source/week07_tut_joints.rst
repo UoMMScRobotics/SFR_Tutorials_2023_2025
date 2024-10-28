@@ -46,6 +46,15 @@ There are two *links* (think of these as seperate coordinate frames), connected 
 Inspecting the URDF
 ~~~~~~~~~~~~~~~~~~~~~~
 
+It is incredibly easy to create a typo when writing in <tags></tags>.  Therefore, always check for errors using automated tools.  There are xml validators/checkers available online, however, ROS provides a urdf checker.  Navigate to where the .urdf file is and run the ```check_urdf /path_to_file/name_of_file.urdf```.
+
+.. code-block:: console
+
+    cd <WORKSPACE>
+    check_urdf ./src/example_urdf_description/urdf/diff_drive.urdf
+
+Once all errors have been corrected (it returns the robot name with ```---- Successfully Parsed XML ----```, you can move on to visualising the robot model.
+
 Navigate to your ROS2 workspace and perform a colcon build, then run the urdf_launch utility:
 
 .. code-block:: console
