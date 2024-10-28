@@ -87,9 +87,13 @@ The bridge can provide one-way (unidirectional) or two-way (bidirectional) shari
 
 The list of mapping from ROS msg to ignition msg can be found `here <https://github.com/gazebosim/ros_gz/tree/humble/ros_gz_bridge>`_.  Note that going forward, ignition.msg.Type will become gz.msg.Type for future Gazebo versions - this is likely what you might see in any very up-to-date tutorials.
 
-The direction is declared with ``[`` ROS<-GZ (Gazbeo "publishes" into ROS), ``[`` ROS->GZ (ROS "publishes" into Gazebo), and ``@`` ROS<->GZ (both can publish into each other).  Using a unidirectional approach saves on bandwidth.
+The direction is declared with:
 
-The line ``'/model/gz_example_robot/odometry' + '@nav_msgs/msg/Odometry'     + '[' + 'ignition.msgs.Odometry'``, therefore translates to a single combined string ``'/model/gz_example_robot/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry'``, where odometry from gazebo is pushed into a ROS topic, but not the other way around.
+* ``[`` ROS<-GZ (Gazbeo "publishes" into ROS)
+* ``]`` ROS->GZ (ROS "publishes" into Gazebo)
+* ``@`` ROS<->GZ (both can publish into each other)
+
+Using a unidirectional approach (square brackets) saves on bandwidth.  The line ``'/model/gz_example_robot/odometry' + '@nav_msgs/msg/Odometry'     + '[' + 'ignition.msgs.Odometry'``, therefore translates to a single combined string ``'/model/gz_example_robot/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry'``, where odometry from gazebo is pushed into a ROS topic, but not the other way around.
 
 The "remappings" decide what the topics names will be in ROS (e.g. just ``/cmd_vel``).
 
