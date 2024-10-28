@@ -108,6 +108,7 @@ Finally, we can specify topic names explictly as listed in `DiffDrive <https://g
 
 .. Note::
     In this example, we have omitted parameters such as:
+    
     * min/max jerk (linear and angular)
     * min/max acceleration (linear and angular)
     * min/max velocity (linear and angular)
