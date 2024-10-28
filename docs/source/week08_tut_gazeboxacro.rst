@@ -8,11 +8,11 @@ This is also the case for real robots!  Manipulators for example often need an a
 .. Note::
     Using xacro allows for variables to be used (and reused) in urdf files, however, the ``check_urdf`` helper does not support xacro macros.  To get around this, use the xacro package to convert to a pure .urdf format:
 
-    ``source <WORKSPACE>/install/setup.bash
-    cd <WORKSPACE>/src/<PACKAGE>/<URDF_DIR>/
-    check_urdf <(ros2 run xacro xacro <FILENAME>.urdf.xacro)``
+        ``source <WORKSPACE>/install/setup.bash
+        cd <WORKSPACE>/src/<PACKAGE>/<URDF_DIR>/
+        check_urdf <(ros2 run xacro xacro <FILENAME>.urdf.xacro)``
 
-    The ``xacro xacro`` command performs all the substitutions, the output is piped into ``check_urdf`` all in one go.  As xacro needs some ROS functionality it is necessary to source the workspace prior to running ``xacro xacro``.
+The ``xacro xacro`` command performs all the substitutions, the output is piped into ``check_urdf`` all in one go.  As xacro needs some ROS functionality it is necessary to source the workspace prior to running ``xacro xacro``.
 
 Adding Gazebo Information
 ----------------------------
