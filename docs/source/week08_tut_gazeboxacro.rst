@@ -5,6 +5,15 @@ Open the file ``/urdf/diff_drive.urdf.xacro`` and take a brief look at the conte
 
 This is also the case for real robots!  Manipulators for example often need an accurate estimate of the centre of mass and sometimes interia matrix to handle an end-effector or payload correctly.  These were touched upon when looking at :doc:`URDF files in general <../week07_tut_collisions>`, this tutorial will focus on additions needed for simulation.
 
+.. Note::
+    Using xacro allows for variables to be used (and reused) in urdf files, however, the ``check_urdf`` helper does not support xacro macros.  To get around this, use the xacro package to convert to a pure .urdf format:
+
+    .. code-block:: console
+        source <WORKSPACE>/install/setup.bash
+        cd <WORKSPACE>/src/<PACKAGE>/<URDF_DIR>/
+        check_urdf <(ros2 run xacro xacro <FILENAME>.urdf.xacro)
+
+    The ``xacro xacro`` command performs all the substitutions, the output is piped into ``check_urdf`` all in one go.  As xacro needs some ROS functionality it is necessary to source the workspace prior to running ``xacro xacro``.
 
 Adding Gazebo Information
 ----------------------------
