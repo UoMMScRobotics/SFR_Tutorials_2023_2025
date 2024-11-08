@@ -22,13 +22,15 @@ Xacro properties is one of the key feature of xacro files. It allows definition 
 
 .. literalinclude:: ../../ros_ws/src/example_urdf_robot/urdf/diff_drive.urdf.xacro
     :language: xml
+    :lineno-start: 18
     :lines: 18-34
     :linenos:
 
-Then they are used throughout the reminder of the file, for example in the code below ''castor_radius'' proprety is used (in the line 4 of below snipped).
+Then they are used throughout the reminder of the file, for example in the code below ''castor_radius'' proprety is used (in the line 156 of below snipped).
 
 .. literalinclude:: ../../ros_ws/src/example_urdf_robot/urdf/diff_drive.urdf.xacro
     :language: xml
+    :lineno-start: 153
     :lines: 153-159
     :linenos:
 
@@ -41,7 +43,9 @@ At the bottom of ``/urdf/diff_drive.urdf.xacro``, on line 213 we include another
 
 .. literalinclude:: ../../ros_ws/src/example_urdf_robot/urdf/diff_drive.urdf.xacro
     :language: xml
-    :lines: 19-34
+    :lines: 213
+    :lineno-start: 213
+    :emphasize-lines: 1
     :linenos:
 
 
