@@ -16,6 +16,24 @@ This is also the case for real robots!  Manipulators for example often need an a
     
     The ``xacro xacro`` command performs all the substitutions, the output is piped into ``check_urdf`` all in one go.  As xacro needs some ROS functionality it is necessary to source the workspace prior to running ``xacro xacro``.
 
+Xacro properties
+-------------------
+Xacro properties is one of the key feature of xacro files. It allows definition of a named variable to be reused in multiple places. In the ``/urdf/diff_drive.urdf.xacro`` we can see the proprties defined as: 
+
+.. literalinclude:: ../../ros_ws/src/example_urdf_robot/urdf/diff_drive.urdf.xacro
+    :language: xml
+    :lines: 18-34
+    :linenos:
+
+Then they are used throughout the reminder of the file, for example in the code below ''castor_radius'' proprety is used (in the line 156).
+
+.. literalinclude:: ../../ros_ws/src/example_urdf_robot/urdf/diff_drive.urdf.xacro
+    :language: xml
+    :lines: 153-159
+    :linenos:
+
+Spend some time understanding the syntax and modifying the values to see what effect they will have on the robot.
+
 Adding Gazebo Information
 ----------------------------
 
@@ -23,12 +41,12 @@ At the bottom of ``/urdf/diff_drive.urdf.xacro``, on line 213 we include another
 
 .. literalinclude:: ../../ros_ws/src/example_urdf_robot/urdf/diff_drive.urdf.xacro
     :language: xml
-    :lines: 213
-    :lineno-start: 213
-    :emphasize-lines: 1
+    :lines: 19-34
     :linenos:
 
+
 Open the ``example_urdf_robot/urdf/example_gazebo.xacro`` file in your text editor of choice.  We will walk through each portion individually.
+
 
 
 Joint State Publisher
