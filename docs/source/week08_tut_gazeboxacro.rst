@@ -25,7 +25,7 @@ Xacro properties is one of the key feature of xacro files. It allows definition 
     :lines: 18-34
     :linenos:
 
-Then they are used throughout the reminder of the file, for example in the code below ''castor_radius'' proprety is used (in the line 156).
+Then they are used throughout the reminder of the file, for example in the code below ''castor_radius'' proprety is used (in the line 4 of below snipped).
 
 .. literalinclude:: ../../ros_ws/src/example_urdf_robot/urdf/diff_drive.urdf.xacro
     :language: xml
