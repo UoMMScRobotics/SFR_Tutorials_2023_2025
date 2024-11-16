@@ -57,7 +57,4 @@ Using teleoperation (via ``teleop_twist_keyboard``), move the robot around to fi
 Using SLAM Maps
 --------------------
 
-SLAM Toolbox publishes on the ``/map`` topic, this can be used for 2D autonomous navigation using Nav2 (for path planning).  If you wish to use the map in the future (for localisation), there are two broad options:
-
-1. Save the map using the ``map_saver`` node, and calling the service to save the map (example service call at the bottom of the `ros index page <https://index.ros.org/p/nav2_map_server/>`_, with more details on the `nav2 wiki <https://docs.nav2.org/configuration/packages/configuring-map-server.html#map-saver-parameters>`_).  This map image can be used with AMCL using the same approach as the previous localisation exercise.
-2. Use the built in tools provided by SLAM Toolbox, this relies on saving the underlying pose-graph, rather than a rasterised image.  This is a more powerful approach, but takes more effort to setup.  You can find more information `on the docs <https://github.com/SteveMacenski/slam_toolbox?tab=readme-ov-file#localization>`_.
+SLAM Toolbox publishes on the ``/map`` topic, this can be used for 2D autonomous navigation using Nav2 (for path planning).  If you wish to use the map in the future (for localisation), you can save the map using the ``map_saver`` node. This can be achieved by calling the service to save the map (example service call at the bottom of the `ros index page <https://index.ros.org/p/nav2_map_server/>`_, with more details on the `nav2 wiki <https://docs.nav2.org/configuration/packages/configuring-map-server.html#map-saver-parameters>`_).  This map image can be used with AMCL using the same approach as the previous localisation exercise.
