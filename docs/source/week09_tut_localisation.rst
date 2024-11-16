@@ -46,6 +46,12 @@ The lifecycle manager once again makes life easier for us, ensuring that AMCL wi
 
 Finally, we use RViz to see the map, the robot, and sensor data.
 
+For Lifecycle manager to work correcty we need to install Nav2, using the command:
+
+.. code-block:: console
+
+    sudo apt install ros-<ros2-distro>-navigation2
+
 Using Localisation
 -----------------------
 
