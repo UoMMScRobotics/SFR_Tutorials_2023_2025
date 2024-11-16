@@ -71,7 +71,13 @@ The map_server node (provided by the ``nav2_map_server`` package) needs the file
     :linenos:
     :emphasize-lines: 2-7
 
-This use of the lifecycle node manager becomes very common when using the navigation stack, where a map needs to be published _before_ another node can use it.
+This use of the lifecycle node manager becomes very common when using the navigation stack, where a map needs to be published _before_ another node can use it. For Lifecycle manager to work correcty we need to install Nav2, using the command:
+
+.. code-block:: console
+
+    sudo apt install ros-<ros2-distro>-navigation2
+
+To run the map server use:
 
 .. code-block:: console
 
