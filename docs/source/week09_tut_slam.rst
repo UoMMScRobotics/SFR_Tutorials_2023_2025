@@ -12,6 +12,12 @@ There are various SLAM solutions available, however, the most accessible solutio
 
 In this tutorial, `SLAM Toolbox <https://github.com/SteveMacenski/slam_toolbox>`_ will be used, as it is the default offering for Nav2 and is very well maintained.  More information can be found in the `slides to a ROSCon 2019 <https://roscon.ros.org/2019/talks/roscon2019_slamtoolbox.pdf>`_ talk (or go watch it `on Vimeo <https://vimeo.com/378682207>`_).
 
+To install SLAM toolbox you need ru following command
+
+.. code-block:: console
+
+    sudo apt install ros-<distro>-slam-toolbox
+
 
 Running the Launch File
 -----------------------------
