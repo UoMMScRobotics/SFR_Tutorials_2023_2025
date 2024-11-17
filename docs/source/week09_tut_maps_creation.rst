@@ -7,9 +7,9 @@ This skill is useful for example if you want to quickly test your robot in a new
 
 Generally there are few ways you can go about it
 
- - Model your environment as .sdf
- - Model your environment in design software (such as solidworks) and export it as .stl file
- - Draw (or collected using real robot) your maps as .pgm, create assosciated .yaml file and convert those to .stl file.
+- Model your environment as .sdf
+- Model your environment in design software (such as solidworks) and export it as .stl file
+- Draw (or collected using real robot) your maps as .pgm, create assosciated .yaml file and convert those to .stl file.
 
 In SfR module only third method is explored. In this method following steps are necessary
 
@@ -72,8 +72,8 @@ Click *export* then *export* again in the pop-up window. This completes steps 1
 Create .yaml and .pgm file
 =========================
 
-the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel). While we could do it manually it is a lot more convinent to do so using a script. Please download `Download script <../../ros_ws
-/src/MakeROSMap.py>`_ script and put it in ``.../example_gz_robot/world/`` directory. Open terminal in ``.../example_gz_robot/world/`` folder and type:
+the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel). While we could do it manually it is a lot more convinent to do so using a script. Please download `script <../../ros_ws
+/src/MakeROSMap.py>`_ and put it in ``.../example_gz_robot/world/`` directory. Open terminal in ``.../example_gz_robot/world/`` folder and type:
 
 .. code-block:: console
   python3 MakeROSMap.py
@@ -136,8 +136,17 @@ This should create custom_map.stl file which we can use in gazebo
 Importing into Gazebo
 =========================
 
-To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. for the sake of this tutorial you don't need to know or understand .sdf files but syntax should be familar to you as they are similar to URDF files. Download .sdf file from here and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for STL file as well as some basic properties of it. In lines outlined below, we need to define the name of our custom stl file:
+To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. for the sake of this tutorial you don't need to know or understand .sdf files but syntax should be familar to you as they are similar to URDF files. Download .sdf file from `here <.../../ros_ws/src/example_gz_robot/worlds/model.sdf>`_ and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for STL file as well as some basic properties of it. In lines outlined below, we need to define the name of our custom stl file:
 
+.. literalinclude:: ../../ros_ws/src/example_gz_robot/worlds/model.sdf
+    :language: xml
+    :linenos:
+    :lines: 20
+
+.. literalinclude:: ../../ros_ws/src/example_gz_robot/worlds/model.sdf
+    :language: xml
+    :linenos:
+    :lines: 28
 
 Then we have to tell our *example_gz_robot* package to use our sdf file, as well as that it needs to install our new map.
 
@@ -150,6 +159,7 @@ We start by modifying line 41 in launch file ``simulation_bringup.launch.py``:
 
 
 with
+
 .. code-block:: python
  sdf_path = os.path.join(get_package_share_directory('example_gz_robot'), 'worlds', 'model.sdf')
 
