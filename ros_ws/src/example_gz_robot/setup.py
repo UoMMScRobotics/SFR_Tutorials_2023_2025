@@ -16,8 +16,11 @@ setup(
         (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
         # Include rviz (.rviz) files
         (os.path.join('share', package_name, 'rviz'), glob(os.path.join('rviz', '*.rviz'))),
-        # Include world (.sdf or dae) files
-        (os.path.join('share', package_name, 'worlds'), glob(os.path.join('worlds', '**/**.[sd][da][fe]'), recursive=True)),
+        # Include world (.sdf, .dae, and .stl) files
+        (os.path.join('share', package_name, 'worlds'), 
+        glob(os.path.join('worlds', '**', '*.sdf'), recursive=True) +
+        glob(os.path.join('worlds', '**', '*.dae'), recursive=True) +
+        glob(os.path.join('worlds', '**', '*.stl'), recursive=True)),
         # Include config (.yaml) files
         (os.path.join('share', package_name, 'config'), glob(os.path.join('config', '*.*yaml*'))),
 	# Include map (.yaml and .pgm) files
