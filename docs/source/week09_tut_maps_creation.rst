@@ -5,7 +5,7 @@ In the previous part of this tutorial you have been shown how to use existing ma
 
 This skill is useful for example if you want to quickly test your robot in a new map or you collected LIDAR scan of real environment and you want to have in your Gazebo for testing.
 
-Generally there are few ways you can go about it:
+Generally there are few ways you can go about it
 
  - Model your environment as .sdf
  - Model your environment in design software (such as solidworks) and export it as .stl file
@@ -17,7 +17,6 @@ In SfR module only third method is explored. In this method following steps are 
 - Create assosciated .yaml and .pgn file (this can be done automatically using Python script)
 - Create map .stl file using 'map2gazebo <https://github.com/Adlink-ROS/map2gazebo>' _ package
 - Import into gazebo
-
 
 Drawing the map
 =========================
@@ -73,7 +72,8 @@ Click *export* then *export* again in the pop-up window. This completes steps 1
 Create .yaml and .pgm file
 =========================
 
-the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel). While we could do it manually it is a lot more convinent to do so using a script. Please download makeROSmap script and put it in ``.../example_gz_robot/world/`` directory. Open terminal in ``.../example_gz_robot/world/`` folder and type:
+the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel). While we could do it manually it is a lot more convinent to do so using a script. Please download `Download script <../../ros_ws
+/src/MakeROSMap.py>`_ script and put it in ``.../example_gz_robot/world/`` directory. Open terminal in ``.../example_gz_robot/world/`` folder and type:
 
 .. code-block:: console
   python3 MakeROSMap.py
@@ -122,4 +122,15 @@ and press *Enter* twice. We should know see in Nautilus two new files being adde
   :width: 800
   :alt: RViz screen capture of a published map.
   :align: center 
+
+Create .stl file
+=========================
+
+Now that we have map file we can use in map server, we also need to create assosciated .stl file for usage in Gazebo. STL files are 3D graphical files (you can find more info 'here <https://www.adobe.com/creativecloud/file-types/image/vector/stl-file.html>' _). So far we have 2D map only, we will create 3D equivalent by simply extruding walls from exisitng map. To do so we will use 'map2gazebo <https://github.com/Adlink-ROS/map2gazebo>' _ repository. To install follow the instruction from the repository. After installation we will be using offline instructions. Thus open new terminal in  ``.../example_gz_robot/world/`` folder and type in:
+
+.. code-block:: console
+ python3 ~/map2gz_ros2_ws/src/map2gazebo/map2gazebo/map2gazebo_offline.py --map_dir custom_map.pgm --export_dir .
+
+This should create custom_map.stl file which we can use in gazebo
+
 
