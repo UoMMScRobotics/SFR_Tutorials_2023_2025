@@ -15,7 +15,7 @@ In SfR module only third method is explored. In this method following steps are 
 
 - Draw your map as .pgm in your favourite image creation tool (here GIMP will be used)
 - Create assosciated .yaml and .pgn file (this can be done automatically using Python script)
-- Create map .stl file using 'map2gazebo <https://github.com/Adlink-ROS/map2gazebo>' _ package
+- Create map .stl file using `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ package
 - Import into gazebo
 
 Drawing the map
@@ -95,11 +95,12 @@ Now we have to select two x-coordinates and two Y coordinates for package to mea
 This does not have to be exact right. Once two x-coordinates are selected you should type 
 
 .. code-block:: console
+
   4
 
 and press *Enter*
 
-To indicate we want this distance to be 4 meters. then the same with indicate Y-coordinates this time top and bottom of R as indicated in picture below.
+To indicate we want this distance to be 4 meters. then to indicate Y-coordinates top and bottom of R should be marked as outlined below.
 
 .. image:: ../../figures/week09/ROS_coordinates_y.png
   :width: 800
@@ -109,11 +110,13 @@ To indicate we want this distance to be 4 meters. then the same with indicate Y-
 We also type: 
 
 .. code-block:: console
+
   4
 
 and press *Enter*. then for question about the new name we just type:
 
 .. code-block:: console
+
   custom_map
 
 and press *Enter* twice. We should know see in Nautilus two new files being added, custom_map.pgm and custom_map.yaml, both needed by ROS.
@@ -126,7 +129,7 @@ and press *Enter* twice. We should know see in Nautilus two new files being adde
 Create .stl file
 ---------------------------------------
 
-Now that we have map file we can use in map server, we also need to create assosciated .stl file for usage in Gazebo. STL files are 3D graphical files (you can find more info 'here <https://www.adobe.com/creativecloud/file-types/image/vector/stl-file.html>' _). So far we have 2D map only, we will create 3D equivalent by simply extruding walls from exisitng map. To do so we will use 'map2gazebo <https://github.com/Adlink-ROS/map2gazebo>' _ repository. To install follow the instruction from the repository. After installation we will be using offline instructions. Thus open new terminal in  ``.../example_gz_robot/world/`` folder and type in:
+Now that we have map file we can use in map server, we also need to create assosciated .stl file for usage in Gazebo. STL files are 3D graphical files (you can find more info `here <https://www.adobe.com/creativecloud/file-types/image/vector/stl-file.html>`_). So far we have 2D map only, we will create 3D equivalent by simply extruding walls from exisitng map. To do so we will use `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ repository. To install follow the instruction from the repository. After installation we will be using offline instructions. Thus open new terminal in  ``.../example_gz_robot/world/`` folder and type in:
 
 .. code-block:: console
  python3 ~/map2gz_ros2_ws/src/map2gazebo/map2gazebo/map2gazebo_offline.py --map_dir custom_map.pgm --export_dir .
@@ -142,11 +145,14 @@ To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to
     :language: xml
     :linenos:
     :lines: 20
+    :lineno-start: 20
+
 
 .. literalinclude:: ../../ros_ws/src/example_gz_robot/worlds/model.sdf
     :language: xml
     :linenos:
     :lines: 28
+    :lineno-start: 28
 
 Then we have to tell our *example_gz_robot* package to use our sdf file, as well as that it needs to install our new map.
 
@@ -161,6 +167,7 @@ We start by modifying line 41 in launch file ``simulation_bringup.launch.py``:
 with
 
 .. code-block:: python
+
  sdf_path = os.path.join(get_package_share_directory('example_gz_robot'), 'worlds', 'model.sdf')
 
 This just tells launch file to look for new sdf file. Now you can run the SLAM demonstration with new map!
