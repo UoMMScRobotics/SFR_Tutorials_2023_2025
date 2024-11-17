@@ -19,7 +19,7 @@ In SfR module only third method is explored. In this method following steps are 
 - Import into gazebo
 
 Drawing the map
-=========================
+---------------------------------------
 
 If you look inside .pgm file you will observe it is simply greyscale image with empty spaces represented by white colour and taken by black colour (for the sake of simplicty we will ignore unknown spaces, you are not required to know how to deal with those).
 
@@ -70,7 +70,7 @@ click *file* > *save* and save it in ``.../example_gz_robot/world/`` as custom_m
 Click *export* then *export* again in the pop-up window. This completes steps 1
 
 Create .yaml and .pgm file
-=========================
+---------------------------------------
 
 the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel). While we could do it manually it is a lot more convinent to do so using a script. Please download `script <../../ros_ws
 /src/MakeROSMap.py>`_ and put it in ``.../example_gz_robot/world/`` directory. Open terminal in ``.../example_gz_robot/world/`` folder and type:
@@ -124,7 +124,7 @@ and press *Enter* twice. We should know see in Nautilus two new files being adde
   :align: center 
 
 Create .stl file
-=========================
+---------------------------------------
 
 Now that we have map file we can use in map server, we also need to create assosciated .stl file for usage in Gazebo. STL files are 3D graphical files (you can find more info 'here <https://www.adobe.com/creativecloud/file-types/image/vector/stl-file.html>' _). So far we have 2D map only, we will create 3D equivalent by simply extruding walls from exisitng map. To do so we will use 'map2gazebo <https://github.com/Adlink-ROS/map2gazebo>' _ repository. To install follow the instruction from the repository. After installation we will be using offline instructions. Thus open new terminal in  ``.../example_gz_robot/world/`` folder and type in:
 
@@ -134,7 +134,7 @@ Now that we have map file we can use in map server, we also need to create assos
 This should create custom_map.stl file which we can use in gazebo
 
 Importing into Gazebo
-=========================
+---------------------------------------
 
 To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. for the sake of this tutorial you don't need to know or understand .sdf files but syntax should be familar to you as they are similar to URDF files. Download .sdf file from `here <.../../ros_ws/src/example_gz_robot/worlds/model.sdf>`_ and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for STL file as well as some basic properties of it. In lines outlined below, we need to define the name of our custom stl file:
 
