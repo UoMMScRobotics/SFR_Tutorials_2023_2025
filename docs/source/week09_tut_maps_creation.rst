@@ -139,10 +139,15 @@ Importing into Gazebo
 To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. for the sake of this tutorial you don't need to know or understand .sdf files but syntax should be familar to you as they are similar to URDF files. Download .sdf file from here and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for STL file as well as some basic properties of it. In lines outlined below, we need to define the name of our custom stl file:
 
 
-
 Then we have to tell our *example_gz_robot* package to use our sdf file, as well as that it needs to install our new map.
 
 We start by modifying line 41 in launch file ``simulation_bringup.launch.py``:
+
+.. literalinclude:: ../../ros_ws/src/example_gz_robot/launch/simulation_bringup.launch.py
+    :language: python
+    :linenos:
+    :lines: 41
+
 
 with
 .. code-block:: python
