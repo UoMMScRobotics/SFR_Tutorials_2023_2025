@@ -34,6 +34,7 @@ Contents
     week09_tut_maps
     week09_tut_localisation
     week09_tut_slam
+    week09_tut_maps_creation
     week09_tut_conclusion
     
 .. toctree::
