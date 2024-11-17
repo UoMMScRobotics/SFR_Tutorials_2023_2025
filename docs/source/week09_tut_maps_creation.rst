@@ -133,4 +133,10 @@ Now that we have map file we can use in map server, we also need to create assos
 
 This should create custom_map.stl file which we can use in gazebo
 
+Importing into Gazebo
+=========================
+
+To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. for the sake of this tutorial you don't need to know or understand .sdf files but syntax should be familar to you as they are similar to URDF files. Download .sdf file from here and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for .STL file as well as some basic properties of it.
+
+Then we have to tell our *example_gz_robot* package to use our sdf file, as well as that it needs to install our new map.
 
