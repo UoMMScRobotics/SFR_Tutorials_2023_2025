@@ -71,8 +71,7 @@ Click *export* then *export* again in the pop-up window. This completes step 1.
 Create .yaml and .pgm file
 ---------------------------------------
 
-the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel), while .pgm is ROS acceptable format for maps. While we could do it manually it is a lot more convinent to do so using a script. Please download :download:`script <../../ros_ws
-/src/week09_map_creation_files.zip>` (this script was originally part of `ROS-Map-Generator <https://github.com/ycprobotics/ROS-Map-Generator/tree/master>`_ , It was modified here to to work with Python3) and put it in ``.../example_gz_robot/worlds/`` directory. Open terminal in ``.../example_gz_robot/worlds/`` folder and type:
+the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel), while .pgm is ROS acceptable format for maps. While we could do it manually it is a lot more convinent to do so using a script. Please download MakeROSMap.py file from this week's blackboard folder (this script was originally part of `ROS-Map-Generator <https://github.com/ycprobotics/ROS-Map-Generator/tree/master>`_ , It was modified here to to work with Python3) and put it in ``.../example_gz_robot/worlds/`` directory. Open terminal in ``.../example_gz_robot/worlds/`` folder and type:
 
 .. code-block:: console
 
