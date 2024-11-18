@@ -79,7 +79,9 @@ the .YAML file contains information which allows determination of size of the ma
   python3 MakeROSMap.py
 
 If you get any error run following python installation commands:
+
 .. code-block:: console
+
   pip3 install trimesh
   pip3 install numpy
   pip3 install pycollada
@@ -90,6 +92,7 @@ If you get any error run following python installation commands:
 This will open interactive command-line tool where you have to type the following:
 
 .. code-block:: console
+
   custom_map.png
 
 and press *Enter*
