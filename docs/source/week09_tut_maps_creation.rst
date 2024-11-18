@@ -53,14 +53,13 @@ just click *ok* to accept the default settings. You can now draw a simple map us
 
 Just write ROS using paintbrush like so:
 
-
 .. image:: ../../figures/week09/ROS_written.png
   :width: 800
   :alt: ROS map.
   :align: center 
 
 
-click *file* > *save* and save it in ``.../example_gz_robot/world/`` as custom_map.xcf. We also need to export to .png. to do this click *file* > *export*, Change file extension to *.png* like so:
+The particular size does not matter as long as all the letters are clearly visible. The scale and dimensions will be dealt with in the next step. Click *file* > *save* and save it in ``.../example_gz_robot/world/`` as custom_map.xcf. We also need to export to .png. to do this click *file* > *export*, Change file extension to *.png* like so:
 
 .. image:: ../../figures/week09/Saving.png
   :width: 800
