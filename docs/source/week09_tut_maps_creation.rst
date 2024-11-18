@@ -59,7 +59,7 @@ Just write ROS using paintbrush like so:
   :align: center 
 
 
-The particular size does not matter as long as all the letters are clearly visible. The scale and dimensions will be dealt with in the next step. Click *file* > *save* and save it in ``.../example_gz_robot/world/`` as custom_map.xcf. We also need to export to .png. to do this click *file* > *export*, Change file extension to *.png* like so:
+The particular size does not matter as long as all the letters are clearly visible. The scale and dimensions will be dealt with in the next step. Click *file* > *save* and save it in ``.../example_gz_robot/worlds/`` as custom_map.xcf. We also need to export to .png. to do this click *file* > *export*, Change file extension to *.png* like so:
 
 .. image:: ../../figures/week09/Saving.png
   :width: 800
@@ -72,9 +72,10 @@ Create .yaml and .pgm file
 ---------------------------------------
 
 the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel), while .pgm is ROS acceptable format for maps. While we could do it manually it is a lot more convinent to do so using a script. Please download `script <../../ros_ws
-/src/MakeROSMap.py>`_ (this script was originally part of `ROS-Map-Generator <https://github.com/ycprobotics/ROS-Map-Generator/tree/master>`_ , It was modified here to to work with Python3) and put it in ``.../example_gz_robot/world/`` directory. Open terminal in ``.../example_gz_robot/world/`` folder and type:
+/src/MakeROSMap.py>`_ (this script was originally part of `ROS-Map-Generator <https://github.com/ycprobotics/ROS-Map-Generator/tree/master>`_ , It was modified here to to work with Python3) and put it in ``.../example_gz_robot/worlds/`` directory. Open terminal in ``.../example_gz_robot/worlds/`` folder and type:
 
 .. code-block:: console
+
   python3 MakeROSMap.py
 
 If you get any error run following python installation commands:
@@ -137,7 +138,7 @@ and press *Enter* twice. We should know see in Nautilus two new files being adde
 Create .stl file
 ---------------------------------------
 
-Now that we have map file we can use in map server, we also need to create assosciated .stl file for usage in Gazebo. STL files are 3D graphical files (you can find more info `here <https://www.adobe.com/creativecloud/file-types/image/vector/stl-file.html>`_). So far we have 2D map only, we will create 3D equivalent by simply extruding walls from exisitng map. To do so we will use `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ repository. To install follow the installation instruction from the repository. After installation we will be using offline instructions. Thus open new terminal in  ``.../example_gz_robot/world/`` folder and type in:
+Now that we have map file we can use in map server, we also need to create assosciated .stl file for usage in Gazebo. STL files are 3D graphical files (you can find more info `here <https://www.adobe.com/creativecloud/file-types/image/vector/stl-file.html>`_). So far we have 2D map only, we will create 3D equivalent by simply extruding walls from exisitng map. To do so we will use `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ repository. To install follow the installation instruction from the repository. After installation we will be using offline instructions. Thus open new terminal in  ``.../example_gz_robot/worlds/`` folder and type in:
 
 .. code-block:: console
  python3 ~/map2gz_ros2_ws/src/map2gazebo/map2gazebo/map2gazebo_offline.py --map_dir custom_map.pgm --export_dir .
