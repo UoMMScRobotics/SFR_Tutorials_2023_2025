@@ -71,8 +71,8 @@ Click *export* then *export* again in the pop-up window. This completes step 1.
 Create .yaml and .pgm file
 ---------------------------------------
 
-the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel), while .pgm is ROS acceptable format for maps. While we could do it manually it is a lot more convinent to do so using a script. Please download `script <../../ros_ws
-/src/MakeROSMap.py>`_ (this script was originally part of `ROS-Map-Generator <https://github.com/ycprobotics/ROS-Map-Generator/tree/master>`_ , It was modified here to to work with Python3) and put it in ``.../example_gz_robot/worlds/`` directory. Open terminal in ``.../example_gz_robot/worlds/`` folder and type:
+the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel), while .pgm is ROS acceptable format for maps. While we could do it manually it is a lot more convinent to do so using a script. Please download :download:`script <../../ros_ws
+/src/MakeROSMap.py>` (this script was originally part of `ROS-Map-Generator <https://github.com/ycprobotics/ROS-Map-Generator/tree/master>`_ , It was modified here to to work with Python3) and put it in ``.../example_gz_robot/worlds/`` directory. Open terminal in ``.../example_gz_robot/worlds/`` folder and type:
 
 .. code-block:: console
 
@@ -151,7 +151,7 @@ This should create custom_map.stl file which we can use in gazebo
 Importing into Gazebo
 ---------------------------------------
 
-To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. Download .sdf file from `here <.../../ros_ws/src/example_gz_robot/worlds/model.sdf>`_ (this is slightly modified sdf file from `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ repository) and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for STL file as well as some basic properties of it. Look inside sdf file, in the lines outlined below we defined the name of our custom stl file:
+To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. Download .sdf file from :download:`here <../../ros_ws/src/example_gz_robot/worlds/model.sdf>` (this is slightly modified sdf file from `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ repository) and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for STL file as well as some basic properties of it. Look inside sdf file, in the lines outlined below we defined the name of our custom stl file:
 
 .. literalinclude:: ../../ros_ws/src/example_gz_robot/worlds/model.sdf
     :language: xml
