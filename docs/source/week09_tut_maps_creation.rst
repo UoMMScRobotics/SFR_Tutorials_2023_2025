@@ -82,7 +82,7 @@ If you get any error run following python installation commands:
 .. code-block:: console
 
   pip3 install trimesh
-  pip3 install numpy
+  pip3 install numpy==1.24.4
   pip3 install pycollada
   pip3 install scipy
   pip3 install networkx
