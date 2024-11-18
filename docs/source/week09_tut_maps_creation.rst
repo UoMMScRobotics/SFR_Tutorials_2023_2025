@@ -13,15 +13,15 @@ Generally there are few ways you can go about it
 
 In SfR module only third method is explored. In this method following steps are necessary
 
-- Draw your map as .pgm in your favourite image creation tool (here GIMP will be used)
-- Create assosciated .yaml and .pgn file (this can be done automatically using Python script)
+- Draw your map as .png in your favourite image creation tool (here GIMP will be used)
+- Create assosciated .yaml and .pgm file (this can be done automatically using Python script)
 - Create map .stl file using `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ package
 - Import into gazebo
 
 Drawing the map
 ---------------------------------------
 
-If you look inside .pgm file you will observe it is simply greyscale image with empty spaces represented by white colour and taken by black colour (for the sake of simplicty we will ignore unknown spaces, you are not required to know how to deal with those).
+If you look inside .pgm file you will observe it is simply greyscale image with empty spaces represented by white colour and occupied by black colour (for the sake of simplicty we will ignore unknown spaces, you are not required to know how to deal with those).
 
 We can easily create such a picture using any graphical editing software. Here we will use GIMP. You can install GIMP by running:
 
@@ -32,7 +32,7 @@ Start gimp and you should see:
 
 .. image:: ../../figures/week09/gimp_initial.png
   :width: 800
-  :alt: RViz screen capture of a published map.
+  :alt: starting window from GIMP.
   :align: center 
 
 
@@ -40,7 +40,7 @@ click *file* > *new* You should see:
 
 .. image:: ../../figures/week09/new_image_window.png
   :width: 800
-  :alt: RViz screen capture of a published map.
+  :alt: New image creation in GIMP.
   :align: center 
 
 
@@ -48,15 +48,15 @@ just click *ok* to accept the default settings. You can now draw a simple map us
 
 .. image:: ../../figures/week09/blank_image.png
   :width: 800
-  :alt: RViz screen capture of a published map.
+  :alt: Blank image in GIMP.
   :align: center 
 
-Just write ROS like so:
+Just write ROS using paintbrush like so:
 
 
 .. image:: ../../figures/week09/ROS_written.png
   :width: 800
-  :alt: RViz screen capture of a published map.
+  :alt: ROS map.
   :align: center 
 
 
@@ -64,19 +64,28 @@ click *file* > *save* and save it in ``.../example_gz_robot/world/`` as custom_m
 
 .. image:: ../../figures/week09/Saving.png
   :width: 800
-  :alt: RViz screen capture of a published map.
+  :alt: Saving ros map.
   :align: center 
 
-Click *export* then *export* again in the pop-up window. This completes steps 1
+Click *export* then *export* again in the pop-up window. This completes step 1.
 
 Create .yaml and .pgm file
 ---------------------------------------
 
-the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel). While we could do it manually it is a lot more convinent to do so using a script. Please download `script <../../ros_ws
-/src/MakeROSMap.py>`_ and put it in ``.../example_gz_robot/world/`` directory. Open terminal in ``.../example_gz_robot/world/`` folder and type:
+the .YAML file contains information which allows determination of size of the map (i.e. length of each pixel), while .pgm is ROS acceptable format for maps. While we could do it manually it is a lot more convinent to do so using a script. Please download `script <../../ros_ws
+/src/MakeROSMap.py>`_ (this script was originally part of `ROS-Map-Generator <https://github.com/ycprobotics/ROS-Map-Generator/tree/master>`_ , It was modified here to to work with Python3) and put it in ``.../example_gz_robot/world/`` directory. Open terminal in ``.../example_gz_robot/world/`` folder and type:
 
 .. code-block:: console
   python3 MakeROSMap.py
+
+If you get any error run following python installation commands:
+.. code-block:: console
+  pip3 install trimesh
+  pip3 install numpy
+  pip3 install pycollada
+  pip3 install scipy
+  pip3 install networkx
+  pip3 install opencv-contrib-python 
 
 This will open interactive command-line tool where you have to type the following:
 
@@ -129,7 +138,7 @@ and press *Enter* twice. We should know see in Nautilus two new files being adde
 Create .stl file
 ---------------------------------------
 
-Now that we have map file we can use in map server, we also need to create assosciated .stl file for usage in Gazebo. STL files are 3D graphical files (you can find more info `here <https://www.adobe.com/creativecloud/file-types/image/vector/stl-file.html>`_). So far we have 2D map only, we will create 3D equivalent by simply extruding walls from exisitng map. To do so we will use `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ repository. To install follow the instruction from the repository. After installation we will be using offline instructions. Thus open new terminal in  ``.../example_gz_robot/world/`` folder and type in:
+Now that we have map file we can use in map server, we also need to create assosciated .stl file for usage in Gazebo. STL files are 3D graphical files (you can find more info `here <https://www.adobe.com/creativecloud/file-types/image/vector/stl-file.html>`_). So far we have 2D map only, we will create 3D equivalent by simply extruding walls from exisitng map. To do so we will use `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ repository. To install follow the installation instruction from the repository. After installation we will be using offline instructions. Thus open new terminal in  ``.../example_gz_robot/world/`` folder and type in:
 
 .. code-block:: console
  python3 ~/map2gz_ros2_ws/src/map2gazebo/map2gazebo/map2gazebo_offline.py --map_dir custom_map.pgm --export_dir .
@@ -139,7 +148,7 @@ This should create custom_map.stl file which we can use in gazebo
 Importing into Gazebo
 ---------------------------------------
 
-To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. for the sake of this tutorial you don't need to know or understand .sdf files but syntax should be familar to you as they are similar to URDF files. Download .sdf file from `here <.../../ros_ws/src/example_gz_robot/worlds/model.sdf>`_ and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for STL file as well as some basic properties of it. In lines outlined below, we need to define the name of our custom stl file:
+To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to keep your folder clean). Then, we need .sdf file. for the sake of this tutorial you don't need to know or understand .sdf files but syntax should be familar to you as they are similar to URDF files. Download .sdf file from `here <.../../ros_ws/src/example_gz_robot/worlds/model.sdf>`_ (this is slightly modified sdf file from `map2gazebo <https://github.com/Adlink-ROS/map2gazebo>`_ repository) and put it inside ``worlds`` folder. In essence this file tells gazebo where to look for STL file as well as some basic properties of it. Look inside sdf file, in the lines outlined below we defined the name of our custom stl file:
 
 .. literalinclude:: ../../ros_ws/src/example_gz_robot/worlds/model.sdf
     :language: xml
@@ -154,9 +163,9 @@ To import into gazebo, first copy custom_map.stl into ``meshes`` folder (just to
     :lines: 28
     :lineno-start: 28
 
-Then we have to tell our *example_gz_robot* package to use our sdf file, as well as that it needs to install our new map.
+Then we have to tell our *example_gz_robot* package to use our sdf file.
 
-We start by modifying line 41 in launch file ``simulation_bringup.launch.py``:
+This is simple modification of Launch file ``simulation_bringup.launch.py``in line 41. 
 
 .. literalinclude:: ../../ros_ws/src/example_gz_robot/launch/simulation_bringup.launch.py
     :language: python
@@ -170,6 +179,14 @@ with
 
  sdf_path = os.path.join(get_package_share_directory('example_gz_robot'), 'worlds', 'model.sdf')
 
-This just tells launch file to look for new sdf file. Now you can run the SLAM demonstration with new map!
+This just tells launch file to look for new sdf file. Now you can fully use your new map. Launch the SLAM like before:
+
+.. code-block:: console
+
+    source ~/<YOUR_ROS_WS>/install/setup.bash
+    ros2 launch example_gz_robot slam.launch.py
+
+You should see your new map in Gazebo and laser scan in RVIZ. Drive the robot around to complete the map in RVIZ.
+
 
 
