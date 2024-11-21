@@ -106,4 +106,4 @@ Add the ``/map`` topic and adjust the Durability Policy for the topic to "Transi
   :alt: RViz screen capture of a published map.
   :align: center 
 
-Now we can publish a map, let's make use of it!  Close all the windows and terminals and procede to the next section (:doc:`Localisation in a Map <../week09_tut_localisation>`).
+Now we can publish a map, let's make use of it!  Close all the windows and terminals and procede to the next section.
