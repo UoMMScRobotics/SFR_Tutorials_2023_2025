@@ -3,14 +3,14 @@ Adding a Controller from Nav2
 
 As stated previously, the ``Controller`` is the magic that gets a robot to move, and governs a lot of the behaviour of how it navigates.  It is also the most fiddly thing that will require tuning on a real robot to work reliably.
 
-For a full list of ``Controllers`` available, visit the Nav 2 Controller `Documentation <https://navigation.ros.org/plugins/index.html#controllers>`_.
+For a full list of ``Controllers`` available, visit the Nav 2 Controller `Documentation <https://docs.nav2.org/plugins/index.html#controllers>`_.
 
 The Controller
 ---------------
 
 The ``Controller`` monitors the robot's state (velocity, pose), the given path, and sensor measurements to compute velocity commands that lead to progress along the path.
 
-Once again we have list of "plugins" to choose from, allowing us flexibility over what controller architecture to use.  In fact, you can write your `own controller <https://navigation.ros.org/plugin_tutorials/index.html>`_ (and planner)!
+Once again we have list of "plugins" to choose from, allowing us flexibility over what controller architecture to use.  In fact, you can write your `own controller <https://docs.nav2.org/plugin_tutorials/index.html>`_ (and planner)!
 
 For this task we will stick with ``DWB`` planner, which is the general default choice.
 
@@ -26,14 +26,14 @@ For this task we will stick with ``DWB`` planner, which is the general default c
 
 As mentioned, these ``Controllers`` can be tuned or altered to provide the behaviour you desire (e.g. how faithfully should it stick to the global path).  It is not possible to exhaustively cover this tuning for every controller here, but most provide a tuning guide of sorts.  For generic advice, please take a look at
 
-- `Nav 2 Tuning Guide <https://navigation.ros.org/tuning/index.html>`_
+- `Nav 2 Tuning Guide <https://docs.nav2.org/tuning/index.html>`_
 - `ROS 1 Basic Tuning Guide <http://wiki.ros.org/navigation/Tutorials/Navigation%20Tuning%20Guide>`_
 - `Academic Paper on Tuning in ROS 1 <https://kaiyuzheng.me/documents/navguide.pdf>`_
 
 Writing the Controller Config File
 ```````````````````````````````````
 
-The format of the configuration is taken from the `controller documentation <https://navigation.ros.org/configuration/packages/configuring-controller-server.html#configuring-controller-server>`_.  It consists of general controller parameters, but controller plugin specific parameters can also be passed.  For DWB some of these parameters can be `found here <https://navigation.ros.org/configuration/packages/dwb-params/controller.html>`_.  An example config file for the ``DWB`` controller would look like the file below.  Copy this example into a file called ``controller.yaml`` in the ``config`` directory.
+The format of the configuration is taken from the `controller documentation <https://docs.nav2.org/configuration/packages/configuring-controller-server.html#configuring-controller-server>`_.  It consists of general controller parameters, but controller plugin specific parameters can also be passed.  For DWB some of these parameters can be `found here <https://docs.nav2.org/configuration/packages/dwb-params/controller.html>`_.  An example config file for the ``DWB`` controller would look like the file below.  Copy this example into a file called ``controller.yaml`` in the ``config`` directory.
 
 .. literalinclude:: ../../ros_ws/src/navigation_demos/config/controller_only.yaml
    :language: xml
