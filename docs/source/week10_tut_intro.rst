@@ -16,7 +16,7 @@ For autonomous navigation we need the following capabilities of a mobile robot:
 
 We can sense obstacles (with a simulated lidar), generate a map of the environment to provide a global frame and a reference of obstacles, move a robot based on a desired command velocity, know where the robot is in the global frame.  All that is left is Path Planning and Navigation.
 
-Everything a mobile robot will need is covered by the existing ROS `Nav2 Navigation Stack <https://navigation.ros.org/>`_.
+Everything a mobile robot will need is covered by the existing ROS `Nav2 Navigation Stack <https://https://docs.nav2.org/>`_.
 
 .. Before we get into path planning and navigation, we need a primer on how to represent obstacles and other threats so a path planner and navigator can avoid them.  This will be our first topic: **Costmaps**.
 
