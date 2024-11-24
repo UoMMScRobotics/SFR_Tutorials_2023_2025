@@ -3,7 +3,7 @@ Adding Path Planning from Nav2
 
 In the Nav2 Navigation Stack, the so-called ``Planner`` portion provides the general route from the start to the goal, whilst avoiding any known obstacles based on a map (path planning).  The ``Controller`` is an algorithm to generate velocity commands to move the robot, as well as ensure it tries to follow the path and avoid obstacles.  The ``Controller`` is therefore the most clever and most critical part of the navigation stack, we will cover that later.
 
-For both the ``Planner`` and the ``Controller``, each algorithm is suited to a particular design of robot, and may not support your configuration.  For example, not all Planners and Controllers support Ackermann steering (like a car).  You can check the full list of supported `Planners <https://navigation.ros.org/plugins/index.html#planners>`_ and `Controllers <https://navigation.ros.org/plugins/index.html#controllers>`_ in the main documentation.
+For both the ``Planner`` and the ``Controller``, each algorithm is suited to a particular design of robot, and may not support your configuration.  For example, not all Planners and Controllers support Ackermann steering (like a car).  You can check the full list of supported `Planners <https://docs.nav2.org/plugins/index.html#planners>`_ and `Controllers <https://docs.nav2.org/plugins/index.html#controllers>`_ in the main documentation.
 
 The Planner
 -------------
@@ -24,14 +24,14 @@ Along side robot pose estimates, the Planner requires a "Global" Costmap (i.e. i
 Writing the Planner Config File
 `````````````````````````````````
 
-The format of the configuration is taken from the `planner documentation <https://navigation.ros.org/configuration/packages/configuring-planner-server.html>`_.  An example config file for the NavFn package would look like the file below.  Copy this example into a file called ``planner.yaml`` in the ``config`` directory.
+The format of the configuration is taken from the `planner documentation <https://docs.nav2.org/configuration/packages/configuring-planner-server.html>`_.  An example config file for the NavFn package would look like the file below.  Copy this example into a file called ``planner.yaml`` in the ``config`` directory.
 
 
 .. literalinclude:: ../../ros_ws/src/navigation_demos/config/planner_only.yaml
    :language: xml
    :linenos:
 
-If you look under ``plugin: "nav2_navfn_planner/NavfnPlanner"``, notice there are additional parameters (*tolerance*, *use_astar*, *allow_unknown*).  These parameters are specific to ``NavFn`` as per its `documentation <https://navigation.ros.org/configuration/packages/configuring-navfn.html>`_.  These options are explained in the table below.
+If you look under ``plugin: "nav2_navfn_planner/NavfnPlanner"``, notice there are additional parameters (*tolerance*, *use_astar*, *allow_unknown*).  These parameters are specific to ``NavFn`` as per its `documentation <https://docs.nav2.org/configuration/packages/configuring-navfn.html>`_.  These options are explained in the table below.
 
 .. list-table:: NavFn Plugin Options (non-exhaustive)
    :widths: 20 20 56
@@ -79,7 +79,7 @@ Open the ``nav_demo.launch.py`` file and add the following lines.
 
 
 .. note::
-  **What is this lifecycle manager thing?**  It allows for the nodes in the navigation stack to start in a set pattern.  In ROS 1 in particular, nodes may have started in any old order, this could really cause problems.  The lifecycle node system is a method to circumvent this annoying problem.  You can find more technical details in the `online docs <https://navigation.ros.org/configuration/packages/configuring-lifecycle.html>`_.
+  **What is this lifecycle manager thing?**  It allows for the nodes in the navigation stack to start in a set pattern.  In ROS 1 in particular, nodes may have started in any old order, this could really cause problems.  The lifecycle node system is a method to circumvent this annoying problem.  You can find more technical details in the `online docs <https://docs.nav2.org/configuration/packages/configuring-lifecycle.html>`_.
 
 Perform the usual ``colcon build``, ``source install/setup.bash`` and check the launch file runs.
 
