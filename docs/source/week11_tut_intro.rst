@@ -17,7 +17,7 @@ This tutorial, rather than explaining behaviour trees (which is covered adequate
 - Behaviour tree blackboards
 - Outcomes (``SUCCESS``, ``FAILURE``, ``RUNNING``)
 
-You should also be aware that we will be talking about nodes, and do not mean normal ROS nodes.  Furthermore, action nodes usually call ROS action servers, so keep your wits about you.  In this tutorial, behaviour tree nodes will be called nodes, whereas any ROS action servers will be explicitly referred as an "action server".
+You can find some documentation about those topics `here <https://docs.nav2.org/configuration/packages/configuring-bt-xml.html>`_ and `here <https://www.behaviortree.dev/docs/learn-the-basics/bt_basics/>`_. You should also be aware that we will be talking about nodes, and do not mean normal ROS nodes.  Furthermore, action nodes usually call ROS action servers, so keep your wits about you.  In this tutorial, behaviour tree nodes will be called nodes, whereas any ROS action servers will be explicitly referred as an "action server".
 
 This tutorial will build up an autonomous navigation behaviour tree, covering the additional behaviour controls which are available through Nav2 (beyond the classic ``Fallback`` and ``Sequence`` controls).  There is nothing to stop you writing behaviour trees for non-navigation tasks (e.g. grasping)!
 
