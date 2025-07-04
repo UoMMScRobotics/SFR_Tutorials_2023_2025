@@ -1,4 +1,8 @@
 # EEEN62021 Software for Robotics Tutorial Material
+
+> [!IMPORTANT]
+> In 2025-26 these tutorials will be phased out to unify all the course content in a single page. 
+
 This repo contains exercises and materials for EEEN60021 Software For Robotics which follow on the work by Dr Murilo M. Marinho (https://ros2-tutorial.readthedocs.io/en/latest/index.html).
 
 The exercises and tutorials can be found here: https://uommscrobotics.github.io/SFR_Tutorials/
