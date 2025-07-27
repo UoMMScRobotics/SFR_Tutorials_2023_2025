@@ -1,9 +1,8 @@
 # EEEN62021 Software for Robotics Tutorial Material
 
 > [!IMPORTANT]
-> In 2025-26 these tutorials will be phased out.
-> The contents will be updated to Jazzy and the entire content will be unified in the same page
-> https://ros2-tutorial.readthedocs.io/en/latest/.
+> This is the archival version of the tutorials used for the second half of Software for Robotics from 2023-2024 to 2024-2025.
+> It has been replaced fully by: https://ros2-tutorial.readthedocs.io/en/latest/.
 
 This repo contains exercises and materials for EEEN60021 Software For Robotics which follow on the work by Dr Murilo M. Marinho (https://ros2-tutorial.readthedocs.io/en/latest/index.html).
 
